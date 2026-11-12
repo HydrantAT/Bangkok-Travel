@@ -926,7 +926,7 @@ const helpEl=document.getElementById('help'),helpBtn=document.getElementById('he
 function setHelp(open){helpEl.hidden=!open;helpBtn.setAttribute('aria-expanded',open);if(!open){try{localStorage.setItem('bkk3dHelp','1');}catch(e){}}}
 helpBtn.addEventListener('click',()=>setHelp(helpEl.hidden));
 document.getElementById('helpOk').addEventListener('click',()=>setHelp(false));
-{let seen=false;try{seen=localStorage.getItem('bkk3dHelp')==='1';}catch(e){}if(!seen)setHelp(true);}
+
 if(matchMedia('(max-width:860px)').matches)document.getElementById('legendBox').removeAttribute('open');
 
 /* itinerary table (from 曼谷行程.xlsx「行程明細」) */
