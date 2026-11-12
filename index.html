@@ -349,8 +349,13 @@ table.itt{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.55}
   .doc{padding:4px 14px 24px}
   .doc .tw{margin:6px -14px}
 }
+
+/* installed-to-home-screen (standalone) safe areas: keep content out from under the phone status bar / home indicator */
+header{padding-top:calc(10px + env(safe-area-inset-top,0px))}
+aside{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+@media (max-width:760px){.ithead{padding-top:calc(12px + env(safe-area-inset-top,0px))}.itwrap{padding-bottom:env(safe-area-inset-bottom,0px)}}
 </style>
-<style>html,body{margin:0;height:100%;background:#070809}</style>
+<style>html,body{margin:0;height:100%;background:#000}</style>
 </head>
 <body>
 
