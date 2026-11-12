@@ -84,7 +84,7 @@ h1 small{font-family:var(--f-data);font-weight:600;font-size:12.5px;color:var(--
 .hl b{background:#04201b;color:var(--hotel);border-radius:9px;padding:2px 6px;font:700 12.5px/1 var(--f-data)}
 .tt{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font:700 13px/1 var(--f-data);letter-spacing:.02em;color:#0b1018;
   padding:4px 9px 5px;border-radius:999px;box-shadow:0 0 0 2px rgba(10,14,23,.85),0 3px 8px rgba(0,0,0,.3)}
-.tt.ghost{opacity:.65}
+.tt.ghost{opacity:1}
 .tt.on{box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(13,18,24,.85)}
 .stage.lite .tt{box-shadow:0 0 0 2px #fff,0 3px 8px rgba(20,40,60,.25)}
 .stage.lite .tt.on{box-shadow:0 0 0 2px #fff,0 0 0 4px #13202e}
@@ -807,13 +807,13 @@ function build(di){
       const rf=1-.22*Math.min(rep,3);
       if(md.dot)o=dashes(pts,md.c,R*.55*rf,0,true);
       else if(md.dash)o=dashes(pts,md.c,R*.7*rf,.34,false);
-      else{const rw=R*rf*(md.w||1);const sm=md.w?rw:0;o=tube(pts,md.c,rw,1,sm);const cs=tube(pts,'#000',rw*1.6,1,sm);routeMats.pop();cs.material=new THREE.MeshBasicMaterial({color:casingCol.clone(),side:THREE.BackSide,transparent:true});g.add(cs);g.userData.mats.push(cs.material);casingMats.push(cs.material);}
+      else{const rw=R*rf*(md.w||1);const sm=md.w?rw:0;o=tube(pts,md.c,rw,1,sm);const cs=tube(pts,'#000',rw*1.6,1,sm);routeMats.pop();cs.material=new THREE.MeshBasicMaterial({color:casingCol.clone(),side:THREE.BackSide,transparent:true});cs.material.userData.cs=1;g.add(cs);g.userData.mats.push(cs.material);casingMats.push(cs.material);}
       g.add(o);g.userData.mats.push(o.material||o.userData.mat);
       segInfo.push({g,n0,m,a:i0,b:i0,_n1:0});
       if(md.h<0){/* shaft markers for underground */[pts[0],pts[pts.length-1]].forEach(p=>{const s=tube([p,new THREE.Vector3(p.x,.02,p.z)],md.c,R*.3,.7);g.add(s);g.userData.mats.push(s.material);});}
       {const S=segInfo[segInfo.length-1];S._n1=g.userData.mats.length;S.b=travelPts.length-1;}
     });
-    g.userData.ghost=ghost;g.userData.base=ghost?.45:1;setOpacity(g,g.userData.base);
+    g.userData.ghost=ghost;g.userData.base=1;setOpacity(g,g.userData.base);
     dayGroup.add(g);legObjs.push(g);legRanges.push([legStartIdx,travelPts.length-1]);
   });
   /* stop pins */
@@ -914,10 +914,10 @@ function build(di){
   try{localStorage.setItem('bkk3dDay',di);}catch(e){}
 }
 /* scrubbing / auto-play lights up only the line the traveler is on; everything else dims */
-function applyHL(si){segInfo.forEach((S,k)=>{const o=k===si?1:.14;for(let j=S.n0;j<S._n1;j++){const m=S.g.userData.mats[j];m.transparent=true;m.opacity=o;m.depthWrite=o>=.5;}});
+function applyHL(si){segInfo.forEach((S,k)=>{const o=k===si?1:.14;for(let j=S.n0;j<S._n1;j++){const m=S.g.userData.mats[j];m.transparent=true;m.opacity=(m.userData.cs&&o<.5)?0:o;m.depthWrite=o>=.5;}});
   ttLabels.forEach(l=>{l.el.classList.remove('on');l.hide=false;});const S=segInfo[si];if(S)showChip('目前路段：'+MODE[S.m].n);}
 function startHL(){if(!hl){clearFocus();hl=true;hlSeg=-1;}}
-function setOpacity(g,o){g.userData.mats.forEach(m=>{m.transparent=true;m.opacity=o;m.depthWrite=o>=.5;});}
+function setOpacity(g,o){g.userData.mats.forEach(m=>{m.transparent=true;m.opacity=(m.userData.cs&&o<.5)?0:o;m.depthWrite=o>=.5;});}
 function fit(b,span){
   const cx=(b.x0+b.x1)/2,cz=(b.z0+b.z1)/2;const asp=camera.aspect||1;const dist=(span*1.25+2)*(asp<1?Math.min(2.6,1/asp):1);
   focusTarget={target:new THREE.Vector3(cx,0,cz),pos:new THREE.Vector3(cx-dist*.45,dist*.75,cz+dist*.62)};
