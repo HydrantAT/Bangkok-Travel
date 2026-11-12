@@ -363,6 +363,26 @@ h1{font-size:21px}
 .stage .itbtn{position:absolute;left:max(12px,env(safe-area-inset-left,0px));top:12px;z-index:3;box-shadow:0 0 0 2px #000,0 6px 18px rgba(0,0,0,.5)}
 aside{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 @media (max-width:760px){.ithead{padding-top:calc(10px + env(safe-area-inset-top,0px) * 1.4)}.itwrap{padding-bottom:env(safe-area-inset-bottom,0px)}}
+
+/* desktop: the itinerary panel floats over the map as frosted "liquid glass"; the map runs underneath it */
+@media (min-width:861px){
+  .stage{grid-column:1/-1;grid-row:2}
+  aside{grid-column:2;grid-row:2;z-index:5;margin:12px 12px 12px 0;border-radius:24px;border:1px solid rgba(255,255,255,.2);
+    background:linear-gradient(155deg,rgba(255,255,255,.13),rgba(255,255,255,.035) 34%,rgba(8,10,14,.22)),rgba(18,20,25,.4);
+    -webkit-backdrop-filter:blur(28px) saturate(1.8);backdrop-filter:blur(28px) saturate(1.8);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.34),inset 0 -1px 0 rgba(255,255,255,.06),0 20px 56px rgba(0,0,0,.5);
+    scrollbar-color:rgba(255,255,255,.25) transparent;padding-bottom:20px}
+  .phead{background:rgba(24,26,32,.84);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);
+    margin:0 -16px 8px;padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.12);border-radius:24px 24px 0 0}
+  .stats{border-color:rgba(255,255,255,.14)}
+  aside .n,ol.tl .n{box-shadow:none}
+  .legdot,.live .legdot{box-shadow:none}
+  .ds,.stopbody small,.leg small{color:rgba(255,255,255,.72)}
+  .gm{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
+  .legend,.rail{right:396px}
+  .bar{right:396px}
+  .fchip{left:calc((100% - 384px)/2)}
+}
 </style>
 <style>html,body{margin:0;height:100%;background:#000}</style>
 </head>
@@ -1082,7 +1102,11 @@ syncPlay();
 
 /* ---------- loop ---------- */
 const statusEl=document.getElementById('status');let modeTxt='',lastStatus='',lastP='';const tmp=new THREE.Vector3();let last=performance.now();
-function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);
+  /* when the glass panel covers the right of the map, frame the scene in the uncovered part: the camera's "full" view is that part, extended under the panel */
+  const sr=stage.getBoundingClientRect(),ar=document.getElementById('list').getBoundingClientRect();
+  const cover=(ar.top<sr.bottom-40&&ar.left<sr.right&&ar.left>sr.left)?Math.round(sr.right-ar.left):0,u=Math.max(200,w-cover);
+  camera.aspect=u/h;if(cover)camera.setViewOffset(u,h,0,0,w,h);else camera.clearViewOffset();camera.updateProjectionMatrix();}
 new ResizeObserver(resize).observe(stage);
 function place(list,cls,check){
   const w=stage.clientWidth,h=stage.clientHeight,boxes=[];
