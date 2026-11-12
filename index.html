@@ -540,7 +540,7 @@ const pt=k=>P[k]||S[k];
 const Q={AIR:'Suvarnabhumi Airport',HOTEL:'BTS Nana Station Bangkok',CW:'centralwOrld Bangkok',GOANG:'Go-Ang Kaomunkai Pratunam',DIB:'Dib Bangkok',SONG:'Song Wat Road Bangkok',KUN:'Bangkok Kunsthalle',UOB:'Shake Shack Emsphere Bangkok',TMP:'Thonburi Market Place Borommaratchachonnani Rd',MOCA:'MOCA Museum of Contemporary Art Bangkok',TN:'Thai Niyom Cuisine Phloen Chit',LAYLAO:'Lay Lao Ari Bangkok',SD:'Siam Discovery',CAR:'Siam Square Bangkok',JEHO:'Jeh O Chula Bangkok',COOK:'Silom Thai Cooking School 6/14 Decho Rd',TCDC:'TCDC Bangkok Grand Postal Building',W30:'Warehouse 30 Bangkok',ICON:'ICONSIAM',SOM:'Somsak Pu Ob Bangkok',JF:'Raan Jay Fai Bangkok',BACC:'Bangkok Art and Culture Centre'};
 const gmap=k=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(Q[k]||P[k][2]+' Bangkok');
 /* estimated door-to-door minutes per leg, in order: pre, legs…, post */
-const DUR=[[55,15,12,20],[25,45,15,35,12],[45,75,60,8],[15,25,25,5,15,30],[35,15,5,15,20,35],[40,40,20,40,150,25],[60]];
+const DUR=[[55,15,12,20],[25,45,15,35,12,15],[45,75,60,8],[15,25,25,5,15,30],[35,15,5,15,20,35],[40,40,20,40,150,25],[60]];
 /* ---------- itinerary (matches the current spreadsheet) ---------- */
 const DAYS0=[
  {d:'12/11',w:'五',t:'抵達．探路',s:'機場快線進城，傍晚 centralwOrld 和水門雞飯',
@@ -549,13 +549,14 @@ const DAYS0=[
         {segs:[['WALK',['HOTEL','Nana']],['BTS',['Nana','PhloenChit','ChitLom']],['WALK',['ChitLom','CW']]],txt:'BTS Nana → Chit Lom，空橋直通商場'},
         {segs:[['WALK',['CW','GOANG']]],txt:'往北步行 10–15 分到 Phetchaburi 路'}],
   post:{segs:[['WALK',['GOANG','ChitLom']],['BTS',['ChitLom','PhloenChit','Nana']],['WALK',['Nana','HOTEL']]],txt:'回飯店：走回 BTS Chit Lom → Nana'}},
- {d:'12/12',w:'六',t:'展覽．老城區．宋冬野',s:'Dib → 老城區 → 回飯店 → EmSphere',
+ {d:'12/12',w:'六',t:'展覽．老城區．宋冬野',s:'Dib → 老城區 → 回飯店 → EmSphere → 回飯店',
   stops:[['DIB','10:00','Dib Bangkok',''],['SONG','12:00','嵩越路 Song Wat','老城散步、午餐'],['KUN','14:00','Bangkok Kunsthalle','14:00 開門'],['HOTEL','15:00','回飯店休息',''],['UOB','17:00','Shake Shack → UOB LIVE','18:30 入場・20:00 宋冬野']],
   pre:{segs:[['WALK',['HOTEL','Nana']],['BTS',['Nana','Asok','PhromPhong','ThongLo']],['WALK',['ThongLo','DIB']]],txt:'從飯店出發：BTS Nana → Thong Lo，步行到 Dib'},
   legs:[{segs:[['WALK',['DIB','ThongLo']],['BTS',['ThongLo','PhromPhong','Asok']],['WALK',['Asok','MSukhumvit']],['MRT',['MSukhumvit','QSNCC','KhlongToei','Lumphini','MSilom','SamYan','HuaLamphong','WatMangkon']],['WALK',['WatMangkon','SONG']]],txt:'BTS → Asok 轉 MRT Sukhumvit → Wat Mangkon'},
         {segs:[['WALK',['SONG','KUN']]],txt:'步行約 15 分'},
         {segs:[['WALK',['KUN','WatMangkon']],['MRT',['WatMangkon','HuaLamphong','SamYan','MSilom','Lumphini','KhlongToei','QSNCC','MSukhumvit']],['WALK',['MSukhumvit','HOTEL']]],txt:'MRT Wat Mangkon → Sukhumvit，步行回飯店'},
-        {segs:[['WALK',['HOTEL','Nana']],['BTS',['Nana','Asok','PhromPhong']],['WALK',['PhromPhong','UOB']]],txt:'BTS Nana → Phrom Phong，天橋直通 EmSphere'}]},
+        {segs:[['WALK',['HOTEL','Nana']],['BTS',['Nana','Asok','PhromPhong']],['WALK',['PhromPhong','UOB']]],txt:'BTS Nana → Phrom Phong，天橋直通 EmSphere'}],
+  post:{segs:[['WALK',['UOB','PhromPhong']],['BTS',['PhromPhong','Asok','Nana']],['WALK',['Nana','HOTEL']]],txt:'散場後回飯店：BTS Phrom Phong → Nana 兩站（末班車約午夜前）'}},
  {d:'12/13',w:'日',t:'海鮮．MOCA．必比登',s:'一段 Grab，其餘搭紅線、MRT、BTS',
   stops:[['HOTEL','09:00','從飯店出發',''],['TMP','09:50','吞武里海鮮市場','Thonburi Market Place'],['MOCA','13:00','MOCA','當代藝術博物館'],['TN','18:00','Thai Niyom 晚餐','Phloen Chit']],
   legs:[{segs:[['GRAB',['HOTEL','TMP']]],txt:'Grab 約 40–50 分（附近沒有軌道交通）'},
@@ -661,7 +662,7 @@ function dashes(points,color,r,gapRatio,round){
   return grp;
 }
 /* ---------- time of day ---------- */
-const POST_AT=['19:15',null,'19:30','20:00','19:30','22:30',null];
+const POST_AT=['19:15','22:30','19:30','20:00','19:30','22:30',null];
 const tmin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m;};
 const SKY=[ // hour, background, ground, road, river, ambient, sun, building glow, route glow
  {h:0,  bg:'#090b0d',gr:'#14171b',rd:'#59606a',rv:'#1d4a66',a:.45,s:.38,e:1.25,rt:.5},
