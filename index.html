@@ -352,7 +352,8 @@ table.itt{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.55}
 }
 
 /* installed-to-home-screen (standalone) safe areas: keep content out from under the phone status bar / home indicator */
-header{padding-top:calc(10px + env(safe-area-inset-top,0px))}
+header{padding-top:calc(16px + env(safe-area-inset-top,0px))}
+.stage .itbtn{position:absolute;left:max(12px,env(safe-area-inset-left,0px));top:12px;z-index:3;box-shadow:0 0 0 2px #000,0 6px 18px rgba(0,0,0,.5)}
 aside{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 @media (max-width:760px){.ithead{padding-top:calc(12px + env(safe-area-inset-top,0px))}.itwrap{padding-bottom:env(safe-area-inset-bottom,0px)}}
 </style>
@@ -369,7 +370,6 @@ aside{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
       <nav class="days" id="days" aria-label="選擇日期"></nav>
       <button class="step" id="next" type="button" aria-label="後一天">›</button>
     </div>
-    <button type="button" class="itbtn" id="itBtn" aria-haspopup="dialog">行程表</button>
     <div class="hud"><span class="stars" id="stars" role="img"></span><span class="clock" id="clock">BKK --:--</span></div>
   </header>
   <div class="stage" id="stage">
@@ -413,6 +413,7 @@ aside{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
       </dl>
       <button class="ok" id="helpOk" type="button">知道了</button>
     </div>
+    <button type="button" class="itbtn" id="itBtn" aria-haspopup="dialog">行程表</button>
     <div class="bar glass">
       <div class="scrubwrap"><input type="range" id="scrub" min="0" max="1000" value="0" step="1" aria-label="當天路線進度"><div class="ticks" id="ticks" aria-hidden="true"></div></div>
       <div class="status" id="status">--</div>
