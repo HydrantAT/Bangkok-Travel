@@ -237,6 +237,8 @@ h1 small{font:400 14px/1 var(--f-disp);color:var(--pin);letter-spacing:.14em}
 .ticks i.stopt{border-radius:1px;transform:rotate(45deg)}
 .status{font:400 15px/1.3 var(--f-disp);letter-spacing:.05em}
 .status span{font-family:var(--f-data);font-weight:500;letter-spacing:.02em}
+/* fixed-width status so the scrubber keeps one length whatever the text */
+@media (min-width:861px){.status{flex:0 0 clamp(260px,36%,380px);max-width:none;text-align:left}}
 .fchip{border:0;box-shadow:0 0 0 2px var(--pin),0 6px 20px rgba(0,0,0,.5)}
 .fchip button,.stopbtn,.leg,.chip,.help .ok{border-radius:2px}
 
