@@ -553,6 +553,18 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
   .app.anim:not(.pc) aside{animation-duration:.26s}
   .app.anim .ear{animation:none}
 }
+
+/* keep the zoom rail and legend clear of the ear that sticks out of the panel; slightly narrower panel on a sideways phone */
+@media (min-width:861px),(min-width:640px) and (max-height:520px) and (orientation:landscape){
+  .legend,.rail{right:418px}
+  .app.pc .legend,.app.pc .rail{right:max(34px,env(safe-area-inset-right,0px))}
+  .phead{background:rgba(22,24,30,.97)}
+}
+@media (min-width:640px) and (max-height:520px) and (orientation:landscape){
+  .app{grid-template-columns:minmax(0,1fr) 292px;--ex:291px}
+  .legend,.rail{right:326px}
+  .stats dd{font-size:16px}
+}
 </style>
 <style>html,body{margin:0;height:100%;background:#000}</style>
 </head>
