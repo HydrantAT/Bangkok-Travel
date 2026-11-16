@@ -1315,7 +1315,9 @@ const XTRA={"cal":{"days":[["12/11","週五"],["12/12","週六"],["12/13","週�
  views.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;view=b.dataset.v;draw();});
  tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sel=+b.dataset.i;draw();});
  pane.addEventListener('click',e=>{const b=e.target.closest('.cev');if(!b)return;const ev=XTRA.cal.ev[+b.dataset.k],n=document.getElementById('cNote');
-   pane.querySelectorAll('.cev.on').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+   const was=b.classList.contains('on');pane.querySelectorAll('.cev.on').forEach(x=>x.classList.remove('on'));
+   if(was){n.hidden=true;return;}
+   b.classList.add('on');
    const d=XTRA.cal.days[ev[0]],lines=ev[6].split('\n').filter((x,i)=>!(i===0&&x.trim()===ev[3]));
    n.innerHTML=`<b>${esc(d[0])} ${esc(d[1])}　${String(ev[1]).padStart(2,'0')}:00–${String(ev[1]+ev[2]).padStart(2,'0')}:00　${esc(ev[3])}</b><span>${esc(lines.join('\n').replace(/・/g,'\n'))}</span>${mapA(ev[7])}`;n.hidden=false;});
  pane.addEventListener('change',e=>{const c=e.target;if(!c.matches('.chk input'))return;try{const d=JSON.parse(localStorage.getItem('bkk3dTodo')||'{}')||{};d[c.dataset.id]=c.checked?1:0;localStorage.setItem('bkk3dTodo',JSON.stringify(d));}catch(er){}});
