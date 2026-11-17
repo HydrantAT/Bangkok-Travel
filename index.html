@@ -597,6 +597,42 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
 @media (max-width:639px),(max-width:860px) and (min-height:521px),(max-width:860px) and (orientation:portrait){.help{max-height:calc(100% - 78px)}}
 /* compass needle always fills the round button (the smaller rail-icon size was shrinking it on a sideways phone) */
 .rail .compass svg{width:100%;height:100%}
+
+/* ===== overlap audit fixes (every control opened, on desktop, phone portrait and phone landscape) ===== */
+/* 1. a collapsed panel is parked off the right edge; it must not make the page scroll sideways */
+@media (min-width:861px),(min-width:640px) and (max-height:520px) and (orientation:landscape){.app{overflow:hidden;overflow:clip}}
+/* 2. desktop help stays below the top-left button and the focus chip */
+.help{max-height:calc(100% - 196px)}
+/* 3. on phones the legend opens beside the zoom rail instead of over it, and may use the height down to the scrubber */
+@media (max-width:639px),(max-width:860px) and (min-height:521px),(max-width:860px) and (orientation:portrait){
+  .legend{right:calc(max(12px,env(safe-area-inset-right,0px)) + 54px);max-width:calc(100% - 172px)}
+  .legend.glass{max-height:calc(100% - 132px);max-width:calc(100% - 172px)}
+  .legend .rlitems{grid-template-columns:repeat(auto-fit,minmax(86px,1fr))}
+  /* the focus chip moves down to sit just above the scrubber, clear of the legend */
+  .fchip{top:auto;bottom:112px;max-width:calc(100% - 92px)}
+}
+@media (min-width:640px) and (max-height:520px) and (orientation:landscape){
+  .legend{right:370px}
+  .app.pc .legend{right:calc(max(34px,env(safe-area-inset-right,0px)) + 44px)}
+  .legend.glass{max-height:calc(100% - 66px)}
+}
+/* 4. on phones the help opens as a centred sheet over a dimmed map, so it never half-covers a control */
+@media (max-width:639px),(max-width:860px) and (min-height:521px),(max-width:860px) and (orientation:portrait),(min-width:640px) and (max-height:520px) and (orientation:landscape){
+  .help{left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%);width:min(430px,calc(100% - 24px));max-height:calc(100% - 20px);z-index:9;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 0 0 200vmax rgba(0,0,0,.5)}
+}
+
+.help{box-sizing:border-box}
+@media (max-width:639px),(max-width:860px) and (min-height:521px),(max-width:860px) and (orientation:portrait){.legend.glass{max-height:calc(100% - 176px)}}
+@media (min-width:640px) and (max-height:520px) and (orientation:landscape){
+  .fchip{top:auto;bottom:54px;max-width:calc(100% - 420px)}
+  .app.pc .fchip{max-width:calc(100% - 110px)}
+  .legend.glass{max-height:calc(100% - 108px)}
+}
+
+/* help and the opened legend carry a lot of text over a busy map: give them a denser backing so the labels behind do not show through */
+.help.glass{background:linear-gradient(155deg,rgba(255,255,255,.08),rgba(255,255,255,.02) 42%,rgba(8,10,14,.1)),rgba(17,19,24,.93)}
+.legend.glass[open]{background:linear-gradient(155deg,rgba(255,255,255,.1),rgba(255,255,255,.03) 42%,rgba(8,10,14,.15)),rgba(17,19,24,.82)}
 </style>
 <style>html,body{margin:0;height:100%;background:#000}</style>
 </head>
@@ -1428,6 +1464,7 @@ if(matchMedia('(max-width:860px),(max-height:520px)').matches)document.getElemen
  const apply=()=>{app.classList.toggle('pc',pc);btn.setAttribute('aria-label',pc?'展開行程':'收合行程');btn.title=pc?'展開行程':'收合行程';btn.setAttribute('aria-expanded',String(!pc));resize();};
  btn.addEventListener('click',()=>{pc=!pc;try{localStorage.setItem('bkk3dPanel',pc?'0':'1');}catch(e){}app.classList.add('anim');apply();});
  window.__applyPanel=apply;}
+document.addEventListener('pointerdown',e=>{if(!helpEl.hidden&&!e.target.closest('#help')&&!e.target.closest('#helpBtn'))setHelp(false);},true);
 document.addEventListener('keydown',e=>{
   if(document.getElementById('itDlg').open)return;
   if(e.altKey||e.ctrlKey||e.metaKey)return;const tg=e.target,tag=tg&&tg.tagName;
