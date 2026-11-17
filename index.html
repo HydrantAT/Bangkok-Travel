@@ -123,14 +123,32 @@ h1 small{font-family:var(--f-data);font-weight:600;font-size:12.5px;color:var(--
   display:flex;align-items:center;gap:14px;padding:4px 14px 4px 8px}
 .bar .pp{flex:0 0 auto;width:var(--tap);height:var(--tap);display:grid;place-items:center;border:0;border-radius:50%;background:var(--pin);color:var(--pin-ink);cursor:pointer;box-shadow:0 2px 10px rgba(242,194,48,.35);transition:transform .12s}
 .bar .pp:hover{transform:scale(1.06)}
+.nowbtn{flex:0 0 auto;height:32px;padding:0 12px;border:1px solid var(--pin);border-radius:999px;background:transparent;color:var(--pin);font:700 13px/1 var(--f-body);letter-spacing:.04em;cursor:pointer;transition:background .15s,color .15s}
+.nowbtn:hover,.nowbtn:active{background:var(--pin);color:var(--pin-ink)}
+body.day .nowbtn{color:#8a5a00;border-color:#c79a12}body.day .nowbtn:hover{background:#c79a12;color:#fff}
 .bar .pp svg{width:18px;height:18px}
-.bar input[type=range]{--p:0%;position:relative;z-index:1;display:block;width:100%;height:var(--tap);margin:0;cursor:pointer;background:transparent;-webkit-appearance:none;appearance:none}
+.bar input[type=range]{position:relative;z-index:2;display:block;width:100%;height:var(--tap);margin:0;cursor:pointer;background:transparent;-webkit-appearance:none;appearance:none}
 .scrubwrap{position:relative;flex:1 1 120px;min-width:80px}
-.ticks{position:absolute;left:8px;right:8px;top:50%;height:0;pointer-events:none;z-index:2}
+.ticks{position:absolute;left:8px;right:8px;top:50%;height:0;pointer-events:none;z-index:1}
+.scrubwrap::before{content:'';position:absolute;left:8px;right:8px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:linear-gradient(90deg,var(--pin) var(--p,0%),var(--deck-3) var(--p,0%))}
 .ticks i{position:absolute;top:-5px;width:2px;height:10px;margin-left:-1px;border-radius:1px;background:rgba(255,255,255,.55)}
+.ticks i.stay{top:-3px;height:6px;margin:0;min-width:2px;border-radius:3px;background:color-mix(in srgb,var(--pin) 60%,transparent)}
+.ticks i.hr{top:-6px;width:1px;height:12px;margin-left:-.5px;background:rgba(255,255,255,.28)}
+.ticks i.hr s{position:absolute;left:50%;top:13px;transform:translateX(-50%);text-decoration:none;font:500 9.5px/1 var(--f-data);color:var(--mute);font-variant-numeric:tabular-nums}
+body.day .ticks i.hr{background:rgba(20,30,45,.3)}
+.sp{position:absolute;transform:translate(-50%,-100%);margin-top:-6px;pointer-events:none;z-index:3;min-width:150px;max-width:240px;padding:8px 12px 9px;border-radius:12px;background:rgba(12,14,18,.93);color:#fff;box-shadow:0 0 0 2px var(--pin),0 8px 24px rgba(0,0,0,.5);font-size:12.5px;line-height:1.35;animation:spIn .18s ease-out}
+.sp .s1{display:flex;align-items:center;gap:7px;font-weight:700;font-size:14px}
+.sp .s1 b{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;background:var(--pin);color:var(--pin-ink);font:700 13px/1 var(--f-data);padding:0 5px}
+.sp .s2{margin-top:4px;font-family:var(--f-data);font-weight:600;color:var(--pin);font-variant-numeric:tabular-nums}
+.sp .s3{margin-top:2px;color:#c9cdd3}
+body.day .sp{background:rgba(255,255,255,.97);color:#17212d;box-shadow:0 0 0 2px #c79a12,0 8px 24px rgba(30,45,60,.3)}
+body.day .sp .s2{color:#8a5a00}body.day .sp .s3{color:#566271}
+@keyframes spIn{from{opacity:0;transform:translate(-50%,-92%) scale(.94)}to{opacity:1;transform:translate(-50%,-100%) scale(1)}}
+@media (prefers-reduced-motion:reduce){.sp{animation:none}}
+.stop.live .n{box-shadow:0 0 0 3px color-mix(in srgb,var(--pin) 45%,transparent)}
 .ticks i.stopt{top:-4px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--deck);box-shadow:0 0 0 2px var(--pin)}
-input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--pin) var(--p),var(--deck-3) var(--p))}
-input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--pin) var(--p),var(--deck-3) var(--p))}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:transparent}
+input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:transparent}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-6px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 3px rgba(242,194,48,.45),0 2px 6px rgba(0,0,0,.4)}
 input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:0;box-shadow:0 0 0 3px rgba(242,194,48,.45),0 2px 6px rgba(0,0,0,.4)}
 .status{flex:0 1 auto;min-width:0;max-width:46%;font:600 14.5px/1.3 var(--f-data);letter-spacing:.02em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;font-variant-numeric:tabular-nums}
@@ -376,7 +394,8 @@ aside{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
     margin:0 -16px 8px;padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.12);border-radius:24px 24px 0 0}
   .stats{border-color:rgba(255,255,255,.14)}
   aside .n,ol.tl .n{box-shadow:none}
-  .legdot,.live .legdot{box-shadow:none}
+  .legdot{box-shadow:none}
+  .live .legdot{box-shadow:0 0 0 3px rgba(16,18,23,.9),0 0 0 5px color-mix(in srgb,var(--m,var(--pin)) 40%,transparent)}
   .ds,.stopbody small,.leg small{color:rgba(255,255,255,.72)}
   .gm{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
   .legend,.rail{right:396px}
@@ -633,6 +652,92 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
 /* help and the opened legend carry a lot of text over a busy map: give them a denser backing so the labels behind do not show through */
 .help.glass{background:linear-gradient(155deg,rgba(255,255,255,.08),rgba(255,255,255,.02) 42%,rgba(8,10,14,.1)),rgba(17,19,24,.93)}
 .legend.glass[open]{background:linear-gradient(155deg,rgba(255,255,255,.1),rgba(255,255,255,.03) 42%,rgba(8,10,14,.15)),rgba(17,19,24,.82)}
+.rail .topbtn{font:700 12px/1 var(--f-body);letter-spacing:.02em}
+.rail .topbtn[aria-pressed="true"]{background:var(--pin);color:var(--pin-ink)}
+@media (min-width:640px) and (max-height:520px) and (orientation:landscape){.rail .topbtn{font-size:11px}}
+.rail .topbtn{padding:0;white-space:nowrap}
+@media (min-width:640px) and (max-height:520px) and (orientation:landscape){.rail .topbtn{font-size:10.5px;letter-spacing:0}}
+/* ===== day map: light Google-style base; labels flip to dark text with a white halo, pills and glass stay dark for contrast ===== */
+.stage.lite .vig{background:radial-gradient(120% 95% at 50% 45%,transparent 60%,rgba(70,90,110,.2))}
+.stage.lite .st{color:#17212d;text-shadow:0 0 2px #fff,0 0 4px #fff,0 0 7px #fff,0 1px 0 #fff}
+.stage.lite .st.sg{color:#5a2fb0}
+.stage.lite .st.pr{color:#0b6f86}
+.stage.lite .st.rl{color:#26313f}
+.stage.lite .rd{color:#5d6876;text-shadow:0 0 2px #fff,0 0 5px #fff}
+.stage.lite .osm,.stage.lite~.osm{color:rgba(20,30,40,.55)}
+.rail #skyBtn[aria-pressed="true"]{background:rgba(255,255,255,.14);color:#fff}
+/* ===== day theme for the whole UI: light surfaces, dark text. Yellow and green stay as fills (badges, buttons) but turn into
+   darker amber / green wherever they are used as text, because the bright versions are unreadable on white ===== */
+body.day{--night:#eef1f4;--deck:#ffffff;--deck-2:#eef1f4;--deck-3:#e2e7ec;--rule:#dde2e8;--rule-2:#c5ccd5;--ink:#17212d;--mute:#566271;--glass:rgba(255,255,255,.9);--amber:#8a5a00;--leaf:#1a7f37;--line:rgba(20,30,45,.13)}
+/* desktop: the open legend stops above the compass (the rail grew by two buttons) */
+@media (min-width:861px) and (min-height:521px){.legend.glass{max-height:max(170px,calc(100% - 400px))}}
+body.day,body.day input,body.day dialog{color-scheme:light}
+body.day .legend .items em,body.day .legend .items i{filter:drop-shadow(0 0 .6px rgba(20,30,45,.9))}
+body.day header{background:linear-gradient(to bottom,#11151b env(safe-area-inset-top,0px),#fff env(safe-area-inset-top,0px));border-bottom:1px solid var(--rule)}
+body.day h1 small{color:var(--amber)}
+body.day .days button,body.day .step{background:rgba(20,30,45,.06)}
+body.day .days button:hover,body.day .step:hover{background:rgba(20,30,45,.12)}
+body.day .days button[aria-pressed="true"]{background:#17212d;color:#fff}
+body.day .stars{color:rgba(20,30,45,.2)}body.day .stars b{color:#17212d}
+body.day .clock{color:var(--leaf)}
+body.day .glass,body.day .legend.glass{background:linear-gradient(155deg,rgba(255,255,255,.78),rgba(255,255,255,.5) 45%,rgba(255,255,255,.6));border-color:rgba(255,255,255,.75);color:var(--ink);-webkit-backdrop-filter:blur(26px) saturate(1.9);backdrop-filter:blur(26px) saturate(1.9)}
+/* panels that carry a lot of text keep a denser white so the map labels behind do not show through */
+body.day .legend.glass[open],body.day .help.glass{background:linear-gradient(155deg,rgba(255,255,255,.9),rgba(255,255,255,.76))}
+body.day .glass:not(.help){box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(20,30,45,.07),0 10px 28px rgba(30,45,60,.2)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){body.day .glass,body.day .legend.glass{background:rgba(255,255,255,.93)}}
+body.day .legend summary{color:var(--ink)}
+body.day .tog,body.day .legend .tog,body.day .rail .grp button+button{border-top-color:var(--line)}
+body.day .rail button:hover{background:rgba(20,30,45,.08)}
+body.day .rail #skyBtn[aria-pressed="true"]{background:rgba(20,30,45,.1);color:var(--ink)}
+body.day .ticks i{background:rgba(20,30,45,.4)}
+body.day input[type=range]::-webkit-slider-thumb{background:#17212d;box-shadow:0 0 0 3px rgba(242,194,48,.75),0 2px 6px rgba(30,45,60,.35)}
+body.day input[type=range]::-moz-range-thumb{background:#17212d;box-shadow:0 0 0 3px rgba(242,194,48,.75),0 2px 6px rgba(30,45,60,.35)}
+body.day .fchip{background:rgba(255,255,255,.95);border-color:#c79a12}
+body.day .fchip button{background:rgba(20,30,45,.08)}
+body.day .help h2,body.day .help dt{color:var(--amber)}
+body.day .help .ok{background:#17212d;color:#fff;box-shadow:0 -10px 12px 4px rgba(255,255,255,.92)}
+body.day .osm{color:rgba(20,30,45,.5)}
+body.day .itbtn,body.day .stage .tl-btns .itbtn{box-shadow:0 4px 14px rgba(30,45,60,.28)}
+/* map labels */
+body.day .lb a,body.day .stage.lite .lb a{background:rgba(255,255,255,.97);color:#17212d;box-shadow:0 0 0 1px rgba(20,30,45,.2),0 3px 10px rgba(30,45,60,.28)}
+body.day .lb i,body.day .stage.lite .lb i{color:#566271}
+body.day .tt,body.day .stage.lite .tt{box-shadow:0 0 0 2px #fff,0 3px 8px rgba(30,45,60,.32)}
+body.day .tt.on,body.day .stage.lite .tt.on{box-shadow:0 0 0 2px #17212d,0 0 0 4px #fff}
+body.day .hl{box-shadow:0 0 0 2px #fff,0 0 14px rgba(40,140,60,.45)}
+/* day panel */
+body.day aside{color:var(--ink)}
+body.day .dt small{color:var(--amber)}
+body.day .ds,body.day .stopbody small,body.day .leg small{color:var(--mute)}
+body.day .stats{border-color:var(--line)}
+body.day .gm{background:rgba(20,30,45,.04);border-color:rgba(20,30,45,.22);color:#44505e}
+body.day .gm:hover{color:var(--amber);border-color:var(--amber)}
+body.day .live .legdot{box-shadow:0 0 0 3px #fff,0 0 0 5px color-mix(in srgb,var(--m,var(--pin)) 55%,transparent)}
+body.day .leg.on{border-color:#c79a12}
+body.day .stopbtn:hover,body.day .stopbtn.on,body.day .leg:hover,body.day .leg.on{background:rgba(20,30,45,.06)}
+body.day .ear{color:var(--ink);background:rgba(255,255,255,.72);border-color:rgba(20,30,45,.16);box-shadow:0 8px 22px rgba(30,45,60,.22)}
+body.day .ear:hover{background:#fff}
+@media (min-width:861px),(min-width:640px) and (max-height:520px) and (orientation:landscape){
+  body.day aside{background:linear-gradient(155deg,rgba(255,255,255,.8),rgba(255,255,255,.56) 40%,rgba(255,255,255,.66));border-color:rgba(255,255,255,.8);box-shadow:inset 0 1px 0 #fff,0 0 0 1px rgba(20,30,45,.07),0 20px 50px rgba(30,45,60,.24);scrollbar-color:rgba(20,30,45,.25) transparent;-webkit-backdrop-filter:blur(30px) saturate(1.9);backdrop-filter:blur(30px) saturate(1.9)}
+  body.day .phead{background:rgba(255,255,255,.93);border-bottom-color:var(--line)}
+}
+/* itinerary dialog */
+body.day dialog.it{background:#fff;color:var(--ink);border-color:rgba(20,30,45,.16);box-shadow:0 30px 80px rgba(30,45,60,.35)}
+body.day dialog.it::backdrop{background:rgba(20,30,45,.45)}
+body.day .ithead,body.day .ittabs{background:#f3f5f7}
+body.day .ithead .x{background:rgba(20,30,45,.07);color:var(--ink)}
+body.day .ittabs button{background:rgba(20,30,45,.06)}
+body.day .ittabs button[aria-pressed="true"]{background:#17212d;color:#fff}
+body.day .itviews button[aria-pressed="true"]{color:var(--ink)}
+body.day .itt th{background:#eef1f4}
+body.day .itt tr.dayrow td{background:#fbf4dc;color:#7a5200}
+body.day .itt .ds,body.day .cnote span,body.day .doc p,body.day .doc li.li2{color:#36424f}
+body.day .itt.nt td:nth-child(n+2){color:#44505e}
+body.day .itt .sta.ok{color:var(--leaf)}
+body.day .itt a,body.day .cnote a,body.day .doc a,body.day .doc h3{color:var(--amber)}
+body.day .ch{background:#fff}body.day .ch b{color:var(--ink)}
+body.day .cev:hover,body.day .cev.on{box-shadow:0 0 0 2px #17212d}
+body.day .cnote{background:#f3f5f7}
+body.day .chk:hover{background:rgba(20,30,45,.05)}
 </style>
 <style>html,body{margin:0;height:100%;background:#000}</style>
 </head>
@@ -653,7 +758,7 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
     <canvas id="gl" aria-label="當天移動路線的 3D 地圖"></canvas>
     <div class="vig" aria-hidden="true"></div>
     <div id="labels"></div>
-    <details class="legend glass" id="legendBox" open><summary>今天的交通方式</summary><div class="items" id="legend"></div><label class="tog"><input type="checkbox" id="stToggle"><span>顯示街道</span></label><label class="tog"><input type="checkbox" id="sgToggle"><span>顯示熱門景點</span></label><label class="tog"><input type="checkbox" id="rlToggle"><span>顯示鐵路路線圖</span></label><div class="items rlitems" id="rlLegend" hidden></div><label class="tog"><input type="checkbox" id="prToggle"><span>顯示河岸碼頭</span></label></details>
+    <details class="legend glass" id="legendBox" open><summary>今天的交通方式</summary><div class="items" id="legend"></div><label class="tog"><input type="checkbox" id="stToggle"><span>顯示街道</span></label><label class="tog"><input type="checkbox" id="bdToggle" checked><span>顯示地標建築</span></label><label class="tog"><input type="checkbox" id="sgToggle"><span>顯示熱門景點</span></label><label class="tog"><input type="checkbox" id="rlToggle"><span>顯示鐵路路線圖</span></label><div class="items rlitems" id="rlLegend" hidden></div><label class="tog"><input type="checkbox" id="prToggle"><span>顯示河岸碼頭</span></label></details>
     <div class="fchip glass" id="fchip" hidden><span id="fchipTxt"></span><button type="button" id="fclear">顯示全部</button></div>
     <div class="rail">
       <button class="compass glass" id="compass" type="button" title="回到當天全景（北方朝上）" aria-label="指南針，點一下回到當天全景並轉回北方朝上">
@@ -666,6 +771,7 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
         <button id="zin" type="button" title="放大" aria-label="放大">+</button>
         <button id="zout" type="button" title="縮小" aria-label="縮小">−</button>
       </div>
+      <div class="grp glass"><button id="topBtn" type="button" class="topbtn" title="切換俯視（正上方往下看，不能旋轉）" aria-pressed="false">俯視</button><button id="skyBtn" type="button" class="topbtn" title="切換成白天配色" aria-pressed="false">白天</button></div>
       <div class="grp glass"><button id="helpBtn" type="button" title="操作說明" aria-label="操作說明" aria-expanded="false">?</button></div>
     </div>
     <div class="help glass" id="help" hidden>
@@ -689,13 +795,16 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
         <dt>點地標標籤</dt><dd>開啟 Google 地圖</dd>
         <dt>面板邊的小耳朵</dt><dd>收合或展開當天行程</dd>
         <dt>點指南針</dt><dd>回到當天全景，北方朝上</dd>
+        <dt>白天／夜晚</dt><dd>切換地圖的明亮或深色配色</dd>
+        <dt>俯視</dt><dd>從正上方往下看，不能旋轉；再按一次回到立體</dd>
         <dt>行程表</dt><dd>週曆、明細、彈性地點、注意事項</dd>
       </dl>
       <button class="ok" id="helpOk" type="button">知道了</button>
     </div>
     <div class="tl-btns"><button type="button" class="itbtn" id="itBtn" aria-haspopup="dialog">行程表</button></div>
     <div class="bar glass">
-      <div class="scrubwrap"><input type="range" id="scrub" min="0" max="1000" value="0" step="1" aria-label="當天路線進度"><div class="ticks" id="ticks" aria-hidden="true"></div></div>
+      <button type="button" class="nowbtn" id="nowBtn" title="跳到現在時間（曼谷時間）" aria-label="時間軸跳到現在時間">現在</button>
+      <div class="scrubwrap"><input type="range" id="scrub" min="0" max="1000" value="0" step="1" aria-label="當天時間軸"><div class="ticks" id="ticks" aria-hidden="true"></div></div>
       <div class="status" id="status">--</div>
     </div>
   </div>
@@ -716,7 +825,7 @@ dialog.it{border-radius:22px;border:1px solid rgba(255,255,255,.16);box-shadow:0
    城市資料 CITY DATA：換城市時只改這一個區塊（到下一個 ENGINE 標記為止），下面的介面程式不用動。
    ================================================================== */
 /* 基本設定 */
-const CITY={title:'逃離現實計畫｜曼谷篇',sub:'BANGKOK · 12/11–12/17',clock:'BKK',utcOffset:7,center:[13.75,100.55],mapSuffix:' Bangkok',cruiseSights:9,roadFade:[24,31]};
+const CITY={title:'逃離現實計畫｜曼谷篇',sub:'BANGKOK · 12/11–12/17',clock:'BKK',utcOffset:7,year:2026,center:[13.75,100.55],mapSuffix:' Bangkok',cruiseSights:9,roadFade:[24,31]};
 /* 交通方式：顏色、名稱、高度（h>0 高架、h<0 地下）、w 線寬比例、dash/dot 虛線 */
 const MODE={
   BTS:{c:'#6cc24a',n:'BTS 淺綠線',sh:'BTS',h:.38},
@@ -874,6 +983,8 @@ const DAYS0=[
 ];
 /* 叫車／船沿真實路徑 GRAB_RT：「起點|終點」→ 座標序列（沒有就畫直線） */
 const GRAB_RT={"HOTEL|TMP":[[13.74009,100.55618],[13.74219,100.55298],[13.74276,100.55091],[13.7428,100.55072],[13.74281,100.55067],[13.74282,100.55062],[13.74287,100.55041],[13.74293,100.5501],[13.74339,100.54756],[13.74401,100.54394],[13.74403,100.54386],[13.74462,100.54029],[13.74464,100.54019],[13.7453,100.53592],[13.74533,100.53576],[13.74559,100.53434],[13.74584,100.53299],[13.74587,100.5328],[13.74618,100.53149],[13.7462,100.53134],[13.74626,100.531],[13.74628,100.53084],[13.74628,100.53083],[13.7463,100.53073],[13.74631,100.5307],[13.74633,100.53059],[13.74635,100.53044],[13.74645,100.52986],[13.74647,100.52977],[13.74652,100.52947],[13.74664,100.52875],[13.74726,100.52505],[13.74726,100.52503],[13.74729,100.52471],[13.74739,100.52413],[13.74745,100.52376],[13.74751,100.5234],[13.74785,100.52146],[13.74797,100.52077],[13.74809,100.52001],[13.74821,100.51926],[13.74824,100.51913],[13.74827,100.51904],[13.74831,100.51891],[13.7486,100.51814],[13.74909,100.51677],[13.74913,100.51669],[13.74923,100.51643],[13.74926,100.51634],[13.74992,100.5145],[13.75076,100.512],[13.75141,100.51015],[13.7519,100.50874],[13.75192,100.50863],[13.75217,100.50545],[13.75216,100.5053],[13.75216,100.50496],[13.75214,100.50452],[13.7539,100.50494],[13.75394,100.50496],[13.75564,100.50525],[13.75592,100.50519],[13.75645,100.50211],[13.75636,100.50197],[13.75643,100.50159],[13.75657,100.50149],[13.75689,100.50037],[13.75718,100.49892],[13.75724,100.49867],[13.75763,100.4958],[13.75744,100.49504],[13.75838,100.49377],[13.75944,100.49285],[13.76385,100.4894],[13.76467,100.48876],[13.7663,100.48745],[13.76771,100.48639],[13.76852,100.48575],[13.76904,100.48537],[13.76992,100.48464],[13.78639,100.46966],[13.78719,100.46782],[13.78591,100.46294],[13.78535,100.46073],[13.77983,100.44172],[13.78143,100.42419],[13.78185,100.41917],[13.78198,100.41722],[13.78206,100.41651],[13.78228,100.41432],[13.78257,100.41147],[13.78263,100.41077],[13.78276,100.4095],[13.78294,100.40784],[13.78323,100.4051],[13.78336,100.40383],[13.78393,100.39816],[13.78405,100.39706]],"TMP|TalingChan":[[13.78405,100.39706],[13.78393,100.39816],[13.78336,100.40383],[13.78323,100.4051],[13.78294,100.40784],[13.78276,100.4095],[13.78263,100.41077],[13.78257,100.41147],[13.78228,100.41432],[13.78206,100.41651],[13.78198,100.41722],[13.78147,100.42235],[13.78135,100.42354],[13.7813,100.42404],[13.7811,100.42595],[13.78108,100.42608],[13.78106,100.4263],[13.78098,100.42696],[13.78068,100.43019],[13.78067,100.43032],[13.77972,100.44204],[13.78013,100.44404],[13.7805,100.44533],[13.7808,100.44617],[13.78091,100.44654],[13.78162,100.44895],[13.7813,100.44963],[13.78061,100.45048],[13.78054,100.45057],[13.77937,100.452],[13.77855,100.45308],[13.77651,100.45563]],"ICON|HOTEL":[[13.72753,100.509],[13.72751,100.50888],[13.72573,100.50905],[13.72557,100.50906],[13.72446,100.50905],[13.72335,100.50897],[13.72154,100.50882],[13.72143,100.50881],[13.72178,100.50689],[13.72165,100.50612],[13.72104,100.50615],[13.72082,100.50671],[13.72028,100.50862],[13.71914,100.51338],[13.71818,100.51698],[13.71839,100.51797],[13.71854,100.51851],[13.71878,100.51938],[13.7189,100.5198],[13.7189,100.51982],[13.71971,100.52252],[13.72026,100.52437],[13.72123,100.52771],[13.72128,100.52786],[13.72192,100.53003],[13.72203,100.5304],[13.72309,100.53403],[13.72343,100.53521],[13.72423,100.53791],[13.72429,100.53811],[13.72449,100.53874],[13.72552,100.54215],[13.72599,100.54377],[13.72605,100.54394],[13.72608,100.54401],[13.72624,100.54424],[13.72632,100.54428],[13.72643,100.54435],[13.72684,100.54455],[13.72805,100.54477],[13.72905,100.54495],[13.72973,100.54507],[13.7317,100.54542],[13.73403,100.5458],[13.73414,100.5459],[13.73468,100.54597],[13.73476,100.54603],[13.73491,100.54606],[13.73519,100.54618],[13.7355,100.54624],[13.73614,100.54635],[13.73695,100.54649],[13.7378,100.54664],[13.73876,100.5468],[13.74324,100.54755],[13.74266,100.55069],[13.74263,100.55084],[13.74215,100.55274],[13.74209,100.55289],[13.74206,100.55296],[13.74185,100.55339],[13.73999,100.55611],[13.74009,100.55618]],"ICON|CruiseN":[[13.7268,100.51296],[13.72846,100.51296],[13.73076,100.51243],[13.73462,100.5105],[13.73576,100.50947],[13.73733,100.50675],[13.74023,100.49594],[13.74115,100.49399],[13.74388,100.49126],[13.74705,100.48914],[13.75253,100.48806],[13.75701,100.48845],[13.75962,100.48957],[13.76521,100.49495],[13.76873,100.49757]],"CruiseN|CruiseS":[[13.76927,100.49683],[13.76579,100.49425],[13.76018,100.48883],[13.75719,100.48755],[13.75247,100.48714],[13.74675,100.48826],[13.74332,100.49054],[13.74045,100.49341],[13.73937,100.49566],[13.73647,100.50645],[13.73504,100.50893],[13.73418,100.5097],[13.73044,100.51157],[13.72834,100.51204],[13.72679,100.51204],[13.72242,100.51214],[13.71944,100.51166],[13.71524,100.50971],[13.7104,100.50575],[13.70857,100.50364],[13.70589,100.49897]],"CruiseS|ICON":[[13.70511,100.49943],[13.70783,100.50416],[13.7098,100.50645],[13.71476,100.51049],[13.71916,100.51254],[13.72238,100.51306],[13.72681,100.51296]]};
+/* 每天從飯店出發的時間 PRE_AT（null＝用「第一站時間減交通分鐘數」自動算；以 Excel 有寫的為準） */
+const PRE_AT=[null,null,null,null,'08:00',null,null];
 /* 每天最後一段（回飯店）的出發時間 POST_AT */
 const POST_AT=['20:00','23:00','20:00','20:00','20:00','22:30',null];
 /* 熱門景點 SIGHTS：[緯度, 經度, 名稱]；前 CITY.cruiseSights 個在有遊船的那天固定顯示 */
@@ -892,7 +1003,7 @@ const SIGHTS=[[13.7500,100.4913,'大皇宮'],[13.7465,100.4930,'臥佛寺'],[13.
  [13.6975,100.5625,'Bang Krachao 綠肺'],[13.6790,100.5770,'Bang Nam Phueng 水上市場'],[13.6890,100.6630,'Rama IX 公園'],[13.6950,100.6500,'席娜卡琳火車夜市'],[13.6468,100.6800,'Mega Bangna'],
  [13.6283,100.5890,'三頭象博物館'],[13.5390,100.6230,'暹羅古城'],[13.6819,100.7469,'蘇凡納布機場']];
 /* 地點代號→建築模型種類 BT（可用種類見 makeBuilding） */
-const BT={AIR:'terminal',HOTEL:'hotel',CW:'mall',GOANG:'shopPink',DIB:'dib',SONG:'oldrow',KUN:'factory',UOB:'arena',TMP:'market',MOCA:'moca',TN:'shophouse',LAYLAO:'house',SD:'glass',CAR:'square',JEHO:'nightmarket',COOK:'house',TCDC:'postal',W30:'warehouse',ICON:'iconsiam',SOM:'stall',JF:'shophouse',BACC:'bacc'};
+const BT={AIR:'terminal',HOTEL:'hotel',CW:'mall',GOANG:'goang',DIB:'dib',SONG:'songwat',KUN:'kunsthalle',UOB:'emsphere',TMP:'seafood',MOCA:'moca',TN:'thainiyom',LAYLAO:'laylao',SD:'discovery',CAR:'siamsq',JEHO:'chulamarket',COOK:'cook',TCDC:'postal',W30:'warehouse',ICON:'iconsiam',SOM:'somsak',JF:'jayfai',BACC:'bacc'};
 /* 行程表視窗：ITIN 行程明細、XTRA 週曆／彈性地點／注意事項（由 Excel 轉出） */
 const ITIN=[["12/11（五）","06:00–07:00","交通","明德站出發","06:15 捷運明德站 → 台北車站（淡水信義線約 18 分）\n台灣時間","（台灣出發，不需叫車）","",""],["12/11（五）","07:00–08:00","交通","機場捷運直達車","06:40 起從台北車站轉乘至機捷 A1（帶行李步行約 10–15 分）\n約 07:00 直達車 → 機場第一航廈（A12）約 35 分\n約 15 分一班","（台灣出發，不需叫車）","",""],["12/11（五）","08:00–09:00","交通","桃園機場報到","約 07:35 抵達第一航廈\n08:05 前到華航櫃台（起飛前 2 小時）","（台灣出發，不需叫車）","",""],["12/11（五）","10:00–13:00","交通","華航 台北 → 曼谷","10:05 起飛 · 13:05 抵達","（不需叫車）","✓ 已訂","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],["12/11（五）","13:00–15:00","交通","入境・前往飯店","入境後到 B 樓換匯 → 機場快線 Airport Rail Link 到 Makkasan（約 25 分，35 泰銖）→ 連通道轉 MRT Phetchaburi → 1 站到 Sukhumvit（約 20 泰銖）→ 步行 8–10 分到飯店\n全程約 50–60 分","（搭機場快線＋MRT，不需叫車；備案：住宿）","","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],["12/11（五）","15:00–16:00","住宿","入住飯店","Nana 附近","住宿","✓ 已訂","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],["12/11（五）","17:00–18:00","活動","寶可夢中心 探路","17:00 從飯店出發\nBTS Nana → Chit Lom\n空橋直通 centralwOrld 6F\n看徽章庫存與人潮，有貨直接買，順便問補貨日與 12/14 排隊方式","centralwOrld（Pokémon Center 6F）","","https://www.google.com/maps/search/?api=1&query=Pokemon%20Center%20Bangkok%20centralwOrld"],["12/11（五）","18:00–20:00","美食","水門雞飯 晚餐","Go-Ang Pratunam\n米其林指南推薦\n從 centralwOrld 往北步行約 10–15 分到 Phetchaburi Rd\n海南雞飯約 50–60 泰銖\n15:00–22:00\n認明粉紅制服那家\n回程走回 BTS Chit Lom → Nana，或 Grab","（步行即可；備案：Go-Ang Kaomunkai Pratunam, 962 Phetchaburi Rd）","免預約","https://www.google.com/maps/search/?api=1&query=Go-Ang%20Kaomunkai%20Pratunam"],["12/12（六）","10:00–11:00","景點","Dib 當代美術館 Dib Bangkok","Sukhumvit Soi 40\nWHY Architecture 改建倉庫\n10:00 開館\n週二三休\n門票 700 泰銖\n停留約 1 小時\n12 月展覽未公布，換展期間可能閉館，出發前看官網","Dib Bangkok, 111 Soi Sukhumvit 40","現場購票","https://www.google.com/maps/search/?api=1&query=Dib%20Bangkok%20Sukhumvit%2040"],["12/12（六）","11:00–12:00","交通","MRT 前往老城區","11:00 出發\nBTS（Thong Lo／Ekkamai）→ Asok 轉 MRT 藍線 Sukhumvit → Wat Mangkon\n約 40–50 分","（搭 MRT，不需叫車）","","https://www.google.com/maps/search/?api=1&query=Wat%20Mangkon%20MRT%20Station%20Bangkok"],["12/12（六）","12:00–14:00","景點","老城區 嵩越路 Song Wat","MRT Wat Mangkon 1 號出口\n午餐、大象壁畫、Song Wat Lane、咖啡","Song Wat Road（或 MRT Wat Mangkon）","免預約","https://www.google.com/maps/search/?api=1&query=Song%20Wat%20Road%20Bangkok"],["12/12（六）","14:00–15:00","景點","曼谷藝術廳 Bangkok Kunsthalle","舊印刷廠改建當代藝術空間\n14:00 開門\n大多免費\n從嵩越路步行約 15 分\n停留約 1 小時","Bangkok Kunsthalle, 599 Pantachit Alley, Pom Prap","免預約","https://www.google.com/maps/search/?api=1&query=Bangkok%20Kunsthalle"],["12/12（六）","15:00–17:00","住宿","回飯店休息・換裝","MRT Sam Yot → Sukhumvit\n約 30 分","住宿","","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],["12/12（六）","17:00–18:00","美食","Shake Shack 晚餐","17:00 前從飯店出發\nBTS Nana → Phrom Phong 2 站\n6 號出口天橋直通\nEmSphere G 樓入口旁\nShackBurger、薯條、泰國限定斑蘭奶昔\n10:00–22:00\n點餐快，來得及 18:30 入場","（搭 BTS，不需叫車；備案：Shake Shack Emsphere, Sukhumvit Rd）","免預約","https://www.google.com/maps/search/?api=1&query=Shake%20Shack%20Emsphere%20Bangkok"],["12/12（六）","18:00–20:00","活動","VIP STANDING 入場","18:30 到場入場（17:00 開放排隊，18:30 開放 VIP STANDING／SEATED 入場）\n站票依到場順序\nUOB LIVE 有置物櫃","UOB LIVE, EmSphere 6F","","https://www.google.com/maps/search/?api=1&query=UOB%20LIVE%20EmSphere%20Bangkok"],["12/12（六）","20:00–23:00","活動","宋冬野演唱會","20:00 開演\nUOB LIVE\nVIP STANDING","UOB LIVE, EmSphere 6F","✓ 已購票","https://www.google.com/maps/search/?api=1&query=UOB%20LIVE%20EmSphere%20Bangkok"],["12/13（日）","09:00–11:00","美食","吞武里海鮮市場","09:00 從 Nana 搭 Grab（約 40–60 分，附近沒有軌道交通，週日早上路況通常順）\n買海鮮請攤商現場烤／蒸／炒，很多攤免加工費\n當正餐好好吃\n每天 07:00–20:00（週末到 21:00）\nGrab 請認明 Thonburi Market Place，不是 Sanam Luang 2","Thonburi Market Place, 58 Borommaratchachonnani Rd","免預約","https://www.google.com/maps/search/?api=1&query=Thonburi%20Market%20Place%20Borommaratchachonnani%20Rd%20Bangkok"],["12/13（日）","11:00–13:00","交通","前往當代藝術博物館 MOCA","11:30 從海鮮市場出發\n短程 Grab 到淺紅線 Taling Chan 站（約 10–15 分）→ 淺紅線到 Krung Thep Aphiwat → 轉深紅線到 Bang Khen → 步行 5–10 分\n週末班距約 20–30 分\n當天路況順暢也可直接 Grab（約 50–70 分）","Taling Chan Station（SRT 淺紅線）；備案直達：MOCA Bangkok","","https://www.google.com/maps/search/?api=1&query=MOCA%20Bangkok%20Museum%20of%20Contemporary%20Art"],["12/13（日）","13:00–17:00","景點","MOCA 當代藝術博物館","10:00–18:00\n週一休館\n門票 300 泰銖\n共五層","MOCA Bangkok（Museum of Contemporary Art）","現場購票","https://www.google.com/maps/search/?api=1&query=MOCA%20Bangkok%20Museum%20of%20Contemporary%20Art"],["12/13（日）","18:00–20:00","美食","Thai Niyom 晚餐","必比登推介\n泰國各地地方菜，普吉風味豬五花、泰北咖哩麵約 220 泰銖\nPhloen Chit，離 Nana 一站 BTS\n每天 11:00–22:00\n從 MOCA 步行到紅線 Bang Khen → Krung Thep Aphiwat 轉 MRT 藍線 → Chatuchak Park 轉 BTS Mo Chit → Phloen Chit（避開週日傍晚塞車）\n飯後 BTS 一站回 Nana","（搭紅線＋MRT＋BTS，不需叫車；備案：Thai Niyom, Phloen Chit）","免預約","https://www.google.com/maps/search/?api=1&query=Thai%20Niyom%20Bangkok%20Phloen%20Chit"],["12/14（一）","08:00–10:00","交通","抵達 centralwOrld 排隊","08:00 到場排隊（開門前 2 小時）\n商場未開門，依現場／官方指示的排隊位置\n若 12/14 是新品上架日或需預約，依 12/11 探路時問到的資訊調整\n帶水、行動電源","centralwOrld, Ratchadamri Rd","","https://www.google.com/maps/search/?api=1&query=centralwOrld%20Bangkok"],["12/14（一）","10:00–12:00","活動","寶可夢中心 Pokémon Center","centralwOrld 6F C604/2\n12/1 開幕\n10:00–22:00\n限定徽章\n可能限制入店人數","centralwOrld（Pokémon Center 6F）","排隊方式待公布","https://www.google.com/maps/search/?api=1&query=Pokemon%20Center%20Bangkok%20centralwOrld"],["12/14（一）","12:00–14:00","美食","Lay Lao 午餐","11:45 離開寶可夢中心\nBTS Chit Lom → Ari（約 15 分）\n出站步行 5–10 分\n米其林推薦寮國／伊森菜\n一人點 2 道菜＋糯米飯\n很辣，不吃辣說 mai phet\n10:30–22:00\n平日午餐上班族多，盡量 12:00 前到\n吃完 BTS Ari → Siam，約 13:45 到 Siam Discovery","（搭 BTS 到 Ari，不需叫車；備案：Lay Lao, 65 Soi Phahon Yothin 7）","免預約","https://www.google.com/maps/search/?api=1&query=Lay%20Lao%20Ari%20Bangkok"],["12/14（一）","14:00–16:00","景點","暹羅探索百貨 Siam Discovery・ODS／DEmark","約 13:45 從 BTS Siam 抵達\nODS 3F 家居設計、DEmark 泰國得獎設計","Siam Discovery","免預約","https://www.google.com/maps/search/?api=1&query=Siam%20Discovery%20Bangkok"],["12/14（一）","16:00–18:00","景點","Siam Square 服飾選物","CARNIVAL（Soi 7）、Loft Eyes（Soi 2）、Frank! Garçon（Siam Center 1F）\n逛完步行約 10–15 分到朱拉隆功夜市","Siam Square（步行即可）","免預約","https://www.google.com/maps/search/?api=1&query=Siam%20Square%20Bangkok"],["12/14（一）","18:00–20:00","美食","朱拉隆功夜市 Bhantat Thong","從 Siam Square 步行約 10–15 分\n必吃 Jeh O Chula（必比登推介，招牌冬陰功泡麵鍋，常大排長龍）\n另有 50 多攤泰式小吃，一道約 40–150 泰銖\n18:00–21:00 最擠\n回程步行約 10 分到 MRT Sam Yan → Sukhumvit 直達","Bhantat Thong Road（Chulalongkorn）","免預約","https://www.google.com/maps/search/?api=1&query=Bhantat%20Thong%20Road%20Chulalongkorn%20Bangkok"],["12/15（二）","08:00–09:00","交通","前往席隆廚藝教室","BTS Nana → Siam 轉 Silom 線 → Chong Nonsi 3 號出口\n08:45 前到（9:00 後到會跳過市場導覽）","Silom Thai Cooking School, 6/14 Decho Road","","https://www.google.com/maps/search/?api=1&query=Silom%20Thai%20Cooking%20School%206/14%20Decho%20Road%20Bangkok"],["12/15（二）","09:00–12:00","活動","泰式烹飪課","席隆廚藝教室 Silom Thai Cooking School\n6/14 Decho Rd（Luxx Silom 旁）\n09:00–12:00 含市場導覽\n5 道泰菜\n早課","Silom Thai Cooking School, 6/14 Decho Road","✓ 已訂","https://www.google.com/maps/search/?api=1&query=Silom%20Thai%20Cooking%20School%206/14%20Decho%20Road%20Bangkok"],["12/15（二）","13:00–15:00","景點","TCDC 泰國創意設計中心","從烹飪教室步行約 15 分（約 1 公里）\n材料圖書館\n設計圖書館\n週一休館\n資源中心 100 泰銖","（步行即可；備案：TCDC, Grand Postal Building, 1160 Charoen Krung Rd）","免預約","https://www.google.com/maps/search/?api=1&query=TCDC%20Thailand%20Creative%20Design%20Center%20Grand%20Postal%20Building"],["12/15（二）","15:00–16:00","景點","30 號倉庫 Warehouse 30","Charoen Krung\n倉庫改建選物\n書店\n咖啡","Warehouse 30, Charoen Krung Soi 30","免預約","https://www.google.com/maps/search/?api=1&query=Warehouse%2030%20Charoen%20Krung%20Bangkok"],["12/15（二）","16:00–17:00","景點","回收材家具工坊 P Tendercool","Charoen Krung Soi 30\n回收木料／金屬家具\n出發前先聯絡預約工坊參觀","P Tendercool, Charoen Krung Soi 30","工坊參觀需預約","https://www.google.com/maps/search/?api=1&query=P%20Tendercool%20Charoen%20Krung%2030%20Bangkok"],["12/15（二）","17:00–18:00","景點","暹羅天地 ICONSIAM","從 Si Phraya 碼頭搭渡輪到 Pier 4（8 泰銖，09:30–22:30）\nICONCRAFT 4–5F\n約 17:40 離開","ICONSIAM","免預約","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Bangkok"],["12/15（二）","18:00–20:00","美食","Somsak Pu Ob 晚餐","必比登推介\n螃蟹／蝦子冬粉煲\nKhlong San（近 BTS Wongwian Yai），從 ICONSIAM 搭金線到 Krung Thon Buri → BTS 一站到 Wongwian Yai → 步行約 8 分\n週二至週日 16:00–21:30\n熱門可能要排隊\n回程 BTS Wongwian Yai → Siam 轉 → Nana","（搭金線＋BTS，不需叫車；備案：Somsak Pu Ob, Lat Ya Rd, Khlong San）","免預約","https://www.google.com/maps/search/?api=1&query=Somsak%20Pu%20Ob%20Bangkok"],["12/16（三）","07:00–09:00","美食","痣姐熱炒 Jay Fai","06:15 從飯店步行到 MRT Sukhumvit → 藍線直達 Sam Yot（約 25 分）→ 步行約 10 分\n07:00 到場登記候位","（搭 MRT 藍線到 Sam Yot，不需叫車；備案：Raan Jay Fai, Maha Chai Rd）","免預約","https://www.google.com/maps/search/?api=1&query=Raan%20Jay%20Fai%20Bangkok"],["12/16（三）","09:00–11:00","美食","開門用餐","蟹肉蛋捲\n醉麵\n炸蝦春捲","Raan Jay Fai, Maha Chai Rd","","https://www.google.com/maps/search/?api=1&query=Raan%20Jay%20Fai%20Bangkok"],["12/16（三）","11:00–14:00","住宿","回飯店休息","步行回 MRT Sam Yot → Sukhumvit 直達\n約 25 分","（搭 MRT，不需叫車；備案：住宿）","","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],["12/16（三）","14:00–17:00","景點","BACC 曼谷藝術文化中心","週二至週日 10:00–20:00（週一休）\n免費入場\nBTS National Stadium 天橋直通\n館內 Gallery Drip Coffee 手沖咖啡","Bangkok Art and Culture Centre (BACC), 939 Rama I Rd","免預約","https://www.google.com/maps/search/?api=1&query=Bangkok%20Art%20and%20Culture%20Centre"],["12/16（三）","17:00–18:00","交通","前往 ICONSIAM","約 17:00 出發\nBTS National Stadium → Siam 轉 Silom 線 → Krung Thon Buri 轉金線 → Charoen Nakhon\n約 40 分","（搭 BTS＋金線，不需叫車；趕時間可叫 Grab 到 ICONSIAM）","","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Pier%204%20Bangkok"],["12/16（三）","18:00–20:00","交通","ICONSIAM 4 號碼頭報到","18:30–19:50\n最晚 19:40 到","ICONSIAM（下車後步行到 Pier 4）","","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Pier%204%20Bangkok"],["12/16（三）","20:00–23:00","景點","超級銀河號晚餐遊船","20:00–22:30\n3 樓露天屋頂座位","ICONSIAM（Pier 4）","✓ 已訂","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Pier%204%20Bangkok"],["12/17（四）","07:00–08:00","交通","離開飯店","07:00 出發（週四早上尖峰前）\n步行到 MRT Sukhumvit → Phetchaburi → 轉機場快線 Makkasan → 機場，約 60 泰銖\n約 08:00 抵達\n行李前晚整理好","（搭 MRT＋機場快線，不需叫車；備案：Suvarnabhumi Airport (BKK)）","","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],["12/17（四）","08:00–10:00","交通","機場報到・出境","","Suvarnabhumi Airport (BKK)","","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],["12/17（四）","10:00–16:00","交通","華航 曼谷 → 台北","10:55 起飛 · 15:25 抵達","（不需叫車）","✓ 已訂","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"]];
 const XTRA={"cal":{"days":[["12/11","週五"],["12/12","週六"],["12/13","週日"],["12/14","週一"],["12/15","週二"],["12/16","週三"],["12/17","週四"]],"ev":[[0,6,1,"明德站出發","MRT Mingde","交通","明德站出發\n06:15 捷運明德站 → 台北車站（淡水信義線約 18 分）・台灣時間",""],[0,7,1,"機捷直達車","Airport MRT","交通","機場捷運直達車\n06:40 起從台北車站轉乘至機捷 A1（帶行李步行約 10–15 分）・約 07:00 直達車 → 機場第一航廈（A12）約 35 分・約 15 分一班",""],[5,7,2,"痣姐熱炒 排隊","Jay Fai","美食","痣姐熱炒 Jay Fai\n06:15 從飯店步行到 MRT Sukhumvit → 藍線直達 Sam Yot（約 25 分）→ 步行約 10 分・07:00 到場登記候位\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Raan%20Jay%20Fai%20Bangkok"],[6,7,1,"離開飯店","Check-out","交通","離開飯店\n07:00 出發（週四早上尖峰前）・步行到 MRT Sukhumvit → Phetchaburi → 轉機場快線 Makkasan → 機場，約 60 泰銖・約 08:00 抵達・行李前晚整理好","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],[0,8,1,"桃機報到","TPE T1","交通","桃園機場報到\n約 07:35 抵達第一航廈・08:05 前到華航櫃台（起飛前 2 小時）",""],[3,8,2,"08:00 排隊","centralwOrld Queue","交通","抵達 centralwOrld 排隊\n08:00 到場排隊（開門前 2 小時）・商場未開門，依現場／官方指示的排隊位置・若 12/14 是新品上架日或需預約，依 12/11 探路時問到的資訊調整・帶水、行動電源","https://www.google.com/maps/search/?api=1&query=centralwOrld%20Bangkok"],[4,8,1,"→ 烹飪教室","BTS Chong Nonsi","交通","前往席隆廚藝教室\nBTS Nana → Siam 轉 Silom 線 → Chong Nonsi 3 號出口・08:45 前到（9:00 後到會跳過市場導覽）","https://www.google.com/maps/search/?api=1&query=Silom%20Thai%20Cooking%20School%206/14%20Decho%20Road%20Bangkok"],[6,8,2,"機場報到","BKK Check-in","交通","機場報到・出境","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],[2,9,2,"吞武里海鮮市場","Thonburi Market Place","美食","吞武里海鮮市場\n09:00 從 Nana 搭 Grab（約 40–60 分，附近沒有軌道交通，週日早上路況通常順）・買海鮮請攤商現場烤／蒸／炒，很多攤免加工費・當正餐好好吃・每天 07:00–20:00（週末到 21:00）・Grab 請認明 Thonburi Market Place，不是 Sanam Luang 2\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Thonburi%20Market%20Place%20Borommaratchachonnani%20Rd%20Bangkok"],[4,9,3,"泰式烹飪課","Silom Thai Cooking School","活動","泰式烹飪課\n席隆廚藝教室 Silom Thai Cooking School・6/14 Decho Rd（Luxx Silom 旁）・09:00–12:00 含市場導覽・5 道泰菜・早課\n狀態：✓ 已訂","https://www.google.com/maps/search/?api=1&query=Silom%20Thai%20Cooking%20School%206/14%20Decho%20Road%20Bangkok"],[5,9,2,"痣姐熱炒 用餐","Jay Fai","美食","開門用餐\n蟹肉蛋捲・醉麵・炸蝦春捲","https://www.google.com/maps/search/?api=1&query=Raan%20Jay%20Fai%20Bangkok"],[0,10,3,"✈ 台北 → 曼谷","CI Taipei → Bangkok","交通","華航 台北 → 曼谷\n10:05 起飛 · 13:05 抵達\n狀態：✓ 已訂","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],[1,10,1,"Dib 當代美術館","Dib Bangkok","景點","Dib 當代美術館 Dib Bangkok\nSukhumvit Soi 40・WHY Architecture 改建倉庫・10:00 開館・週二三休・門票 700 泰銖・停留約 1 小時・12 月展覽未公布，換展期間可能閉館，出發前看官網\n狀態：現場購票","https://www.google.com/maps/search/?api=1&query=Dib%20Bangkok%20Sukhumvit%2040"],[3,10,2,"寶可夢中心","Pokémon Center","活動","寶可夢中心 Pokémon Center\ncentralwOrld 6F C604/2・12/1 開幕・10:00–22:00・限定徽章・可能限制入店人數\n狀態：排隊方式待公布","https://www.google.com/maps/search/?api=1&query=Pokemon%20Center%20Bangkok%20centralwOrld"],[6,10,6,"✈ 曼谷 → 台北","CI Bangkok → Taipei","交通","華航 曼谷 → 台北\n10:55 起飛 · 15:25 抵達\n狀態：✓ 已訂","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],[1,11,1,"→ 老城區","MRT to Wat Mangkon","交通","MRT 前往老城區\n11:00 出發・BTS（Thong Lo／Ekkamai）→ Asok 轉 MRT 藍線 Sukhumvit → Wat Mangkon・約 40–50 分","https://www.google.com/maps/search/?api=1&query=Wat%20Mangkon%20MRT%20Station%20Bangkok"],[2,11,2,"→ 當代藝術館","Rail to MOCA","交通","前往當代藝術博物館 MOCA\n11:30 從海鮮市場出發・短程 Grab 到淺紅線 Taling Chan 站（約 10–15 分）→ 淺紅線到 Krung Thep Aphiwat → 轉深紅線到 Bang Khen → 步行 5–10 分・週末班距約 20–30 分・當天路況順暢也可直接 Grab（約 50–70 分）","https://www.google.com/maps/search/?api=1&query=MOCA%20Bangkok%20Museum%20of%20Contemporary%20Art"],[5,11,3,"回飯店休息","Hotel","住宿","回飯店休息\n步行回 MRT Sam Yot → Sukhumvit 直達・約 25 分","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],[1,12,2,"嵩越路","Song Wat Road","景點","老城區 嵩越路 Song Wat\nMRT Wat Mangkon 1 號出口・午餐、大象壁畫、Song Wat Lane、咖啡\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Song%20Wat%20Road%20Bangkok"],[3,12,2,"Lay Lao 午餐","Ari","美食","Lay Lao 午餐\n11:45 離開寶可夢中心・BTS Chit Lom → Ari（約 15 分）・出站步行 5–10 分・米其林推薦寮國／伊森菜・一人點 2 道菜＋糯米飯・很辣，不吃辣說 mai phet・10:30–22:00・平日午餐上班族多，盡量 12:00 前到・吃完 BTS Ari → Siam，約 13:45 到 Siam Discovery\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Lay%20Lao%20Ari%20Bangkok"],[0,13,2,"入境・到飯店","BKK → Nana","交通","入境・前往飯店\n入境後到 B 樓換匯 → 機場快線 Airport Rail Link 到 Makkasan（約 25 分，35 泰銖）→ 連通道轉 MRT Phetchaburi → 1 站到 Sukhumvit（約 20 泰銖）→ 步行 8–10 分到飯店・全程約 50–60 分","https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport%20Bangkok"],[2,13,4,"當代藝術博物館","MOCA Bangkok","景點","MOCA 當代藝術博物館\n10:00–18:00・週一休館・門票 300 泰銖・共五層\n狀態：現場購票","https://www.google.com/maps/search/?api=1&query=MOCA%20Bangkok%20Museum%20of%20Contemporary%20Art"],[4,13,2,"泰國創意設計中心","TCDC","景點","TCDC 泰國創意設計中心\n從烹飪教室步行約 15 分（約 1 公里）・材料圖書館・設計圖書館・週一休館・資源中心 100 泰銖\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=TCDC%20Thailand%20Creative%20Design%20Center%20Grand%20Postal%20Building"],[1,14,1,"曼谷藝術廳","Bangkok Kunsthalle","景點","曼谷藝術廳 Bangkok Kunsthalle\n舊印刷廠改建當代藝術空間・14:00 開門・大多免費・從嵩越路步行約 15 分・停留約 1 小時\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Bangkok%20Kunsthalle"],[3,14,2,"暹羅探索百貨","Siam Discovery","景點","暹羅探索百貨 Siam Discovery・ODS／DEmark\n約 13:45 從 BTS Siam 抵達・ODS 3F 家居設計、DEmark 泰國得獎設計\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Siam%20Discovery%20Bangkok"],[5,14,3,"曼谷藝術文化中心","BACC","景點","BACC 曼谷藝術文化中心\n週二至週日 10:00–20:00（週一休）・免費入場・BTS National Stadium 天橋直通・館內 Gallery Drip Coffee 手沖咖啡\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Bangkok%20Art%20and%20Culture%20Centre"],[0,15,1,"入住飯店","Hotel","住宿","入住飯店\nNana 附近\n狀態：✓ 已訂","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],[1,15,2,"回飯店休息","Hotel","住宿","回飯店休息・換裝\nMRT Sam Yot → Sukhumvit・約 30 分","https://www.google.com/maps/search/?api=1&query=BTS%20Nana%20Station%20Bangkok"],[4,15,1,"30 號倉庫","Warehouse 30","景點","30 號倉庫 Warehouse 30\nCharoen Krung・倉庫改建選物・書店・咖啡\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Warehouse%2030%20Charoen%20Krung%20Bangkok"],[3,16,2,"Siam Square 服飾","CARNIVAL・Loft Eyes","景點","Siam Square 服飾選物\nCARNIVAL（Soi 7）、Loft Eyes（Soi 2）、Frank! Garçon（Siam Center 1F）・逛完步行約 10–15 分到朱拉隆功夜市\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Siam%20Square%20Bangkok"],[4,16,1,"回收材家具工坊","P Tendercool","景點","回收材家具工坊 P Tendercool\nCharoen Krung Soi 30・回收木料／金屬家具・出發前先聯絡預約工坊參觀\n狀態：工坊參觀需預約","https://www.google.com/maps/search/?api=1&query=P%20Tendercool%20Charoen%20Krung%2030%20Bangkok"],[0,17,1,"寶可夢中心 探路","Pokémon Center","活動","寶可夢中心 探路\n17:00 從飯店出發・BTS Nana → Chit Lom・空橋直通 centralwOrld 6F・看徽章庫存與人潮，有貨直接買，順便問補貨日與 12/14 排隊方式","https://www.google.com/maps/search/?api=1&query=Pokemon%20Center%20Bangkok%20centralwOrld"],[1,17,1,"Shake Shack 晚餐","EmSphere","美食","Shake Shack 晚餐\n17:00 前從飯店出發・BTS Nana → Phrom Phong 2 站・6 號出口天橋直通・EmSphere G 樓入口旁・ShackBurger、薯條、泰國限定斑蘭奶昔・10:00–22:00・點餐快，來得及 18:30 入場\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Shake%20Shack%20Emsphere%20Bangkok"],[4,17,1,"暹羅天地","ICONSIAM","景點","暹羅天地 ICONSIAM\n從 Si Phraya 碼頭搭渡輪到 Pier 4（8 泰銖，09:30–22:30）・ICONCRAFT 4–5F・約 17:40 離開\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Bangkok"],[5,17,1,"→ ICONSIAM","BTS + Gold Line","交通","前往 ICONSIAM\n約 17:00 出發・BTS National Stadium → Siam 轉 Silom 線 → Krung Thon Buri 轉金線 → Charoen Nakhon・約 40 分","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Pier%204%20Bangkok"],[0,18,2,"Go-Ang 雞飯 晚餐","Pratunam","美食","水門雞飯 晚餐\nGo-Ang Pratunam・米其林指南推薦・從 centralwOrld 往北步行約 10–15 分到 Phetchaburi Rd・海南雞飯約 50–60 泰銖・15:00–22:00・認明粉紅制服那家・回程走回 BTS Chit Lom → Nana，或 Grab\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Go-Ang%20Kaomunkai%20Pratunam"],[1,18,2,"VIP 站票入場","Entry 18:30","活動","VIP STANDING 入場\n18:30 到場入場（17:00 開放排隊，18:30 開放 VIP STANDING／SEATED 入場）・站票依到場順序・UOB LIVE 有置物櫃","https://www.google.com/maps/search/?api=1&query=UOB%20LIVE%20EmSphere%20Bangkok"],[2,18,2,"Thai Niyom 晚餐","Phloen Chit","美食","Thai Niyom 晚餐\n必比登推介・泰國各地地方菜，普吉風味豬五花、泰北咖哩麵約 220 泰銖・Phloen Chit，離 Nana 一站 BTS・每天 11:00–22:00・從 MOCA 步行到紅線 Bang Khen → Krung Thep Aphiwat 轉 MRT 藍線 → Chatuchak Park 轉 BTS Mo Chit → Phloen Chit（避開週日傍晚塞車）・飯後 BTS 一站回 Nana\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Thai%20Niyom%20Bangkok%20Phloen%20Chit"],[3,18,2,"朱拉隆功夜市","Bhantat Thong・Jeh O Chula","美食","朱拉隆功夜市 Bhantat Thong\n從 Siam Square 步行約 10–15 分・必吃 Jeh O Chula（必比登推介，招牌冬陰功泡麵鍋，常大排長龍）・另有 50 多攤泰式小吃，一道約 40–150 泰銖・18:00–21:00 最擠・回程步行約 10 分到 MRT Sam Yan → Sukhumvit 直達\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Bhantat%20Thong%20Road%20Chulalongkorn%20Bangkok"],[4,18,2,"Somsak Pu Ob 晚餐","Khlong San","美食","Somsak Pu Ob 晚餐\n必比登推介・螃蟹／蝦子冬粉煲・Khlong San（近 BTS Wongwian Yai），從 ICONSIAM 搭金線到 Krung Thon Buri → BTS 一站到 Wongwian Yai → 步行約 8 分・週二至週日 16:00–21:30・熱門可能要排隊・回程 BTS Wongwian Yai → Siam 轉 → Nana\n狀態：免預約","https://www.google.com/maps/search/?api=1&query=Somsak%20Pu%20Ob%20Bangkok"],[5,18,2,"碼頭報到","ICONSIAM Pier 4","交通","ICONSIAM 4 號碼頭報到\n18:30–19:50・最晚 19:40 到","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Pier%204%20Bangkok"],[1,20,3,"宋冬野演唱會","Song Dongye Live","活動","宋冬野演唱會\n20:00 開演・UOB LIVE・VIP STANDING\n狀態：✓ 已購票","https://www.google.com/maps/search/?api=1&query=UOB%20LIVE%20EmSphere%20Bangkok"],[5,20,3,"超級銀河號遊船","Royal Galaxy Cruise","景點","超級銀河號晚餐遊船\n20:00–22:30・3 樓露天屋頂座位\n狀態：✓ 已訂","https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Pier%204%20Bangkok"]]},"flex":[{"t":"夜市・市集","rows":[["Bang Yai Market 邦艾市場","暖武里府・MRT 紫線 Talad Bang Yai","06:00–18:00","在地大型市場：服飾、家用品、泰絲與手作、小吃、熱帶水果","12/12 上午","https://www.google.com/maps/search/?api=1&query=Bang%20Yai%20Market%20Nonthaburi"],["吞武里海鮮市場 Thonburi Market Place","Borommaratchachonnani Rd・Grab 約 40–50 分","07:00–20:00（週末到 21:00）","買海鮮請攤商現場烤、蒸、炒，很多攤免加工費；還有小吃、甜點","已排入 12/13 上午","https://www.google.com/maps/search/?api=1&query=Thonburi%20Market%20Place%20Borommaratchachonnani%20Rd%20Bangkok"],["朱拉隆功夜市 Bhantat Thong Rd（บรรทัดทอง）","Bhantat Thong Rd・MRT Sam Yan／BTS National Stadium","16:00–00:00","50 多攤泰式小吃：烤豬肉串、粥、Jeh O Chula、Elvis Suki、蛋塔，一道約 40–150 泰銖","已排入 12/14 晚上","https://www.google.com/maps/search/?api=1&query=Bhantat%20Thong%20Road%20Chulalongkorn%20Bangkok"]]},{"t":"咖啡店","rows":[["Bask Project","Sukhumvit 49 巷口，BTS Thong Lo 附近","每天 10:00–17:30","藝術感極簡風咖啡店，咖啡和甜點","12/13、12/14","https://www.google.com/maps/search/?api=1&query=Bask%20Project%20883/3%20Sukhumvit%20Rd%20Bangkok"],["White Flower Cafe","Chula Soi 40（Bantadthong 一帶）・MRT Sam Yan 步行約 15 分","每天 09:00–21:00","兩層樓早午餐咖啡廳，Google 4.8；松露火腿起司三明治、千層麵、抹茶；櫃台點餐","12/14 下午：朱拉隆功夜市旁，逛完 Siam Square 或夜市前休息","https://www.google.com/maps/search/?api=1&query=White%20Flower%20Cafe%20Chula%20Soi%2040%20Bangkok"]]},{"t":"文青選物・設計品牌","rows":[["ODS Objects of Desire Store","Siam Discovery 3F・BTS Siam","商場營業時間","130 多個家居、生活設計品牌，最接近 Plain Me 的選物店","已排入 12/14 下午","https://www.google.com/maps/search/?api=1&query=ODS%20Objects%20of%20Desire%20Store%20Siam%20Discovery"],["The Selected","Siam Center 1F・BTS Siam（與 Siam Discovery 相連）","商場營業時間","泰國在地品牌多品牌選物：服飾、包包、文具、香氛、保養、茶（Yay、Repleat 等）","12/14 逛 Siam Discovery 時順路","https://www.google.com/maps/search/?api=1&query=The%20Selected%20Siam%20Center"],["Absolute Siam Store","Siam Center 1F","商場營業時間","泰國設計師商品與伴手禮，品牌輪替","12/14 逛 Siam Discovery 時順路","https://www.google.com/maps/search/?api=1&query=Absolute%20Siam%20Store%20Siam%20Center"],["Propaganda","舊資料：Siam Discovery 4F（出發前確認）","商場營業時間","泰國老牌產品設計品牌，幽默造型小物，適合當伴手禮","12/14 逛 Siam Discovery 時順路","https://www.google.com/maps/search/?api=1&query=Propaganda%20Bangkok%20design%20store"],["Qualy","舊資料：旗艦店在 Asiatique（出發前確認）","出發前確認","以自然為靈感的可愛居家用品","有空檔再去","https://www.google.com/maps/search/?api=1&query=Qualy%20design%20store%20Bangkok"],["ICONCRAFT","ICONSIAM 4–5F","商場營業時間","泰國職人手工藝：織品、陶瓷","已排入 12/15 傍晚（ICONSIAM）","https://www.google.com/maps/search/?api=1&query=ICONCRAFT%20ICONSIAM"]]},{"t":"服飾選物","rows":[["Frank! Garçon","Siam Center 1F／EmSphere 1F","商場營業時間","中性風格男女服飾，「泰版 Popeye」城市戶外風","12/14 Siam／12/12 EmSphere 晚餐前","https://www.google.com/maps/search/?api=1&query=Frank%20Garcon%20Siam%20Center"],["CARNIVAL","Siam Square Soi 7・BTS Siam","11:00–21:00","球鞋與街頭服飾（Nike、Stüssy、Carhartt WIP），常是限量首發通路","12/14 逛完 Siam Discovery 過馬路","https://www.google.com/maps/search/?api=1&query=Carnival%20Siam%20Square%20Soi%207"],["Loft Eyes","Siam Square Soi 2","11:00–21:00","泰國新銳設計師男女服飾、包鞋與飾品，旗艦店四層樓","12/14 Siam Square","https://www.google.com/maps/search/?api=1&query=Loft%20Eyes%20Siam%20Square"],["TRES.","Siam Square Soi 5","平日 12:00–21:00／週末 11:00–21:00","80 多個韓系簡約女裝品牌","12/14 Siam Square","https://www.google.com/maps/search/?api=1&query=TRES%20Siam%20Square%20Soi%205"],["Comma And","centralwOrld 1F I 區","10:00–22:00","約 70 個泰國設計師與各國潮牌，常有快閃","12/11 晚上或 12/14 早上","https://www.google.com/maps/search/?api=1&query=Comma%20And%20centralwOrld"],["Another Story","EmSphere M 樓・BTS Phrom Phong","10:00–22:00","泰國與國際設計師服飾，也有文具、香氛","12/12 EmSphere 晚餐前","https://www.google.com/maps/search/?api=1&query=Another%20Story%20EmSphere"],["Garçon Dept.","嵩越路 Song Wat Rd／Siam Square Soi 2","10:00–19:00","亞洲與泰國品牌服飾選物","12/12 逛嵩越路時順路","https://www.google.com/maps/search/?api=1&query=Garcon%20Department%20Song%20Wat%20Bangkok"],["onion","Ekamai／The Mansion（Sukhumvit 31）","出發前確認","男性復古街頭與潮流服飾，單價偏高","12/12 早上 Dib 附近（Ekamai）","https://www.google.com/maps/search/?api=1&query=onion%20store%20Ekamai%20Bangkok"],["HIDE.","Ari Soi 5・BTS Ari","週二至週日 12:00–19:00（週一休）","日系風格選品：泰國設計師服飾、皮鞋、包包","有空檔再去","https://www.google.com/maps/search/?api=1&query=HIDE%20Ari%20Soi%205%20Bangkok"]]},{"t":"EmSphere 餐廳","rows":[["CO LIMITED","EmSphere GM 樓・BTS Phrom Phong","11:00–22:00","泰式中菜：蛋包河粉、蟹肉炒飯、檸檬雞・Google 4.7・曾入選米其林","12/12 晚餐備案","https://www.google.com/maps/search/?api=1&query=CO%20LIMITED%20emSphere%20Bangkok"],["Napha","EmSphere GM 樓","10:00–22:00","多位泰國名廚食譜：奶油冬陰功鍋、蟹肉冬粉、炸雞・Google 4.7","12/12 晚餐備案","https://www.google.com/maps/search/?api=1&query=Napha%20Emsphere%20Bangkok"],["CharoenGang（เจริญแกง）","EmSphere G 樓","10:00–22:00","南部咖哩飯，櫃台自選，飯加三樣約 185 泰銖・上菜最快","12/12 趕時間時","https://www.google.com/maps/search/?api=1&query=CharoenGang%20EmSphere"],["Rongklang Nua 牛肉麵","EmSphere G 樓","10:00–22:00","牛肉麵，上菜快・評價兩極，刷卡加收 4%","不太推薦","https://www.google.com/maps/search/?api=1&query=Rongklannuea%20Emsphere"]]}],"notes":[{"k":"sub","t":"12/11（五）– 12/17（四）・常見的坑、詐騙與待辦提醒"},{"k":"h2","t":"出發前要完成的事"},{"k":"p","t":"這趟最容易踩的坑，是錯過期限和忘記預約。"},{"k":"chk","t":"TDAC 泰國數位入境卡：抵達前 3 天內才能填（約 12/8 起），建議 12/9 填好；只用官網 tdac.immigration.go.th，免費，收費的代辦網站都不要用"},{"k":"chk","t":"聯絡 P. Tendercool 預約 12/15 下午的工坊參觀（沒預約可能進不去）"},{"k":"chk","t":"12/12 前看 Dib 官網，確認沒有換展閉館"},{"k":"chk","t":"追蹤寶可夢中心官網 th.portal-pokemon.com/shop/：排隊或線上登記方式、限購規則、補貨日"},{"k":"chk","t":"免費取消期限（曼谷時間）：烹飪課 12/14 00:00、超級銀河號 12/15 00:00（台灣時間各加 1 小時）"},{"k":"chk","t":"信用卡開通海外交易，帶一張有感應功能的 Visa 或 Mastercard（MRT 可以直接刷）"},{"k":"chk","t":"拍下護照、機票、飯店訂房資料存在手機裡，實體護照影本另放一份"},{"k":"chk","t":"帶口罩：12 月是曼谷 PM2.5 容易偏高的季節"},{"k":"chk","t":"信用卡客服電話、駐泰國台北經濟文化辦事處緊急聯絡電話存進手機"},{"k":"h2","t":"抵達與機場"},{"k":"p","t":"入境後直接下到 B 樓，換匯、搭機場快線都在那裡，其他人招攬一律不理。"},{"k":"li","t":"航班：時間皆為當地時間，假設在蘇凡納布機場（BKK）起降，以航班確認信為準"},{"k":"li","t":"進城路線：B 樓 SuperRich 換泰銖（帶護照）→ 機場快線到 Makkasan → 連通道轉 MRT Phetchaburi → 1 站到 Sukhumvit → 步行到飯店"},{"k":"li","t":"回程 12/17：週四早上通勤尖峰，帶行李不好擠車，07:00 出門，路線反過來走"},{"k":"table","head":["可能遇到的狀況","怎麼應對"],"rows":[["入境大廳有人主動問「Taxi? Hotel?」","不理會。你搭機場快線，就算要搭計程車也只從 1 樓官方排班點抽號"],["入境大廳的換匯櫃檯匯率很差","只先換小額，或直接到 B 樓 SuperRich（要帶護照）"],["有人說 TDAC 沒填要現場付費代辦","TDAC 是免費的，出發前就填好，把確認頁截圖存著"],["機場快線售票機排隊","先看清楚是到 Makkasan，不是 Phaya Thai；可以到人工窗口買"],["機場販賣 SIM 卡的人在入境前就攔人","要買就到 AIS、True 等電信公司自己的櫃檯，或出發前買好 eSIM"]]},{"k":"h2","t":"交通"},{"k":"p","t":"區分清楚哪種車用什麼付款，要叫車只用 Grab，就能避開大部分交通的坑。"},{"k":"table","head":["交通","付款方式","要注意的"],"rows":[["BTS（淺綠、深綠線）、金線","兔子卡（12/11 在 BTS Nana 站買，200 泰銖，要護照）","兔子卡不能搭 MRT 和紅線；儲值只能在 BTS 站人工窗口用現金"],["MRT 藍線","感應式信用卡直接刷，或買單程代幣","進出站要用同一張卡"],["機場快線、紅線","單程票或代幣","紅線週末約 20–30 分一班；12/13 路況順暢的話，海鮮市場到 MOCA 直接叫 Grab 可能比較快"],["接駁船（Si Phraya → ICONSIAM）","現金 8 泰銖","就在 Si Phraya 碼頭上船，不要買碼頭那些貴的「觀光船」"],["Grab","綁信用卡或現金","上車前核對車牌、司機名字；司機要你取消訂單改付現金時不要答應"]]},{"k":"li","t":"不搭嘟嘟車和路邊計程車：觀光區的計程車常不跳表、單口開價，嘟嘟車也一樣。非叫車不可時，只用 Grab"},{"k":"li","t":"叫 Grab 的地點：ICONSIAM、痣姐熱炒、朱拉隆功夜市一帶叫車人多，按照 App 的上車點等，別跟著主動來問的司機走"},{"k":"li","t":"末班車：BTS、MRT 大約午夜前收班。12/16 遊船 22:30 下船後搭金線轉 BTS，23:30 前要上車，不然就叫 Grab"},{"k":"h2","t":"各行程重點"},{"k":"li","t":"宋冬野演唱會：VIP STANDING 已購票（Thaiticketmajor）；17:00 開放排隊、18:30 入場，站票依到場順序；場內不能帶水；入場規則見 bit.ly/SongDongyeBKK26"},{"k":"li","t":"寶可夢中心：12/1 開幕，centralwOrld 6F，10:00–22:00；紀念商品 20 多款每週輪替，可能限制入店人數；12/11 探路時問清楚 12/14 怎麼排"},{"k":"li","t":"烹飪課：地址 6/14 Decho Road（Luxx Silom 旁），不是 Silom Soi 13 那間；BTS Chong Nonsi 3 號出口步行，要叫 Grab 再出示憑證上的泰文地址"},{"k":"li","t":"痣姐熱炒：週三至週六營業、不接受訂位，偶爾臨時休息，前一天看官方社群；沒開的備案：12/11 落地後下午（營業到 19:30）或 12/12 上午（需取消 Dib）"},{"k":"li","t":"超級銀河號：遲到或未出席不退款；18:30–19:50 在 ICONSIAM 4 號碼頭報到；隔天 07:00 出門，前一晚整理好行李"},{"k":"li","t":"外送：用 Grab／LINE MAN 點，送到飯店大廳下樓拿，適合 12/12 下午回飯店休息時"},{"k":"li2","t":"Puponfai：焗烤大蝦、蟹肉炒飯；有些時段 App 上找不到，要傳 Instagram 私訊訂"},{"k":"li2","t":"CHOONGMAN CHICKEN：無骨韓式炸雞，招牌雪花洋蔥口味"},{"k":"h2","t":"依日期的提醒"},{"k":"p","t":"重點在老城區的搭訕、市場的秤重計價，和人多的地方注意手機。"},{"k":"table","head":["日期","地點","可能的坑","怎麼做"],"rows":[["12/11","住宿一帶（Nana）","飯店附近是夜生活區，酒吧有「加價帳單」、飲料被動手腳；路上有西裝店搖客","不跟著拉客的人進店；飲料不離手、不喝陌生人請的"],["12/11","centralwOrld 寶可夢中心探路","沒問清楚的話，12/14 可能排錯地方或不知道要線上登記","當天直接問店員 12/14 的排隊方式和補貨日"],["12/11","水門雞飯 Go-Ang","附近有好幾家雞飯攤，容易走錯；通常只收現金","認明店員穿粉紅制服那家；帶泰銖小鈔"],["12/12","嵩越路、老城區","「今天大皇宮不開」、「今天是佛日」搭訕，接著推薦你去寶石店","你的行程本來就不去大皇宮，有人這樣說就是搭訕，笑一下走開"],["12/12","Shake Shack（EmSphere）","週六晚上人多，排隊可能拖到 18:30 入場時間","17:00 前到；排太久就改吃 G 樓 CharoenGang，選好菜就能開動"],["12/12","UOB LIVE","演唱會當天的二手票、「幫你換位置」；場內不能帶水","你已買票，不跟場外任何人交易；大件東西放置物櫃；進場前喝夠水"],["12/13","吞武里海鮮市場","海鮮以重量計價，常見「一隻多少」的報價或加工費另算；網路紅店可能比隔壁貴","問「一公斤多少」（kilo la thao rai）、當面秤重、先問代煮費；多問兩三攤比價。參考：大河蝦每公斤約 1,100、生蠔一顆約 80 泰銖（2024 年）"],["12/13","Grab 地址","容易被帶到 Sanam Luang 2（另一個市場）","目的地認明 Thonburi Market Place，58 Borommaratchachonnani Rd"],["12/13","紅線到 MOCA","週末約 20–30 分一班，可能比預期慢","路況順暢就直接叫 Grab"],["12/14","centralwOrld 寶可夢中心","排隊時有人賣「代排」、「號碼牌」；街邊、市集的便宜寶可夢周邊多半是仿冒品","只聽官方或商場人員的排隊指示；限定品只在店內買"],["12/14","Lay Lao（Ari）","即使說少辣還是很辣；平日中午上班族多","不吃辣說「mai phet」；盡量 12:00 前到；一個人點 2 道菜加糯米飯就好"],["12/14","朱拉隆功夜市","人擠人時的扒手、手機被搶","手機不放後口袋，包包背在前面"],["12/15","Si Phraya 碼頭","碼頭有人招攬貴的私人長尾船","搭 8 泰銖的 ICONSIAM 接駁船就好"],["12/16","痣姐熱炒","附近有人自稱「可以幫你插隊」；蟹肉蛋捲約 1,500 泰銖；偶爾臨時公休","只跟店內人員登記；帶足現金；06:15 出門搭 MRT 到 Sam Yot"],["12/16","ICONSIAM 4 號碼頭","碼頭有人推銷「更便宜的遊船」或說你的船取消了","只在官方報到櫃檯報到，18:30–19:50，最晚 19:40"],["12/17","機場退稅","購物退稅要先蓋章才能領","有在商場辦退稅的話，提早到機場先處理"]]},{"k":"h2","t":"常見詐騙手法"},{"k":"p","t":"曼谷的詐騙大多從「陌生人主動幫忙」開始：主動來搭訕、推薦地方的人，一律當作有問題。"},{"k":"table","head":["手法","怎麼開始","怎麼應對"],"rows":[["景點今天不開","友善的路人說景點今天關門或佛日，幫你叫 20 泰銖的嘟嘟車，結果被載去寶石店或西裝店","開不開門自己去看或查 Google；不搭陌生人幫你叫的車"],["寶石、西裝「今天特價」","說政府展覽最後一天、帶回台灣可以賺更多","一律不買，這類東西幾乎都是假或高價"],["想看你國家的鈔票","陌生人說在收集各國鈔票，請你拿台幣給他看；趁你打開錢包時看你帶多少、抽走幾張，或由同夥扒竊","笑著說「Sorry, no」直接走開；不在陌生人面前掏錢包"],["假警察查護照","自稱警察，要看護照或「檢查錢包有沒有假鈔」","可以拿護照影本給他看；錢包絕不交出，要求到警局處理"],["不跳表的計程車","說「大塞車，跳表更貴」，直接開一個價","不搭，改叫 Grab"],["Grab 司機要你取消訂單","上車後說 App 有問題，要你取消改付現金","不取消，堅持照 App 付款；有問題在 App 裡投訴"],["付款時問你「要不要用台幣付」","刷卡機上自動換算成台幣（DCC），匯率很差","一律選泰銖（THB）"],["假簡訊、假客服","自稱遊船公司、Klook、郵局或海關，用連結要你「重新付款」、「輸入卡號退款」","不點連結；訂單只從當初訂的 App 或官網自己登入查看"],["假 TDAC 網站","搜尋結果裡長得很像官網的網站，收「代辦費」","只用 tdac.immigration.go.th，官方是免費的"],["「送你手環」、幫你拍照","先給東西或幫忙，再要錢","不接、不讓陌生人拿你的手機"]]},{"k":"h3","t":"其他詐騙・街頭"},{"k":"li","t":"假 Grab 司機：機場、ICONSIAM、演唱會散場時有人說「我是你叫的 Grab」。上車前一定核對 App 上的車牌"},{"k":"li","t":"塞東西到你手上：鳥飼料、手環、平安符塞給你，一拿就要錢。手不要伸出去接"},{"k":"li","t":"假慈善連署：拿寫字板請你簽名、捐款，同夥趁機扒竊。直接走過去"},{"k":"li","t":"潑髒你的衣服：「不小心」弄髒你再熱心幫你擦，其實在摸口袋。先護住包包，自己擦"},{"k":"li","t":"假和尚化緣：真正的僧侶不會主動要錢或賣護身符"},{"k":"h3","t":"其他詐騙・付錢的時候"},{"k":"li","t":"路邊換錢攤：點鈔手腳快，給的錢會少幾張。只在 SuperRich 這類正規櫃檯換，當面點清"},{"k":"li","t":"假的付款 QR Code：店家的 PromptPay 條碼被貼上另一張。掃碼前確認收款人是店名"},{"k":"li","t":"ATM 側錄：用銀行或商場裡的 ATM，按密碼時用手遮住；有人說要「幫忙」就取消交易"},{"k":"h3","t":"其他詐騙・住宿與網路"},{"k":"li","t":"假櫃檯來電：半夜打到房間說要「重新確認信用卡」。掛掉後自己下樓問"},{"k":"li","t":"假 Wi-Fi：公共 Wi-Fi 不登入網銀、不輸入信用卡資料，用自己的網卡"},{"k":"li","t":"交友軟體：聊得很熱絡的對象很快約你去指定的酒吧或餐廳，最後拿到天價帳單"},{"k":"h2","t":"錢"},{"k":"li","t":"現金分兩處放：當天要用的放錢包，其他留在飯店保險箱"},{"k":"li","t":"帶小鈔：痣姐熱炒、水門雞飯、海鮮市場和小店多半只收現金，身上留一些 100 泰銖小鈔"},{"k":"li","t":"ATM：領錢每次大約加收 220–250 泰銖手續費，盡量用換匯的現金"},{"k":"h2","t":"法律與健康"},{"k":"li","t":"電子煙：在泰國是違法的，帶入境或在路上抽都可能被重罰，不要帶"},{"k":"li","t":"大麻：規定已經收緊，街上店家賣的對觀光客來說風險很高，不要碰"},{"k":"li","t":"王室：不談論、不批評泰國王室，包括在社群網站上"},{"k":"li","t":"護照：隨身帶或帶影本，警察可能檢查"},{"k":"li","t":"飲水：自來水不能生飲，刷牙可以；冰塊在一般店家通常是工廠製的"},{"k":"li","t":"空氣：出門前用 IQAir 之類的 App 看 PM2.5，超標就戴口罩"},{"k":"li","t":"天氣：白天仍有 30 度以上，市場和排隊那幾天要帶水、防曬"},{"k":"li","t":"緊急：遇到詐騙或意外：觀光警察電話 1155，有英文服務"}]};
@@ -917,6 +1028,10 @@ const gmap=k=>'https://www.google.com/maps/search/?api=1&query='+encodeURICompon
 /* ---------- itinerary (matches the current spreadsheet) ---------- */
 
 const DAYS=DAYS0;DAYS.forEach((d,i)=>{[d.pre,...d.legs,d.post].filter(Boolean).forEach((L,j)=>{L.min=DUR[i][j];});});
+/* every day starts with a numbered "leave the hotel" stop: a day written with a `pre` leg gets that stop added in front (time = PRE_AT, or first stop minus the travel time) */
+DAYS.forEach((d,i)=>{if(!d.pre||d.stops[0][0]==='HOTEL')return;const [h,m]=d.stops[0][1].split(':').map(Number),t=h*60+m-d.pre.min;
+  const at=(typeof PRE_AT!=='undefined'&&PRE_AT[i])||String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+  d.stops.unshift(['HOTEL',at,'從飯店出發','']);d.legs.unshift(d.pre);delete d.pre;});
 /* ---------- three.js scene ---------- */
 const LAT0=CITY.center[0],LNG0=CITY.center[1],K=Math.cos(LAT0*Math.PI/180),U=111;
 const XZ=(a,l)=>[(l-LNG0)*K*U,-(a-LAT0)*U];
@@ -951,7 +1066,7 @@ let riverMat=null;
   riverMat=new THREE.MeshBasicMaterial({color:0x1f4a66,side:THREE.DoubleSide,transparent:true,depthWrite:false,vertexColors:true});const rm=new THREE.Mesh(g,riverMat);rm.renderOrder=-8;scene.add(rm);
 })();
 
-let hl=false,hlSeg=-1,segInfo=[],radarExt=2,liveLeg=-1,curR=.05,scrubbing=false,rdLabels=[],hotelLabel=null,ttLabels=[],dayGroup=null,legObjs=[],traveler=null,path=null,stopLabels=[],stLabels=[],sgLabels=[],sightsGroup=null,hScale=1,curDay=0,playing=false,tPos=0,focusTarget=null;
+let hl=false,hlSeg=-1,segInfo=[],radarExt=2,liveLeg=-1,curR=.05,scrubbing=false,rdLabels=[],hotelLabel=null,ttLabels=[],dayGroup=null,legObjs=[],traveler=null,path=null,stopLabels=[],stLabels=[],sgLabels=[],sightsGroup=null,hScale=1,curDay=0,playing=false,tPos=0,tNow=0,stayHold=0,stayLb=null,focusTarget=null;
 
 /* Grab legs follow real streets: shortest paths precomputed on the OpenStreetMap road graph */
 function v3(k,mode){const p=pt(k);const [x,z]=XZ(p[0],p[1]);return new THREE.Vector3(x,MODE[mode].h*hScale,z);}
@@ -991,8 +1106,8 @@ const SKY=[ // hour, background, ground, road, river, ambient, sun, building glo
  {h:0,  bg:'#090b0d',gr:'#14171b',rd:'#59606a',rv:'#1d4a66',a:.45,s:.38,e:1.25,rt:.5},
  {h:5.5,bg:'#15181d',gr:'#181b20',rd:'#474d57',rv:'#24506e',a:.5,s:.45,e:1.1,rt:.4},
  {h:6.7,bg:'#e3a985',gr:'#b9aba3',rd:'#e9ddd4',rv:'#4f87ad',a:.75,s:.75,e:.55,rt:.2},
- {h:8.5,bg:'#d3dadb',gr:'#b4b09c',rd:'#fbf8ef',rv:'#63a6c8',a:.7,s:.85,e:.3,rt:.08},
- {h:16, bg:'#d3dadb',gr:'#b4b09c',rd:'#fbf8ef',rv:'#63a6c8',a:.7,s:.85,e:.3,rt:.08},
+ {h:8.5,bg:'#dfe5ea',gr:'#dce2e8',rd:'#ffffff',rv:'#86bde3',a:.62,s:.42,e:.2,rt:.12},
+ {h:16, bg:'#dfe5ea',gr:'#dce2e8',rd:'#ffffff',rv:'#86bde3',a:.62,s:.42,e:.2,rt:.12},
  {h:17.8,bg:'#dd9468',gr:'#b29e95',rd:'#e8d6ca',rv:'#4a7ea5',a:.75,s:.7,e:.7,rt:.2},
  {h:18.9,bg:'#3a2e4f',gr:'#22202e',rd:'#3a3550',rv:'#2a4a68',a:.55,s:.45,e:1.05,rt:.38},
  {h:20, bg:'#090b0d',gr:'#14171b',rd:'#59606a',rv:'#1d4a66',a:.45,s:.38,e:1.25,rt:.5},
@@ -1000,7 +1115,7 @@ const SKY=[ // hour, background, ground, road, river, ambient, sun, building glo
 const flat=c=>new THREE.MeshBasicMaterial({color:c,side:THREE.DoubleSide,transparent:true,depthWrite:false});
 const roadMat=flat(0x59606a),roadEdgeMat=flat(0x0c0e10);roadMat.vertexColors=true;roadEdgeMat.vertexColors=true;
 const OSMR=OSM_ROADS.split(';').map(t=>{const n=t.split(',').map(Number),o=new Float32Array(n.length);let la=0,ln=0;for(let i=0;i<n.length;i+=2){la+=n[i];ln+=n[i+1];const q=XZ(13+la/1e5,100+ln/1e5);o[i]=q[0];o[i+1]=q[1];}return o;});
-let routeMats=[],casingMats=[],roadsGroup=null,rdDist=10,showStreets=true,showSights=false,showRail=false,railGroup=null,rlLabels=[],showPiers=false,pierGroup=null,prLabels=[],mver=0;
+let routeMats=[],casingMats=[],roadsGroup=null,rdDist=10,showStreets=true,showSights=false,showRail=false,railGroup=null,rlLabels=[],showPiers=false,pierGroup=null,prLabels=[],showBld=true,bldObjs=[],mver=0;
 try{localStorage.removeItem('bkk3dSights');}catch(e){} /* always starts off: the choice is not remembered between visits */
 /* approximate positions of well-known Bangkok sights */
 try{showStreets=localStorage.getItem('bkk3dStreets')!=='0';}catch(e){}
@@ -1013,19 +1128,26 @@ function applyTime(h){
   h=((h%24)+24)%24;const key=Math.round(h*12);if(key===lastSkyKey)return;lastSkyKey=key;
   let i=0;while(i<SKY.length-2&&SKY[i+1].h<=h)i++;const A=SKY[i],B=SKY[i+1];const t=(h-A.h)/((B.h-A.h)||1);
   const bg=mix(A.bg,B.bg,t);renderer.setClearColor(bg,1);scene.fog.color.copy(bg);
-  const grc=mix(A.gr,B.gr,t),rdc=mix(A.rd,B.rd,t);const lite0=bg.r*.3+bg.g*.59+bg.b*.11>.45;ground.material.color.copy(grc);roadMat.color.copy(rdc);roadEdgeMat.color.copy(grc.clone().lerp(cB.set(0x000000),lite0?.3:.55));netMat.color.copy(grc.clone().lerp(rdc,.45));riverMat.color.copy(mix(A.rv,B.rv,t));
-  const lite=bg.r*.3+bg.g*.59+bg.b*.11>.45;casingCol.set(lite?0xffffff:0x070b13);casingMats.forEach(m=>m.color.copy(casingCol));
+  const grc=mix(A.gr,B.gr,t),rdc=mix(A.rd,B.rd,t);const lite0=bg.r*.3+bg.g*.59+bg.b*.11>.45;ground.material.color.copy(grc);roadMat.color.copy(rdc);roadEdgeMat.color.copy(grc.clone().lerp(cB.set(lite0?0x5b6672:0x000000),lite0?.55:.55));netMat.color.copy(lite0?grc.clone().lerp(cB.set(0x44505c),.38):grc.clone().lerp(rdc,.45));riverMat.color.copy(mix(A.rv,B.rv,t));
+  const lite=bg.r*.3+bg.g*.59+bg.b*.11>.45;casingCol.set(lite?0x1c2530:0x070b13);casingMats.forEach(m=>m.color.copy(casingCol));
+  /* on the light map, near-white route colours (walking dots) switch to dark so they stay readable */
+  routeMats.forEach(m=>{if(!m.userData.c0)m.userData.c0=m.color.clone();const c=m.userData.c0,dk=lite&&c.r*.3+c.g*.59+c.b*.11>.76;m.color.set(dk?0x2b3542:c);if(m.emissive)m.emissive.set(dk?0x2b3542:c);});
+  if(traveler&&traveler.children[1])traveler.children[1].material.color.set(lite?0x1c2530:0xffffff);
   const rt=A.rt+(B.rt-A.rt)*t;routeMats.forEach(m=>m.emissiveIntensity=rt*(m.userData.k||1));
   amb.intensity=A.a+(B.a-A.a)*t;sun.intensity=A.s+(B.s-A.s)*t;
   const e=A.e+(B.e-A.e)*t;Object.values(MATS).forEach(m=>{if(m.userData.e)m.emissiveIntensity=m.userData.e*e;});
-  stage.classList.toggle('lite',bg.r*.3+bg.g*.59+bg.b*.11>.45);
+  stage.classList.toggle('lite',lite);document.body.classList.toggle('day',lite);
 }
 /* ---------- low-poly landmark buildings ---------- */
 const MATS={};
 function mat(c,e,o){const k=c+'|'+(e||0)+'|'+(o||1);if(!MATS[k]){MATS[k]=new THREE.MeshStandardMaterial({color:c,emissive:e?c:0x000000,emissiveIntensity:e||0,roughness:.75,metalness:.05,transparent:(o||1)<1,opacity:o||1});MATS[k].userData.e=e||0;}return MATS[k];}
 function box(g,w,h,d,x,y,z,c,e,o){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat(c,e,o));m.position.set(x,y+h/2,z);g.add(m);return m;}
 function cyl(g,rt,rb,h,x,y,z,c,seg,e,o){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg||20),mat(c,e,o));m.position.set(x,y+h/2,z);g.add(m);return m;}
-function prism(g,w,h,d,x,y,z,c){const m=new THREE.Mesh(new THREE.CylinderGeometry(h,h,d,3),mat(c));m.rotation.x=Math.PI/2;m.rotation.z=Math.PI/2;m.scale.set(1,1,w/(h*1.73));m.position.set(x,y+h*.5,z);g.add(m);return m;}
+function prism(g,w,h,d,x,y,z,c){/* gable roof: triangle w wide and h high facing the front, d deep, ridge running front to back */
+  const sh=new THREE.Shape();sh.moveTo(-w/2,0);sh.lineTo(w/2,0);sh.lineTo(0,h);sh.closePath();const geo=new THREE.ExtrudeGeometry(sh,{depth:d,bevelEnabled:false});geo.translate(0,0,-d/2);
+  const m=new THREE.Mesh(geo,mat(c));m.position.set(x,y,z);g.add(m);return m;}
+function sph(g,r,x,y,z,c,e,sc){const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),mat(c,e));m.position.set(x,y,z);if(sc)m.scale.set(sc[0],sc[1],sc[2]);g.add(m);return m;}
+function cone(g,r,h,x,y,z,c,seg,e,o){const m=new THREE.Mesh(new THREE.ConeGeometry(r,h,seg||16),mat(c,e,o));m.position.set(x,y+h/2,z);g.add(m);return m;}
 function windows(g,w,h,d,y0,c,rows){for(let i=0;i<rows;i++){const y=y0+h*(i+.6)/rows;box(g,w*1.002,h*.05,d*1.002,0,y,0,c,.9);}}
 function makeBuilding(type,u){
   const g=new THREE.Group();let H=u;
@@ -1033,8 +1155,8 @@ function makeBuilding(type,u){
    case 'terminal':{
      /* apron + runway */
      box(g,u*5.6,u*.03,u*4.4,0,0,u*.9,'#3a424d');box(g,u*6.4,u*.035,u*.62,0,0,u*3.5,'#252b33');
-     for(let i=-4;i<=4;i++)box(g,u*.34,u*.04,u*.05,i*u*.68,0,u*3.5,'#f2f2f2',.6);
-     box(g,u*.08,u*.04,u*.5,-u*3.0,0,u*3.5,'#f2f2f2',.6);box(g,u*.08,u*.04,u*.5,u*3.0,0,u*3.5,'#f2f2f2',.6);
+     for(let i=-4;i<=4;i++)box(g,u*.34,u*.045,u*.05,i*u*.68,0,u*3.5,'#f2f2f2',.6);
+     box(g,u*.08,u*.045,u*.5,-u*3.0,0,u*3.5,'#f2f2f2',.6);box(g,u*.08,u*.045,u*.5,u*3.0,0,u*3.5,'#f2f2f2',.6);
      box(g,u*5.2,u*.035,u*.04,0,0,u*2.75,'#f2c230',.7);
      /* terminal hall with glass front and arched roof */
      box(g,u*4.2,u*.55,u*1.3,0,0,-u*.6,'#d9dee6');box(g,u*4.22,u*.3,u*.04,0,u*.14,u*.06,'#8fd0ff',.8);
@@ -1064,34 +1186,188 @@ function makeBuilding(type,u){
      box(g,u*3.6,u*.06,u*2.9,0,0,u*.15,'#48515e');
      box(g,u*3.0,u*.95,u*1.7,0,u*.06,-u*.35,'#e2e7ee',.28);
      box(g,u*2.7,u*.62,u*.04,0,u*.3,u*.52,'#8fd0ff',.8);for(let i=1;i<3;i++)box(g,u*2.72,u*.03,u*.05,0,u*.3+i*u*.207,u*.52,'#e2e7ee');
-     for(let i=-4;i<=4;i++)box(g,u*.03,u*.62,u*.05,i*u*.33,u*.3,u*.525,'#e2e7ee');
+     for(let i=-4;i<=4;i++)box(g,u*.03,u*.64,u*.05,i*u*.33,u*.29,u*.525,'#e2e7ee');
      box(g,u*3.04,u*.07,u*1.74,0,u*.98,-u*.35,'#ff7a59',.9);
      box(g,u*.95,u*.5,u*.05,-u*.85,u*.38,u*.56,'#ff5fa2',1.3);box(g,u*.7,u*.4,u*.05,u*.95,u*.44,u*.56,'#5fd0ff',1.3);
      box(g,u*.9,u*.06,u*.45,0,u*.34,u*.72,'#ffb24a',.9);box(g,u*.6,u*.26,u*.03,0,u*.06,u*.53,'#27303a');cyl(g,u*.025,u*.025,u*.3,-u*.4,u*.06,u*.9,'#cfd6df',8);cyl(g,u*.025,u*.025,u*.3,u*.4,u*.06,u*.9,'#cfd6df',8);
-     box(g,u*2.2,u*.34,u*1.2,0,u*1.05,-u*.45,'#eef2f6',.3);box(g,u*2.22,u*.1,u*1.22,0,u*1.17,-u*.45,'#8fd0ff',.7);
+     box(g,u*2.2,u*.34,u*1.2,0,u*1.05,-u*.45,'#eef2f6',.3);box(g,u*2.22,u*.09,u*1.22,0,u*1.17,-u*.45,'#8fd0ff',.7);
      box(g,u*.5,u*.22,u*.5,u*.2,u*1.39,-u*.2,'#ff5fa2',1.1);
-     box(g,u*.78,u*2.5,u*.78,u*.95,u*1.01,-u*.7,'#b9c6d5',.22);for(let i=0;i<8;i++)box(g,u*.79,u*.12,u*.79,u*.95,u*1.15+i*u*.29,-u*.7,'#bfe6ff',.8);box(g,u*.84,u*.1,u*.84,u*.95,u*3.51,-u*.7,'#7f8ea0');
-     box(g,u*.6,u*3.1,u*.6,-u*1.0,u*1.01,-u*.75,'#d6dde6',.25);for(let i=0;i<10;i++)box(g,u*.61,u*.1,u*.61,-u*1.0,u*1.15+i*u*.29,-u*.75,'#ffd58a',.9);cyl(g,u*.2,u*.3,u*.25,-u*1.0,u*4.11,-u*.75,'#ffcf7a',12,.9);
+     box(g,u*.78,u*2.5,u*.78,u*.95,u*1.01,-u*.7,'#b9c6d5',.22);for(let i=0;i<8;i++)box(g,u*.8,u*.12,u*.8,u*.95,u*1.15+i*u*.29,-u*.7,'#bfe6ff',.8);box(g,u*.84,u*.1,u*.84,u*.95,u*3.51,-u*.7,'#7f8ea0');
+     box(g,u*.6,u*3.1,u*.6,-u*1.0,u*1.01,-u*.79,'#d6dde6',.25);for(let i=0;i<10;i++)box(g,u*.62,u*.1,u*.62,-u*1.0,u*1.15+i*u*.29,-u*.79,'#ffd58a',.9);cyl(g,u*.2,u*.3,u*.25,-u*1.0,u*4.11,-u*.79,'#ffcf7a',12,.9);
      for(let i=0;i<5;i++){const x=-u*1.4+i*u*.7;cyl(g,u*.025,u*.03,u*.22,x,u*.06,u*1.25,'#8a6642',6);const t=new THREE.Mesh(new THREE.SphereGeometry(u*.13,10,8),mat('#3fae5f',.25));t.position.set(x,u*.36,u*1.25);g.add(t);}
      box(g,u*1.6,u*.03,u*.3,0,u*.06,u*1.0,'#6b7684');
      H=u*4.4;break;}
-   case 'glass':{box(g,u*2,u*1.5,u*1.4,0,0,0,'#7fb6c9',.12,.92);windows(g,u*2,u*1.5,u*1.4,0,'#e8fbff',4);H=u*1.5;break;}
-   case 'arena':{box(g,u*2.4,u*1.3,u*1.6,0,0,0,'#d4d0e4');box(g,u*2.42,u*.1,u*1.62,0,u*.4,0,'#ff7ab6',1);box(g,u*2.42,u*.1,u*1.62,0,u*.9,0,'#8a7bff',1);cyl(g,u*.6,u*.6,u*.4,0,u*1.3,0,'#6f6a8f');H=u*1.7;break;}
-   case 'dib':{box(g,u*1.8,u*.9,u*1.4,0,0,0,'#efeae0');box(g,u*.8,u*.5,u*1.42,-u*.4,0,0,'#c8bfae');const sp=new THREE.Mesh(new THREE.SphereGeometry(u*.35,20,14),mat('#f5f5f5',.15));sp.position.set(u*1.3,u*.35,u*.2);g.add(sp);H=u*.9;break;}
-   case 'moca':{box(g,u*2.2,u*1.3,u*1.6,0,0,0,'#f2f2ee');box(g,u*1.0,u*.6,u*.2,0,0,u*.85,'#2f3a46');box(g,u*2.22,u*.06,u*1.62,0,u*1.1,0,'#d9c27a',.4);H=u*1.3;break;}
-   case 'bacc':{box(g,u*1.8,u*1.4,u*1.8,0,0,0,'#e6e2da');cyl(g,u*.55,u*.55,u*1.42,u*.2,0,u*.2,'#3b4652',28);box(g,u*1.82,u*.07,u*1.82,0,u*1.0,0,'#ffb26b',.8);H=u*1.4;break;}
-   case 'postal':{box(g,u*2.4,u*1.1,u*1.2,0,0,0,'#d8c9a8');for(let i=0;i<6;i++)cyl(g,u*.07,u*.07,u*.85,-u*.9+i*u*.36,u*.1,u*.66,'#efe6d0',10);box(g,u*2.5,u*.12,u*1.3,0,u*1.1,0,'#b9a77f');prism(g,u*1.3,u*.28,u*.2,0,u*1.22,u*.55,'#cbb98f');box(g,u*2.6,u*.1,u*1.4,0,0,0,'#9c8d6c');H=u*1.5;break;}
-   case 'iconsiam':{box(g,u*3,u*.8,u*1.8,0,0,0,'#c9d7e3');box(g,u*3.02,u*.08,u*1.82,0,u*.55,0,'#ffcf7a',1);box(g,u*.75,u*3.6,u*.75,-u*.8,u*.8,0,'#8fb3cf',.1,.95);box(g,u*.65,u*3.0,u*.65,u*.6,u*.8,-u*.2,'#a6c4dc',.1,.95);windows(g,u*.75,u*3.6,u*.75,u*.8,'#f2fbff',8);H=u*4.4;break;}
-   case 'warehouse':{for(let i=0;i<3;i++){const x=(i-1)*u*.85;box(g,u*.75,u*.55,u*1.6,x,0,0,'#a67c62');prism(g,u*.75,u*.22,u*1.6,x,u*.55,0,'#6e4f3e');}box(g,u*2.6,u*.05,u*.12,0,u*.25,u*.84,'#ffd28a',.8);H=u*.8;break;}
-   case 'factory':{box(g,u*1.8,u*.9,u*1.3,0,0,0,'#9b8f84');prism(g,u*1.8,u*.3,u*1.3,0,u*.9,0,'#6b625b');cyl(g,u*.12,u*.15,u*1.6,u*.7,0,-u*.4,'#7b6f66',10);box(g,u*1.82,u*.06,u*1.32,0,u*.45,0,'#e9d8b8',.6);H=u*1.6;break;}
-   case 'shophouse': case 'shopPink':{const aw=type==='shopPink'?'#ff7aa8':'#d9483b';for(let i=0;i<3;i++){const x=(i-1)*u*.55;box(g,u*.5,u*.95,u*.8,x,0,0,['#e8d9b9','#d9c7a1','#efe2c4'][i]);box(g,u*.5,u*.04,u*.3,x,u*.32,u*.52,aw,.5);}box(g,u*1.6,u*.04,u*.82,0,u*.95,0,'#8e7d63');H=u*1;break;}
-   case 'oldrow':{for(let i=0;i<5;i++){const x=(i-2)*u*.45,h=u*(.8+((i*37)%5)*.08);box(g,u*.42,h,u*.75,x,0,0,['#c9a77c','#b88f6a','#d6b98f','#a9825e','#c7a07a'][i]);box(g,u*.42,u*.04,u*.25,x,u*.3,u*.48,'#d9483b',.4);}H=u*1.15;break;}
-   case 'square':{const cs=['#f2b8a2','#a7d3c6','#f0d58c','#b9c4ef'];for(let i=0;i<4;i++){box(g,u*.7,u*(.5+i%2*.25),u*.7,(i%2-.5)*u*.85,0,(Math.floor(i/2)-.5)*u*.85,cs[i]);}H=u*.75;break;}
-   case 'house':{box(g,u*1,u*.55,u*.8,0,0,0,'#efe6d6');prism(g,u*1.1,u*.32,u*.9,0,u*.55,0,'#9a5b3c');box(g,u*.3,u*.35,u*.05,0,0,u*.42,'#5a3a2a');H=u*.9;break;}
-   case 'stall':{box(g,u*.9,u*.45,u*.7,0,0,0,'#e9e0cf');box(g,u*1.0,u*.05,u*.4,0,u*.42,u*.45,'#3c8dd9',.5);H=u*.5;break;}
-   case 'market':{for(let i=0;i<3;i++)for(let j=0;j<2;j++){const x=(i-1)*u*.75,z=(j-.5)*u*.8;box(g,u*.6,u*.3,u*.6,x,0,z,'#d7d2c4');prism(g,u*.66,u*.18,u*.66,x,u*.3,z,['#2e9e6a','#e0623d','#2f7fd0'][(i+j)%3]);}H=u*.5;break;}
-   case 'nightmarket':{for(let i=0;i<4;i++){const x=(i-1.5)*u*.5;box(g,u*.42,u*.35,u*.55,x,0,0,'#3a3330');box(g,u*.46,u*.05,u*.6,x,u*.35,0,['#ff8a3d','#ffd25a','#ff5f6d','#7ee0a2'][i],.9);}
-     for(let i=0;i<9;i++){const b=new THREE.Mesh(new THREE.SphereGeometry(u*.04,8,6),mat('#ffd98a',1.2));b.position.set(-u+i*u*.25,u*.55+Math.sin(i)*u*.03,u*.35);g.add(b);}H=u*.6;break;}
+   /* ---- one model per place, built around what that place is known for ---- */
+   case 'goang':{ /* Go-Ang Pratunam chicken rice: pink shopfront, pink awning, steel tables on the pavement, a plate of chicken rice on the sign */
+     box(g,u*1.9,u*.05,u*1.7,0,0,u*.15,'#565d66');
+     box(g,u*1.7,u*1.0,u*.9,0,u*.05,-u*.3,'#f6e9dc',.25);box(g,u*1.72,u*.3,u*.04,0,u*.72,u*.16,'#ff5c9a',.9);
+     box(g,u*1.8,u*.05,u*.55,0,u*.6,u*.42,'#ff7fb0',.6);for(let i=-3;i<=3;i++)box(g,u*.1,u*.058,u*.57,i*u*.25,u*.6,u*.42,'#ffffff',.5);
+     box(g,u*1.5,u*.42,u*.03,0,u*.1,u*.16,'#3b2f2a');box(g,u*1.74,u*.06,u*.94,0,u*1.05,-u*.3,'#d86a94',.4);
+     for(let i=0;i<3;i++){const x=(i-1)*u*.55;cyl(g,u*.16,u*.16,u*.03,x,u*.26,u*.78,'#cfd6dd',14,.3);cyl(g,u*.025,u*.025,u*.22,x,u*.05,u*.78,'#9aa3ad',6);
+       [-1,1].forEach(k=>cyl(g,u*.06,u*.06,u*.14,x+k*u*.2,u*.05,u*.78,'#ff7fb0',8,.4));}
+     cyl(g,u*.02,u*.02,u*.8,u*.95,u*.05,u*.5,'#9aa3ad',6);cyl(g,u*.26,u*.26,u*.05,u*.95,u*.85,u*.5,'#ffffff',18,.5);sph(g,u*.14,u*.95,u*.92,u*.5,'#fff6d8',.5,[1,.55,1]);box(g,u*.22,u*.05,u*.09,u*.95,u*.99,u*.5,'#e8c49a',.4);
+     H=u*1.25;break;}
+   case 'dib':{ /* Dib Bangkok: a converted warehouse in pale concrete with a saw-tooth roof, a courtyard and a white cone-shaped gallery */
+     box(g,u*2.6,u*.05,u*2.1,0,0,0,'#59616b');
+     box(g,u*2.2,u*.85,u*.8,0,u*.05,-u*.55,'#e9e6df',.2);for(let i=0;i<4;i++){const x=-u*.82+i*u*.55;{const sh=new THREE.Shape();sh.moveTo(-u*.26,0);sh.lineTo(u*.26,0);sh.lineTo(u*.26,u*.22);sh.closePath();const ge=new THREE.ExtrudeGeometry(sh,{depth:u*.8,bevelEnabled:false});ge.translate(0,0,-u*.4);const r=new THREE.Mesh(ge,mat('#cfcbc2'));r.position.set(x,u*.9,-u*.55);g.add(r);}box(g,u*.02,u*.17,u*.74,x+u*.275,u*.915,-u*.55,'#9fd3f0',.8);}
+     box(g,u*.7,u*.7,u*1.1,-u*.75,u*.05,u*.4,'#dedad2',.2);box(g,u*.72,u*.18,u*.04,-u*.75,u*.3,u*.96,'#9fd3f0',.7);
+     box(g,u*1.3,u*.03,u*1.0,u*.3,u*.05,u*.4,'#8a929b');box(g,u*.5,u*.035,u*.5,u*.2,u*.06,u*.45,'#7cc7e6',.6);
+     cone(g,u*.42,u*1.25,u*.85,u*.05,u*.35,'#f7f6f2',28,.3);cyl(g,u*.44,u*.44,u*.06,u*.85,u*.05,u*.35,'#d6d2c9',28);
+     H=u*1.4;break;}
+   case 'songwat':{ /* Song Wat Road: a terrace of old Chinese shophouses, each a different colour, with shuttered arched windows, pediments and red lanterns */
+     box(g,u*2.9,u*.05,u*1.3,0,0,u*.1,'#5a5248');
+     const cs=['#e7c36a','#8fc0b4','#e39a7b','#d9d2bd','#9bb3d6'];
+     for(let i=0;i<5;i++){const x=(i-2)*u*.55,h=u*(.95+(i%2)*.12);box(g,u*.52,h,u*.8,x,u*.05,-u*.15,cs[i],.25);
+       box(g,u*.56,u*.07,u*.84,x,u*.05+h,-u*.15,'#f3ecdc',.2);prism(g,u*.34,u*.13,u*.06,x,u*.12+h,u*.24,'#f3ecdc');
+       [-1,1].forEach(k=>{box(g,u*.13,u*.24,u*.03,x+k*u*.12,u*.58,u*.26,'#3f6d5c',.2);cyl(g,u*.065,u*.065,u*.03,x+k*u*.12,u*.8,u*.26,'#3f6d5c',12).rotation.x=Math.PI/2;});
+       box(g,u*.54,u*.04,u*.28,x,u*.42,u*.38,'#b5372c',.4);box(g,u*.36,u*.3,u*.03,x,u*.07,u*.26,'#2f2620');
+       sph(g,u*.06,x+u*.2,u*.36,u*.5,'#ff3b30',1.3,[1,1.25,1]);}
+     H=u*1.35;break;}
+   case 'kunsthalle':{ /* Bangkok Kunsthalle: the burnt-out Thai Wattana Panich printing house, a raw brutalist concrete block with deep vertical fins and an outside stair */
+     box(g,u*2.2,u*.05,u*1.6,0,0,0,'#4f555c');
+     box(g,u*1.7,u*1.5,u*1.1,0,u*.05,-u*.1,'#8d8f8e',.12);
+     for(let i=0;i<9;i++)box(g,u*.06,u*1.2,u*.16,-u*.72+i*u*.18,u*.3,u*.5,'#a9abaa',.1);
+     for(let j=0;j<3;j++)box(g,u*1.56,u*.04,u*.18,0,u*.3+j*u*.42,u*.5,'#77797a');
+     box(g,u*1.46,u*.9,u*.02,0,u*.45,u*.455,'#1d2024');box(g,u*1.5,u*.2,u*.03,0,u*.06,u*.46,'#ffb35c',.9);
+     box(g,u*.4,u*1.8,u*.5,u*.95,u*.05,-u*.25,'#7f8180',.1);for(let j=0;j<5;j++)box(g,u*.42,u*.04,u*.52,u*.95,u*.3+j*u*.32,-u*.25,'#5d5f60');
+     box(g,u*.8,u*.25,u*.6,-u*.3,u*1.55,-u*.2,'#7a7c7b');
+     H=u*1.95;break;}
+   case 'emsphere':{ /* EmSphere + UOB LIVE: a long charcoal industrial-style mall with warm light strips, a blue-and-yellow furniture store block and the concert hall on the roof */
+     box(g,u*3.4,u*.05,u*2.2,0,0,0,'#474e58');
+     box(g,u*3.0,u*1.0,u*1.5,0,u*.05,-u*.15,'#2b2f36',.1);for(let j=0;j<3;j++)box(g,u*3.02,u*.05,u*1.52,0,u*.3+j*u*.28,-u*.15,'#ffb45a',1.1);
+     box(g,u*2.2,u*.5,u*.04,-u*.3,u*.1,u*.61,'#8fd0ff',.7);box(g,u*.9,u*.06,u*.4,-u*.3,u*.4,u*.8,'#ffb45a',.9);
+     box(g,u*.95,u*.75,u*1.0,u*1.0,u*1.05,-u*.3,'#1f5fbf',.45);box(g,u*.97,u*.2,u*1.02,u*1.0,u*1.35,-u*.3,'#ffd21f',.9);
+     box(g,u*1.7,u*.9,u*1.2,-u*.55,u*1.05,-u*.2,'#3a3f48',.1);box(g,u*1.72,u*.14,u*1.22,-u*.55,u*1.3,-u*.2,'#b46bff',1.3);box(g,u*1.72,u*.08,u*1.22,-u*.55,u*1.62,-u*.2,'#ff5fa2',1.2);
+     cyl(g,u*.5,u*.6,u*.18,-u*.55,u*1.95,-u*.2,'#555b66',24);
+     [-1,1].forEach(k=>{const b2=cone(g,u*.1,u*1.6,-u*.55+k*u*.5,u*2.1,-u*.2,'#d9b3ff',10,1.2,.35);b2.rotation.z=k*.35;b2.rotation.x=Math.PI;});
+     H=u*2.9;break;}
+   case 'seafood':{ /* Thonburi Market Place: an open-air seafood market, striped canopies over the stalls, blue live-seafood tanks and a giant crab on the sign */
+     box(g,u*3.0,u*.05,u*2.2,0,0,0,'#5b6067');
+     for(let i=0;i<3;i++)for(let j=0;j<2;j++){const x=(i-1)*u*.9,z=(j-.5)*u*.95-u*.1,c=['#e0483b','#2f7fd0','#f2b52e'][(i+j)%3];
+       [-1,1].forEach(a=>[-1,1].forEach(b2=>cyl(g,u*.02,u*.02,u*.5,x+a*u*.32,u*.05,z+b2*u*.32,'#c9ced4',6)));
+       cone(g,u*.58,u*.24,x,u*.55,z,c,4,.45).rotation.y=Math.PI/4;cone(g,u*.3,u*.125,x,u*.672,z,'#ffffff',4,.5).rotation.y=Math.PI/4;
+       box(g,u*.55,u*.2,u*.3,x,u*.05,z,'#dfe6ec');box(g,u*.5,u*.03,u*.26,x,u*.25,z,'#39c2ee',1);}
+     cyl(g,u*.05,u*.05,u*1.3,u*1.3,u*.05,u*.95,'#9aa3ad',8);
+     sph(g,u*.3,u*1.3,u*1.5,u*.95,'#ef3b2d',.7,[1.25,.55,.9]);[-1,1].forEach(k=>{sph(g,u*.13,u*1.3+k*u*.42,u*1.68,u*1.0,'#ef3b2d',.7,[1,.7,.7]);box(g,u*.18,u*.04,u*.04,u*1.3+k*u*.3,u*1.56,u*1.0,'#c92a1e').rotation.z=k*.6;
+       for(let q=0;q<2;q++)box(g,u*.22,u*.03,u*.03,u*1.3+k*u*.4,u*1.42-q*u*.07,u*.95+(q-.5)*u*.2,'#c92a1e').rotation.z=-k*.4;sph(g,u*.035,u*1.3+k*u*.1,u*1.68,u*1.12,'#111',0);});
+     H=u*1.9;break;}
+   case 'moca':{ /* MOCA Bangkok: a monolithic white block whose walls are carved with tall jasmine-petal slits, a reflecting pool and a gold sculpture in front */
+     box(g,u*3.0,u*.05,u*2.6,0,0,u*.2,'#5a626c');
+     box(g,u*2.3,u*1.6,u*1.5,0,u*.05,-u*.3,'#f6f5f1',.3);
+     for(let i=0;i<7;i++){const x=-u*.9+i*u*.3,hh=u*(.5+((i*5)%4)*.2);box(g,u*.07,hh,u*.03,x,u*.35+((i*3)%3)*u*.12,u*.46,'#2c3540');box(g,u*.03,hh*.7,u*.03,x+u*.1,u*.5+((i*7)%3)*u*.1,u*.46,'#2c3540');}
+     for(let i=0;i<4;i++)box(g,u*.03,u*(.7+(i%2)*.3),u*.07,u*1.16,u*.4,-u*.75+i*u*.3,'#2c3540');
+     box(g,u*.9,u*.9,u*.5,-u*.2,u*.05,u*.6,'#ecebe6',.3);box(g,u*.5,u*.55,u*.03,-u*.2,u*.07,u*.86,'#27303a');
+     box(g,u*1.5,u*.035,u*.7,u*.5,u*.05,u*1.15,'#5fc0ea',.7);cyl(g,u*.04,u*.04,u*.5,u*.9,u*.07,u*1.15,'#d9b24a',8,.6);sph(g,u*.16,u*.9,u*.68,u*1.15,'#e9c45a',.8,[.7,1.4,.7]);
+     H=u*1.75;break;}
+   case 'thainiyom':{ /* Thai Niyom: a retro Thai eatery in a teal shophouse, a round vintage sign, checked curtains and a Bib Gourmand plaque */
+     box(g,u*1.7,u*.05,u*1.4,0,0,u*.1,'#575d64');
+     box(g,u*1.4,u*1.15,u*.85,0,u*.05,-u*.2,'#2f8f86',.3);box(g,u*1.44,u*.07,u*.89,0,u*1.2,-u*.2,'#f2e6c9',.2);
+     box(g,u*1.1,u*.45,u*.03,0,u*.1,u*.235,'#f6ecd2',.6);for(let i=0;i<5;i++)box(g,u*.11,u*.14,u*.04,-u*.44+i*u*.22,u*.4,u*.245,'#d8402f',.5);
+     box(g,u*1.3,u*.05,u*.4,0,u*.62,u*.42,'#f2e6c9',.4);for(let i=-2;i<=2;i++)box(g,u*.1,u*.058,u*.42,i*u*.26,u*.62,u*.42,'#d8402f',.4);
+     [-1,1].forEach(k=>box(g,u*.3,u*.3,u*.03,k*u*.38,u*.78,u*.235,'#ffe9a8',.9));
+     cyl(g,u*.26,u*.26,u*.05,u*.8,u*1.0,u*.3,'#ffd23f',24,.9).rotation.z=Math.PI/2;cyl(g,u*.2,u*.2,u*.06,u*.8,u*1.03,u*.3,'#d8402f',24,.6).rotation.z=Math.PI/2;
+     box(g,u*.12,u*.16,u*.03,-u*.6,u*.3,u*.24,'#e1251b',.8);
+     H=u*1.35;break;}
+   case 'laylao':{ /* Lay Lao (Ari): a wooden Isan restaurant with a terrace under parasols and a big som-tam mortar and pestle as its sign */
+     box(g,u*2.1,u*.05,u*1.8,0,0,u*.15,'#56604f');
+     box(g,u*1.3,u*.6,u*.85,-u*.25,u*.05,-u*.3,'#c98d55',.25);prism(g,u*1.45,u*.4,u*.95,-u*.25,u*.65,-u*.3,'#6e4a2c');
+     box(g,u*.9,u*.3,u*.03,-u*.25,u*.15,u*.13,'#ffe2a3',.9);box(g,u*1.9,u*.06,u*.8,0,u*.05,u*.6,'#a9773f',.15);
+     for(let i=0;i<2;i++){const x=-u*.55+i*u*.75;cyl(g,u*.02,u*.02,u*.55,x,u*.11,u*.65,'#e8e0d0',6);cone(g,u*.36,u*.16,x,u*.6,u*.65,['#f2b52e','#e8603c'][i],12,.5);cyl(g,u*.14,u*.14,u*.03,x,u*.3,u*.65,'#e8dcc3',12);}
+     cyl(g,u*.26,u*.17,u*.36,u*.78,u*.05,-u*.25,'#8b5a2b',18,.2);cyl(g,u*.2,u*.2,u*.03,u*.78,u*.4,-u*.25,'#8fd66a',18,.6);cyl(g,u*.045,u*.06,u*.6,u*.86,u*.3,-u*.22,'#5a3a1c',8).rotation.z=-.4;
+     sph(g,u*.05,u*.72,u*.45,-u*.2,'#ff5a3c',.8);sph(g,u*.04,u*.82,u*.45,-u*.3,'#ff5a3c',.8);
+     H=u*1.15;break;}
+   case 'discovery':{ /* Siam Discovery: a glass block wrapped in a white lattice of stacked frames that step in and out */
+     box(g,u*2.3,u*.05,u*1.9,0,0,0,'#4f5863');
+     box(g,u*1.8,u*1.7,u*1.3,0,u*.05,0,'#7fc4e2',.35,.9);
+     for(let j=0;j<5;j++)for(let i=0;i<5;i++){const out=((i*3+j*5)%4)*u*.035;box(g,u*.34,u*.3,u*.05,-u*.72+i*u*.36,u*.14+j*u*.33,u*.66+out,'#ffffff',.55);box(g,u*.24,u*.2,u*.05,-u*.72+i*u*.36,u*.19+j*u*.33,u*.672+out,['#9fdcf5','#cfeefb','#6fb9dd'][(i+j)%3],.8);}
+     for(let j=0;j<5;j++)for(let i=0;i<3;i++){const out=((i+j*2)%3)*u*.04;box(g,u*.05,u*.3,u*.36,u*.91+out,u*.14+j*u*.33,-u*.4+i*u*.4,'#ffffff',.55);}
+     box(g,u*1.9,u*.08,u*1.4,0,u*1.75,0,'#ffffff',.4);box(g,u*.7,u*.4,u*.07,0,u*.06,u*.7,'#22303c');
+     H=u*1.95;break;}
+   case 'siamsq':{ /* Siam Square: a grid of low colourful shop blocks around a pedestrian street, with a glowing billboard and street trees */
+     box(g,u*2.6,u*.05,u*2.3,0,0,0,'#535b66');box(g,u*.4,u*.06,u*2.32,0,0,0,'#c9b99a');
+     const cs=['#f2a48f','#8fd0c0','#f2d277','#a9b8f0','#f08fb5','#b7e08a'];
+     for(let i=0;i<6;i++){const sx=i%2?1:-1,z=(Math.floor(i/2)-1)*u*.72,h=u*(.55+((i*7)%3)*.2);box(g,u*.85,h,u*.6,sx*u*.75,u*.05,z,cs[i],.3);
+       box(g,u*.04,h*.5,u*.5,sx*u*.31,u*.12,z,'#bfe9ff',.8);box(g,u*.3,u*.04,u*.62,sx*u*.4,u*.38,z,'#ffffff',.5);box(g,u*.87,u*.05,u*.62,sx*u*.75,u*.05+h,z,'#ffffff',.3);}
+     box(g,u*.06,u*.9,u*.06,-u*.75,u*.8,-u*.72,'#8a929b');box(g,u*.75,u*.5,u*.08,-u*.75,u*1.4,-u*.72,'#ff4fa3',1.4);box(g,u*.55,u*.12,u*.1,-u*.75,u*1.5,-u*.72,'#ffe45c',1.4);
+     for(let i=0;i<3;i++){const z=(i-1)*u*.7;cyl(g,u*.02,u*.025,u*.2,0,u*.06,z,'#8a6642',6);sph(g,u*.11,0,u*.33,z,'#46b565',.3);}
+     H=u*1.75;break;}
+   case 'chulamarket':{ /* Chula night market / Jeh O: food stalls under strings of bulbs, and the famous tom-yum instant-noodle pot, steaming */
+     box(g,u*2.6,u*.05,u*1.7,0,0,0,'#4a4744');
+     for(let i=0;i<4;i++){const x=(i-1.5)*u*.6;box(g,u*.48,u*.34,u*.5,x,u*.05,-u*.35,'#3a3330');box(g,u*.54,u*.05,u*.62,x,u*.52,-u*.3,['#ff8a3d','#ffd25a','#ff5f6d','#7ee0a2'][i],.9);
+       [-1,1].forEach(k=>cyl(g,u*.015,u*.015,u*.5,x+k*u*.24,u*.05,-u*.03,'#b8b0a6',6));box(g,u*.4,u*.03,u*.4,x,u*.39,-u*.35,'#ffe9b0',.9);}
+     for(let i=0;i<11;i++){sph(g,u*.035,-u*1.15+i*u*.23,u*.78+Math.sin(i*1.3)*u*.05,u*.05,'#ffd98a',1.4);}
+     cyl(g,u*.02,u*.02,u*.8,-u*1.2,u*.05,u*.05,'#8a8279',6);cyl(g,u*.02,u*.02,u*.8,u*1.2,u*.05,u*.05,'#8a8279',6);
+     cyl(g,u*.42,u*.3,u*.3,0,u*.05,u*.5,'#e9eef2',22,.25);cyl(g,u*.38,u*.38,u*.04,0,u*.33,u*.5,'#ff6a2b',22,1);
+     for(let i=0;i<5;i++){const a=i*1.26;sph(g,u*.07,Math.cos(a)*u*.2,u*.38,u*.5+Math.sin(a)*u*.2,['#ffe08a','#ff8f6b','#8fdc7a','#ffe08a','#ff8f6b'][i],.7,[1.4,.5,1]);}
+     [-1,0,1].forEach(k=>sph(g,u*.09,k*u*.14,u*.62+Math.abs(k)*u*.06,u*.5,'#ffffff',.6,[.7,1.3,.7]).material=mat('#ffffff',.6,.4));
+     H=u*1.1;break;}
+   case 'cook':{ /* Silom Thai Cooking School: a traditional Thai house with steep stacked gable roofs and finials, a wok on the fire out front */
+     box(g,u*1.9,u*.05,u*1.6,0,0,u*.1,'#55604f');
+     for(let i=0;i<6;i++)cyl(g,u*.035,u*.035,u*.22,-u*.55+(i%3)*u*.55,u*.05,-u*.45+Math.floor(i/3)*u*.6,'#6b4326',6);
+     box(g,u*1.4,u*.06,u*.9,0,u*.27,-u*.15,'#7a4c2a');box(g,u*1.25,u*.5,u*.75,0,u*.33,-u*.15,'#a8693a',.25);
+     for(let i=0;i<4;i++)box(g,u*.18,u*.25,u*.02,-u*.4+i*u*.27,u*.45,u*.23,'#ffdf9c',.9);
+     prism(g,u*1.6,u*.5,u*1.0,0,u*.83,-u*.15,'#e0622c').material=mat('#e0622c',.45);prism(g,u*1.05,u*.42,u*1.06,0,u*1.05,-u*.15,'#f08a3a').material=mat('#f08a3a',.45);box(g,u*1.62,u*.04,u*1.04,0,u*.83,-u*.15,'#2f8f5a',.4);
+     [-1,1].forEach(k=>{cone(g,u*.035,u*.3,0,u*1.5,-u*.15+k*u*.34,'#f2c230',6,.8).rotation.x=k*.6;cone(g,u*.03,u*.22,0,u*1.2,-u*.15+k*u*.5,'#f2c230',6,.8).rotation.x=k*.9;});
+     cyl(g,u*.22,u*.1,u*.12,u*.55,u*.2,u*.6,'#2b2f33',16);cyl(g,u*.02,u*.02,u*.3,u*.83,u*.27,u*.6,'#2b2f33',6).rotation.z=Math.PI/2;cyl(g,u*.12,u*.16,u*.15,u*.55,u*.05,u*.6,'#8a5a3a',10);
+     cone(g,u*.1,u*.26,u*.55,u*.3,u*.6,'#ff8a2b',8,1.4);cone(g,u*.05,u*.16,u*.6,u*.32,u*.56,'#ffd84a',8,1.5);
+     H=u*1.75;break;}
+   case 'postal':{ /* Grand Postal Building (TCDC): a symmetrical beige 1940s block, tall pilaster strips, a higher centre, and the two red Garuda statues on its shoulders */
+     box(g,u*3.2,u*.08,u*1.8,0,0,0,'#8f8368');
+     box(g,u*1.1,u*1.55,u*1.0,0,u*.08,-u*.1,'#dccdaa',.25);[-1,1].forEach(k=>{box(g,u*.95,u*1.15,u*.9,k*u*1.0,u*.08,-u*.1,'#d5c59f',.25);box(g,u*.3,u*.95,u*.95,k*u*1.45,u*.08,-u*.1,'#cdbd97',.2);});
+     for(let i=0;i<5;i++)box(g,u*.07,u*1.2,u*.03,-u*.36+i*u*.18,u*.3,u*.415,'#3c3a36');
+     [-1,1].forEach(k=>{for(let i=0;i<4;i++)box(g,u*.07,u*.8,u*.03,k*u*1.0-u*.27+i*u*.18,u*.3,u*.365,'#3c3a36');});
+     box(g,u*1.14,u*.08,u*1.04,0,u*1.63,-u*.1,'#b9a77f');[-1,1].forEach(k=>box(g,u*.99,u*.07,u*.94,k*u*1.0,u*1.23,-u*.1,'#b9a77f'));
+     box(g,u*.7,u*.3,u*.2,0,u*.08,u*.5,'#c9b98f');box(g,u*.9,u*.04,u*.5,0,u*.08,u*.6,'#a39472');
+     [-1,1].forEach(k=>{const x=k*u*.62;box(g,u*.16,u*.3,u*.14,x,u*1.3,u*.3,'#c0392b',.6);sph(g,u*.08,x,u*1.68,u*.3,'#c0392b',.6);[-1,1].forEach(q=>{const w=box(g,u*.3,u*.2,u*.04,x+q*u*.2,u*1.4,u*.28,'#d94a3a',.6);w.rotation.z=q*.6;});cone(g,u*.03,u*.1,x,u*1.74,u*.38,'#f2c230',6,.8).rotation.x=1.4;});
+     H=u*1.95;break;}
+   case 'warehouse':{ /* Warehouse 30: a row of WWII-era riverside sheds, dark corrugated gables, big sliding doors glowing warm, potted greenery */
+     box(g,u*3.2,u*.05,u*2.1,0,0,0,'#4c4f52');
+     for(let i=0;i<4;i++){const x=(i-1.5)*u*.74;box(g,u*.7,u*.55,u*1.6,x,u*.05,-u*.1,'#55504a',.12);const r=prism(g,u*.74,u*.26,u*1.62,x,u*.6,-u*.1,'#33302d');
+       for(let k=0;k<5;k++)box(g,u*.72,u*.012,u*.02,x,u*.14+k*u*.09,u*.705,'#6d6860');
+       box(g,u*.4,u*.42,u*.03,x,u*.05,u*.71,'#ffcf87',1.1);box(g,u*.2,u*.43,u*.04,x-u*.2,u*.05,u*.72,'#3b3632');
+       box(g,u*.22,u*.16,u*.02,x+u*.18,u*.66,u*.71,'#f2f0ea',.7);sph(g,u*.07,x-u*.3,u*.14,u*.85,'#49b56a',.3);cyl(g,u*.05,u*.04,u*.08,x-u*.3,u*.05,u*.85,'#b5653d',8);}
+     for(let i=0;i<8;i++)sph(g,u*.03,-u*1.3+i*u*.37,u*.6-Math.abs(Math.sin(i*1.57))*u*.04,u*.9,'#ffe2a3',1.4);
+     H=u*1.0;break;}
+   case 'iconsiam':{ /* ICONSIAM: a riverside mall whose glass front is folded like pleated Thai silk with gold seams, a river terrace with fountains, and two slender residence towers behind */
+     box(g,u*3.8,u*.05,u*3.0,0,0,u*.2,'#4c5560');
+     box(g,u*3.0,u*.95,u*1.3,0,u*.05,-u*.3,'#dfe7ee',.25);box(g,u*3.04,u*.07,u*1.34,0,u*1.0,-u*.3,'#f2c66a',.9);
+     for(let i=0;i<10;i++){const x=-u*1.35+i*u*.3;const pl=box(g,u*.34,u*.9,u*.04,x,u*.07,u*.42,i%2?'#8fd3f5':'#c9ecfb',.75,.95);pl.rotation.y=(i%2?1:-1)*.55;box(g,u*.025,u*.92,u*.025,x+u*.15,u*.06,u*.5,'#f2c66a',1);}
+     box(g,u*1.0,u*.5,u*.9,0,u*1.07,-u*.3,'#eaf1f6',.3);cone(g,u*.5,u*.4,0,u*1.57,-u*.3,'#f2c66a',4,.7).rotation.y=Math.PI/4;
+     box(g,u*.62,u*3.9,u*.62,-u*1.05,u*.05,-u*1.0,'#9cc0db',.2,.96);for(let j=0;j<12;j++)box(g,u*.63,u*.04,u*.63,-u*1.05,u*.4+j*u*.29,-u*1.0,'#eafaff',.9);box(g,u*.3,u*.35,u*.3,-u*1.05,u*3.95,-u*1.0,'#f2c66a',.8);
+     box(g,u*.55,u*3.0,u*.55,u*1.0,u*.05,-u*1.05,'#b3cfe3',.2,.96);for(let j=0;j<9;j++)box(g,u*.56,u*.04,u*.56,u*1.0,u*.4+j*u*.29,-u*1.05,'#eafaff',.9);
+     box(g,u*3.4,u*.04,u*.8,0,u*.05,u*1.2,'#c9b48a',.2);box(g,u*1.6,u*.03,u*.3,0,u*.09,u*1.25,'#4fc3ee',.9);
+     for(let i=0;i<5;i++)cone(g,u*.035,u*(.25+(i%2)*.15),-u*.6+i*u*.3,u*.1,u*1.25,'#d7f4ff',6,1.2,.7);
+     box(g,u*3.78,u*.03,u*.5,0,0,u*1.9,'#3a86b8',.5);
+     H=u*4.4;break;}
+   case 'somsak':{ /* Somsak Pu Ob: a street-side stall famous for crab and prawn glass noodles baked in pots over charcoal, steel tables on the pavement */
+     box(g,u*2.0,u*.05,u*1.6,0,0,0,'#55595e');
+     box(g,u*1.3,u*.5,u*.5,-u*.2,u*.05,-u*.4,'#d9d2c3',.2);box(g,u*1.6,u*.05,u*1.0,-u*.2,u*.95,-u*.2,'#2f7fd0',.5);for(let i=-2;i<=2;i++)box(g,u*.14,u*.058,u*1.02,-u*.2+i*u*.32,u*.95,-u*.2,'#ffffff',.5);
+     [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b2])=>cyl(g,u*.02,u*.02,u*.9,-u*.2+a*u*.75,u*.05,-u*.2+b2*u*.45,'#c9ced4',6));
+     box(g,u*1.2,u*.28,u*.32,-u*.2,u*.05,u*.1,'#6a6f75');
+     for(let i=0;i<5;i++){const x=-u*.68+i*u*.24;cyl(g,u*.1,u*.075,u*.11,x,u*.36,u*.1,'#c96f3a',12,.3);cyl(g,u*.105,u*.105,u*.025,x,u*.47,u*.1,'#a85a2c',12);sph(g,u*.03,x,u*.51,u*.1,'#a85a2c',0);cone(g,u*.06,u*.1,x,u*.3,u*.24,'#ff8a2b',6,1.5);}
+     sph(g,u*.2,u*.78,u*.62,u*.35,'#f0452f',.7,[1.25,.5,.9]);[-1,1].forEach(k=>{sph(g,u*.09,u*.78+k*u*.3,u*.74,u*.42,'#f0452f',.7,[1,.7,.7]);});cyl(g,u*.03,u*.03,u*.5,u*.78,u*.05,u*.35,'#9aa3ad',6);
+     for(let i=0;i<2;i++){cyl(g,u*.15,u*.15,u*.03,-u*.5+i*u*.6,u*.26,u*.6,'#cfd6dd',12,.3);cyl(g,u*.02,u*.02,u*.2,-u*.5+i*u*.6,u*.05,u*.6,'#9aa3ad',6);}
+     H=u*1.1;break;}
+   case 'jayfai':{ /* Jay Fai: an open-fronted corner shophouse where the cooking happens on the pavement, two charcoal woks in flames and a red Michelin star above the door */
+     box(g,u*1.9,u*.05,u*1.6,0,0,u*.1,'#55595e');
+     box(g,u*1.5,u*1.1,u*.85,0,u*.05,-u*.25,'#e6dcc6',.25);box(g,u*1.54,u*.07,u*.89,0,u*1.15,-u*.25,'#8e7d63');
+     box(g,u*1.3,u*.5,u*.03,0,u*.07,u*.18,'#2a2420');box(g,u*1.2,u*.3,u*.02,0,u*.12,u*.2,'#ffcf87',.8);
+     box(g,u*1.52,u*.22,u*.04,0,u*.62,u*.19,'#1f6e4a',.5);for(let i=0;i<4;i++)box(g,u*.2,u*.24,u*.03,-u*.45+i*u*.3,u*.86,u*.185,'#7a6a52',.2);
+     for(let i=0;i<2;i++){const x=-u*.35+i*u*.7;cyl(g,u*.13,u*.17,u*.2,x,u*.05,u*.6,'#7a4a34',10);cyl(g,u*.26,u*.12,u*.13,x,u*.25,u*.6,'#22262a',16);
+       cone(g,u*.15,u*.42,x,u*.36,u*.6,'#ff7a1f',8,1.5);cone(g,u*.08,u*.28,x+u*.03,u*.38,u*.58,'#ffd84a',8,1.6);}
+     {const st=new THREE.Mesh(new THREE.OctahedronGeometry(u*.17),mat('#e1251b',1));st.position.set(0,u*1.42,u*.2);st.scale.set(1,1,.35);g.add(st);const st2=st.clone();st2.rotation.z=Math.PI/4;g.add(st2);}
+     sph(g,u*.09,u*.02,u*.5,u*.82,'#f4d7b8',.2);box(g,u*.2,u*.05,u*.06,u*.02,u*.51,u*.89,'#1b1e22');box(g,u*.16,u*.3,u*.12,u*.02,u*.17,u*.82,'#3b3f45');
+     H=u*1.65;break;}
+   case 'bacc':{ /* BACC: a white block with a big rounded corner drum, slanted strip windows spiralling up it (the ramp inside) and a glass skylight */
+     box(g,u*2.4,u*.05,u*2.2,0,0,0,'#515a65');
+     box(g,u*1.7,u*1.5,u*1.5,-u*.1,u*.05,-u*.1,'#eeece6',.28);
+     cyl(g,u*.72,u*.72,u*1.6,u*.55,u*.05,u*.5,'#f4f2ec',36,.28);
+     for(let j=0;j<4;j++){const band=new THREE.Mesh(new THREE.TorusGeometry(u*.725,u*.035,6,40,Math.PI*1.25),mat('#34424f',.1));band.rotation.x=Math.PI/2+.13;band.rotation.z=-.3+j*.5;band.position.set(u*.55,u*.4+j*u*.33,u*.5);g.add(band);}
+     for(let i=0;i<5;i++)box(g,u*.16,u*1.05,u*.03,-u*.75+i*u*.24,u*.3,u*.655,'#34424f');
+     for(let i=0;i<4;i++)box(g,u*.03,u*1.05,u*.2,-u*.955,u*.3,-u*.6+i*u*.35,'#34424f');
+     cyl(g,u*.5,u*.6,u*.14,u*.55,u*1.65,u*.5,'#9fdcf5',36,.8,.9);cone(g,u*.5,u*.22,u*.55,u*1.79,u*.5,'#c9eefc',36,.8,.85);
+     box(g,u*.9,u*.06,u*.5,-u*.1,u*.05,u*.9,'#c9c2b3');box(g,u*.5,u*.4,u*.04,-u*.35,u*.07,u*.665,'#22303c');
+     H=u*2.0;break;}
    default:{box(g,u,u,u,0,0,0,'#cccccc');}
   }
   g.userData.h=H;return g;
@@ -1127,22 +1403,20 @@ function makeHotelHero(u){
       l.position.set(x+Math.cos(a)*u*.15,u*(.08+h)-u*.03,z+Math.sin(a)*u*.15);l.rotation.order='YXZ';l.rotation.y=-a;l.rotation.z=-.45;g.add(l);}
     const c=new THREE.Mesh(new THREE.SphereGeometry(u*.06,8,6),mat('#2f9a4c',.2));c.position.set(x,u*(.08+h),z);g.add(c);};
   palm(-u*1.5,u*.4,.75);palm(-u*1.35,u*1.25,.6);palm(-u*.7,u*1.3,.5);palm(u*1.1,u*1.25,.55);palm(u*1.55,-u*1.2,.8);palm(u*1.45,-u*.2,.65);palm(-u*.1,u*.45,.55);
-  /* soft marker light so the hotel is still easy to find from far away */
-  const beam=new THREE.Mesh(new THREE.CylinderGeometry(u*.16,u*.36,u*11,20,1,true),new THREE.MeshBasicMaterial({color:0x6fd66f,transparent:true,opacity:.13,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending}));
-  beam.position.y=u*2.5+u*5.5;g.add(beam);
   g.userData.h=u*2.55;hotelFx=null;return g;
 }
+const TLW=4;
 function legsOf(d){return [d.pre,...d.legs,d.post].filter(Boolean);}
 function boundsOf(keys){const b={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9};keys.forEach(k=>{const p=pt(k);const [x,z]=XZ(p[0],p[1]);b.x0=Math.min(b.x0,x);b.x1=Math.max(b.x1,x);b.z0=Math.min(b.z0,z);b.z1=Math.max(b.z1,z);});return b;}
 
 const starsEl=document.getElementById('stars'),clockEl=document.getElementById('clock');
 const rcam=new THREE.OrthographicCamera(-1,1,1,-1,.1,600);
-function build(di){
+function build(di){bldObjs=[];
   curDay=di;const d=DAYS[di];
   if(dayGroup){scene.remove(dayGroup);dayGroup.traverse(o=>{if(o.geometry)o.geometry.dispose();});}
   dayGroup=new THREE.Group();scene.add(dayGroup);legObjs=[];
   const keys=[];d.legs.forEach(L=>L.segs.forEach(s=>keys.push(...s[1])));d.stops.forEach(s=>keys.push(s[0]));
-  if(d.legs.length<2&&d.pre)d.pre.segs.forEach(s=>keys.push(...s[1]));
+  [d.pre,d.post].forEach(L=>{if(L)L.segs.forEach(s=>keys.push(...s[1]));}); /* the whole day's route, including leaving and returning to the hotel */
   keys.push('HOTEL');
   const b=boundsOf(keys);const span=Math.max(b.x1-b.x0,b.z1-b.z0,2.5);
   hScale=Math.min(4,Math.max(1,span/7));const R=Math.min(.16,Math.max(.03,span*.0055));curR=R;
@@ -1202,19 +1476,24 @@ function build(di){
   stopLabels=[];Object.keys(seen).forEach(k=>{
     const p=pt(k);const [x,z]=XZ(p[0],p[1]);
     if(k==='HOTEL'){return;}
-    const bld=makeBuilding(BT[k],R*4.2);bld.position.set(x,0,z);bld.rotation.y=((x*13.7+z*7.3)%1)*.6-.3;dayGroup.add(bld);
+    const bld=makeBuilding(BT[k],R*4.2);bld.position.set(x,0,z);bld.rotation.y=((x*13.7+z*7.3)%1)*.6-.3;bld.visible=showBld;bldObjs.push(bld);dayGroup.add(bld);
     const bTop=bld.userData.h,top=bTop+.55*hScale;
-    const pole=new THREE.Mesh(new THREE.CylinderGeometry(R*.18,R*.18,top-bTop,6),new THREE.MeshBasicMaterial({color:0xf2c230}));pole.position.set(x,bTop+(top-bTop)/2,z);dayGroup.add(pole);
+    const pole=new THREE.Mesh(new THREE.CylinderGeometry(R*.18,R*.18,top,6),new THREE.MeshBasicMaterial({color:0xf2c230}));pole.position.set(x,top/2,z);dayGroup.add(pole);
     const head=new THREE.Mesh(new THREE.SphereGeometry(R*1.1,14,10),new THREE.MeshStandardMaterial({color:0xf2c230,emissive:0xf2c230,emissiveIntensity:.6}));head.position.set(x,top,z);dayGroup.add(head);
     const disc=new THREE.Mesh(new THREE.RingGeometry(R*9,R*9.8,40),new THREE.MeshBasicMaterial({color:0xf2c230,transparent:true,opacity:.35,side:THREE.DoubleSide}));disc.rotation.x=-Math.PI/2;disc.position.set(x,.01,z);dayGroup.add(disc);
     const stop=d.stops.find(s=>s[0]===k);
     stopLabels.push({k,p:new THREE.Vector3(x,top+R*2,z),html:`<a href="${gmap(k)}" target="_blank" rel="noopener" title="在 Google 地圖開啟"><b>${seen[k]}</b>${esc(P[k][2])}<i>${stop[1]}</i></a>`});
   });
   /* hotel: always drawn, distinct colour */
-  {const p=P.HOTEL;const [x,z]=XZ(p[0],p[1]);const hb=makeHotelHero(R*4.2);hb.position.set(x,0,z);dayGroup.add(hb);
+  {const p=P.HOTEL;const [x,z]=XZ(p[0],p[1]);const hb=makeHotelHero(R*4.2);hb.position.set(x,0,z);hb.visible=showBld;bldObjs.push(hb);dayGroup.add(hb);
+   {/* same gold pin as the other stops, so the hotel stays marked when buildings are hidden */
+    const top=hb.userData.h+.55*hScale,gm=new THREE.MeshBasicMaterial({color:0xf2c230});
+    const pole=new THREE.Mesh(new THREE.CylinderGeometry(R*.18,R*.18,top,6),gm);pole.position.set(x,top/2,z);dayGroup.add(pole);
+    const head=new THREE.Mesh(new THREE.SphereGeometry(R*1.1,14,10),new THREE.MeshStandardMaterial({color:0xf2c230,emissive:0xf2c230,emissiveIntensity:.6}));head.position.set(x,top,z);dayGroup.add(head);
+    const disc=new THREE.Mesh(new THREE.RingGeometry(R*9,R*9.8,40),new THREE.MeshBasicMaterial({color:0xf2c230,transparent:true,opacity:.35,side:THREE.DoubleSide}));disc.rotation.x=-Math.PI/2;disc.position.set(x,.01,z);dayGroup.add(disc);}
    const idx=d.stops.map((s,j)=>s[0]==='HOTEL'?(j+1):0).filter(Boolean);
    const st=d.stops.find(s=>s[0]==='HOTEL');
-   hotelLabel={p:new THREE.Vector3(x,hb.userData.h+R*3,z),html:`<a href="${gmap('HOTEL')}" target="_blank" rel="noopener" title="在 Google 地圖開啟">${idx.length?`<b>${idx.join('・')}</b>`:''}住宿${st?`<small>${st[1]}</small>`:''}</a>`};}
+   hotelLabel={p:new THREE.Vector3(x,hb.userData.h+.55*hScale+R*2,z),html:`<a href="${gmap('HOTEL')}" target="_blank" rel="noopener" title="在 Google 地圖開啟">${idx.length?`<b>${idx.join('・')}</b>`:''}住宿${st?`<small>${st[1]}</small>`:''}</a>`};}
   /* station labels used today */
   const used=new Map();all.forEach(L=>L.segs.forEach(([m,ks])=>{if(m!=='WALK'&&m!=='GRAB'&&m!=='BOAT'&&m!=='CRUISE')[ks[0],ks[ks.length-1]].forEach(k=>{if(SN[k]&&!used.has(k))used.set(k,m);});}));
   stLabels=[...used].map(([k,m])=>({p:v3(k,m),html:esc(SN[k])}));
@@ -1282,11 +1561,23 @@ function build(di){
   radarExt=Math.max(.8,span*.15);
   const cum=[0];for(let i=1;i<travelPts.length;i++)cum.push(cum[i-1]+travelPts[i].distanceTo(travelPts[i-1]));
   path={pts:travelPts,modes:travelModes,cum,total:cum[cum.length-1],ranges:legRanges,speed:Math.max(.6,cum[cum.length-1]/38)};
-  tPos=0;
-  {const st=d.stops.map(x=>tmin(x[1]));path.sched=all.map(L=>{let s0;
-     if(L===d.pre)s0=st[0]-L.min;else if(L===d.post)s0=POST_AT[di]?tmin(POST_AT[di]):st[st.length-1]+60;else{const j=d.legs.indexOf(L);s0=st[j+1]-L.min;}
-     return s0;});}
-  {const tk=document.getElementById('ticks');let th='';legRanges.forEach((r,li)=>{if(li>0){const isStop=!(all[li]===d.post&&false);th+=`<i class="stopt" style="left:${(cum[r[0]]/path.total*100).toFixed(2)}%"></i>`;}});tk.innerHTML=th;}
+  /* the day's real-time timeline: staying at each stop and travelling each leg, in minutes of the day.
+     A leg leaves as late as it can and still arrive on time; a "leaving" stop leaves at its own time; the last leg leaves at POST_AT. */
+  {const st=d.stops.map(x=>tmin(x[1]));const ev=[];let t=st[0];
+   if(d.pre){ev.push({mv:1,li:0,t0:st[0]-d.pre.min,t1:st[0]});}
+   d.stops.forEach((sp,j)=>{const L=d.legs[j]||(j===d.stops.length-1?d.post:null);let dep;
+     if(!L)dep=t+30;else if(L===d.post)dep=Math.max(t,POST_AT[di]?tmin(POST_AT[di]):st[j]+60);
+     else dep=/出發|離開/.test(sp[2])?Math.max(t,st[j]):Math.max(t,st[j+1]-L.min);
+     ev.push({mv:0,j,li:L?all.indexOf(L):-1,t0:t,t1:dep});
+     if(L){ev.push({mv:1,li:all.indexOf(L),t0:dep,t1:dep+L.min});t=dep+L.min;}});
+   if(d.post)ev.push({mv:0,home:1,j:d.stops.length,li:-1,t0:t,t1:t}); /* back at the hotel: the day's last point */
+   /* on the bar a minute of travelling is drawn TLW times as wide as a minute of staying, so short rides are not squeezed into slivers and the traveler does not race when the bar is dragged */
+   {let u=0;ev.forEach(e=>{e.u0=u;u+=(e.t1-e.t0)*(e.mv?TLW:1);e.u1=u;});
+    path.tl={ev,T0:ev[0].t0,T1:Math.max(ev[ev.length-1].t1,ev[0].t0+1),U:u||1};}
+   tNow=path.tl.T0;stayHold=0;
+   const TL=path.tl,pc=u=>(u/TL.U*100).toFixed(2);let th='';
+   ev.forEach(e=>{if(!e.mv){th+=`<i class="stopt" style="left:${pc(e.u0)}%"></i>`;if(e.li>=0&&e.t1-e.t0>=1)th+=`<i class="stopt" style="left:${pc(e.u1)}%"></i>`;}}); /* a diamond when arriving at a stop and another when leaving it */
+   document.getElementById('ticks').innerHTML=th;}
   ttLabels=all.map((L,li)=>{const [a,bI]=legRanges[li];const half=(cum[a]+cum[bI])/2;let i=a+1;while(i<bI&&cum[i]<half)i++;
     const pA=travelPts[Math.min(i-1,travelPts.length-1)],pB=travelPts[Math.min(i,travelPts.length-1)],sg=(cum[i]-cum[i-1])||1;const pos=pA.clone().lerp(pB,(half-cum[i-1])/sg);pos.y+=R*3;
     const ms=L.segs.map(s=>s[0]).filter(m=>m!=='WALK');const main=ms.find(m=>!['GRAB','BOAT','CRUISE'].includes(m))||ms[0]||'WALK';
@@ -1302,6 +1593,7 @@ function build(di){
   stopLabels.forEach(l=>{l.el=document.createElement('div');l.el.className='lb';l.el.innerHTML=l.html;labelsEl.appendChild(l.el);});
   ttLabels.forEach(l=>{l.el=document.createElement('div');l.el.className='tt'+(l.ghost?' ghost':'');l.el.style.background=l.color;l.el.innerHTML=l.html;labelsEl.appendChild(l.el);});
   rdLabels.forEach(l=>{l.el=document.createElement('div');l.el.className='rd';l.el.innerHTML=l.html;labelsEl.appendChild(l.el);});
+  stayLb={p:new THREE.Vector3(),hide:true,cov:null,el:document.createElement('div')};stayLb.el.className='sp';stayLb.el.style.display='none';labelsEl.appendChild(stayLb.el);
   hotelLabel.el=document.createElement('div');hotelLabel.el.className='hl';hotelLabel.el.innerHTML=hotelLabel.html;labelsEl.appendChild(hotelLabel.el);
   /* camera */
   fit(b,span);
@@ -1317,22 +1609,51 @@ function applyHL(si){segInfo.forEach((S,k)=>{const o=k===si?1:.14;for(let j=S.n0
   ttLabels.forEach(l=>{l.el.classList.remove('on');l.hide=false;});const S=segInfo[si];if(S)showChip('目前路段：'+MODE[S.m].n);}
 function startHL(){if(!hl){clearFocus();hl=true;hlSeg=-1;}}
 function setOpacity(g,o){g.userData.mats.forEach(m=>{m.transparent=true;m.opacity=(m.userData.cs&&o<.5)?0:o;m.depthWrite=o>=.5;});}
+/* Frame a ground rectangle: because the view is tilted, the near (south) half takes more of the screen than the far half,
+   so aiming at the rectangle's centre leaves everything sitting low. Instead project the rectangle, then nudge the target
+   and the distance until its on-screen box is centred in the free area between the top controls and the scrubber. */
+function frame(b,span){
+  let cx=(b.x0+b.x1)/2,cz=(b.z0+b.z1)/2;const asp=camera.aspect||1;let dist=(span*1.25+2)*(asp<1?Math.min(2.6,1/asp):1);
+  const H=stage.clientHeight||1,barEl=stage.querySelector('.bar'),padB=barEl?Math.max(60,H-barEl.offsetTop+10):86,padT=64,yc=(padB-padT)/H,fy=Math.max(.3,(H-padB-padT)/H*.94),top=.9*hScale+.5,pts=[];
+  [[b.x0,b.z0],[b.x1,b.z0],[b.x0,b.z1],[b.x1,b.z1]].forEach(([x,z])=>{pts.push(new THREE.Vector3(x,0,z),new THREE.Vector3(x,top,z));});
+  const tgt=new THREE.Vector3(),pos=new THREE.Vector3(),q=new THREE.Vector3(),sp=camera.position.clone(),sq=camera.quaternion.clone();
+  const halfTan=Math.tan(camera.fov*Math.PI/360);
+  for(let i=0;i<7;i++){
+    tgt.set(cx,0,cz);if(topMode)pos.set(cx,dist*1.075,cz+dist*.0013);else pos.set(cx,dist*.75,cz+dist*.77);
+    camera.position.copy(pos);camera.lookAt(tgt);camera.updateMatrixWorld(true);camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+    let x0=9,x1=-9,y0=9,y1=-9;pts.forEach(v=>{q.copy(v).project(camera);x0=Math.min(x0,q.x);x1=Math.max(x1,q.x);y0=Math.min(y0,q.y);y1=Math.max(y1,q.y);});
+    const half=dist*1.075*halfTan,fore=topMode?1:.7;
+    cx+=(x0+x1)/2*half*asp;cz-=((y0+y1)/2-yc)*half/fore;
+    const sc=Math.max((x1-x0)/2/.8,(y1-y0)/2/fy);dist*=Math.min(1.5,Math.max(.6,sc));
+  }
+  camera.position.copy(sp);camera.quaternion.copy(sq);camera.updateMatrixWorld(true);
+  dist=Math.min(200,Math.max(1.5,dist));
+  return {target:new THREE.Vector3(cx,0,cz),pos:topMode?new THREE.Vector3(cx,dist*1.075,cz+dist*.0013):new THREE.Vector3(cx,dist*.75,cz+dist*.77)};
+}
 function fit(b,span){
-  const cx=(b.x0+b.x1)/2,cz=(b.z0+b.z1)/2;const asp=camera.aspect||1;const dist=(span*1.25+2)*(asp<1?Math.min(2.6,1/asp):1);
-  focusTarget={target:new THREE.Vector3(cx,0,cz),pos:new THREE.Vector3(cx,dist*.75,cz+dist*.77)};
-  controls.target.copy(focusTarget.target);camera.position.copy(focusTarget.pos);controls.update();
+  const f=frame(b,span);focusTarget={target:f.target,pos:f.pos};
+  controls.target.copy(f.target);camera.position.copy(f.pos);controls.update();
 }
 const fchip=document.getElementById('fchip'),fchipTxt=document.getElementById('fchipTxt');
 function showChip(t){fchipTxt.textContent=t;fchip.hidden=false;}
 function hideChip(){fchip.hidden=true;}
-function flyTo(target,pos){focusTarget={target,pos,anim:!matchMedia('(prefers-reduced-motion: reduce)').matches};
+/* top-down mode: camera straight above, north up, rotation locked (pan and zoom still work) */
+let topMode=false;
+function topPos(target,pos){const d=pos.distanceTo(target);return new THREE.Vector3(target.x,d,target.z+d*.0012);}
+function setTop(on){topMode=on;const t=controls.target.clone(),d=camera.position.distanceTo(t);
+  controls.enableRotate=!on;controls.maxPolarAngle=on?.002:Math.PI*.49;controls.minAzimuthAngle=on?0:-Infinity;controls.maxAzimuthAngle=on?0:Infinity;
+  controls.mouseButtons.LEFT=on?THREE.MOUSE.PAN:THREE.MOUSE.ROTATE;controls.touches.ONE=on?THREE.TOUCH.PAN:THREE.TOUCH.ROTATE;
+  const b=document.getElementById('topBtn');b.setAttribute('aria-pressed',String(on));
+  flyTo(t,on?new THREE.Vector3(t.x,d,t.z+d*.0012):new THREE.Vector3(t.x,d*.7,t.z+d*.714));}
+function flyTo(target,pos){if(topMode)pos=topPos(target,pos);focusTarget={target,pos,anim:!matchMedia('(prefers-reduced-motion: reduce)').matches};
   if(!focusTarget.anim){controls.target.copy(target);camera.position.copy(pos);}}
 function focusLeg(li){
   const d=DAYS[curDay];const L=legsOf(d)[li];const keys=[];L.segs.forEach(s=>keys.push(...s[1]));
   const b=boundsOf(keys);const span=Math.max(b.x1-b.x0,b.z1-b.z0,1.2);const cx=(b.x0+b.x1)/2,cz=(b.z0+b.z1)/2;const asp=camera.aspect||1;const dist=(span*1.3+1.2)*(asp<1?Math.min(2.2,.85/asp):1);
   flyTo(new THREE.Vector3(cx,0,cz),new THREE.Vector3(cx,dist*.8,cz+dist*.77));
   hl=false;hlSeg=-1;legObjs.forEach((g,i)=>setOpacity(g,i===li?1:.12));
-  tPos=path.cum[path.ranges[li][0]];
+  {const e=path.tl.ev.find(e=>e.mv&&e.li===li);if(e)tNow=e.t0+(e.t1-e.t0)*.002+1e-3;} /* just inside this leg on the timeline */
+  liveLeg=-1;
   document.querySelectorAll('.leg').forEach(x=>{const on=+x.dataset.i===li;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on);});
   document.querySelectorAll('.stopbtn').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed','false');});
   ttLabels.forEach(l=>{l.el.classList.toggle('on',l.li===li);l.hide=l.li!==li;});
@@ -1349,9 +1670,8 @@ function focusStop(k,btn){
 function clearFocus(){hl=false;hlSeg=-1;legObjs.forEach(g=>setOpacity(g,g.userData.base));ttLabels.forEach(l=>{l.el.classList.remove('on');l.hide=false;});
   document.querySelectorAll('.leg,.stopbtn').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed','false');});hideChip();}
 function overview(){clearFocus();const d=DAYS[curDay];const keys=['HOTEL'];d.legs.forEach(L=>L.segs.forEach(s=>keys.push(...s[1])));d.stops.forEach(s=>keys.push(s[0]));
-  if(d.legs.length<2&&d.pre)d.pre.segs.forEach(s=>keys.push(...s[1]));
-  const b=boundsOf(keys);const span=Math.max(b.x1-b.x0,b.z1-b.z0,2.5);const cx=(b.x0+b.x1)/2,cz=(b.z0+b.z1)/2;const asp=camera.aspect||1;const dist=(span*1.25+2)*(asp<1?Math.min(2.6,1/asp):1);
-  flyTo(new THREE.Vector3(cx,0,cz),new THREE.Vector3(cx,dist*.75,cz+dist*.77));}
+  [d.pre,d.post].forEach(L=>{if(L)L.segs.forEach(s=>keys.push(...s[1]));}); /* the whole day's route, including leaving and returning to the hotel */
+  const b=boundsOf(keys);const span=Math.max(b.x1-b.x0,b.z1-b.z0,2.5);const f=frame(b,span);flyTo(f.target,f.pos);}
 function zoomBy(f){const off=camera.position.clone().sub(controls.target);const len=Math.min(controls.maxDistance,Math.max(controls.minDistance,off.length()*f));
   off.setLength(len);flyTo(controls.target.clone(),controls.target.clone().add(off));}
 
@@ -1368,7 +1688,7 @@ function renderList(d){
   const legBtn=(L,i,ghost)=>`<li class="legrow${ghost?' ghostleg':''}" data-leg="${i}" style="--m:${MODE[L.segs.map(s=>s[0]).find(m=>m!=='WALK')||'WALK'].c}"><span class="tm"></span><span class="legdot"></span><button class="leg" type="button" data-i="${i}" aria-pressed="false"><div class="chips">${chips(L)}<span class="mins">約 ${L.min} 分</span></div>${esc(L.txt)}</button></li>`;
   if(d.pre){h+=legBtn(d.pre,idx,true);idx++;}
   d.stops.forEach((s,j)=>{
-    h+=`<li class="stop${s[0]==='HOTEL'?' home':''}"><span class="tm">${s[1]}</span><span class="n">${j+1}</span><div class="stopbody"><div class="stoprow"><button class="stopbtn" type="button" data-k="${s[0]}" aria-pressed="false">${esc(s[2])}</button><a class="gm" href="${gmap(s[0])}" target="_blank" rel="noopener" aria-label="在 Google 地圖開啟 ${esc(s[2])}">地圖 ↗</a></div>${s[3]?`<div class="note">${esc(s[3])}</div>`:''}</div></li>`;
+    h+=`<li class="stop${s[0]==='HOTEL'?' home':''}" data-j="${j}"><span class="tm">${s[1]}</span><span class="n">${j+1}</span><div class="stopbody"><div class="stoprow"><button class="stopbtn" type="button" data-k="${s[0]}" aria-pressed="false">${esc(s[2])}</button><a class="gm" href="${gmap(s[0])}" target="_blank" rel="noopener" aria-label="在 Google 地圖開啟 ${esc(s[2])}">地圖 ↗</a></div>${s[3]?`<div class="note">${esc(s[3])}</div>`:''}</div></li>`;
     if(d.legs[j]){h+=legBtn(d.legs[j],idx,false);idx++;}
   });
   if(d.post){h+=legBtn(d.post,idx,true);}
@@ -1389,10 +1709,19 @@ daysEl.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>buil
 document.getElementById('prev').addEventListener('click',()=>{if(curDay>0)build(curDay-1);});
 document.getElementById('next').addEventListener('click',()=>{if(curDay<DAYS.length-1)build(curDay+1);});
 function syncPlay(){}
+/* "now" button: jump the timeline to the current local time; during the trip it also switches to today's day */
+document.getElementById('nowBtn').addEventListener('click',()=>{
+  const n=new Date(Date.now()+CITY.utcOffset*3600e3),mins=n.getUTCHours()*60+n.getUTCMinutes(),hm=String(n.getUTCHours()).padStart(2,'0')+':'+String(n.getUTCMinutes()).padStart(2,'0');
+  let di=DAYS.findIndex(d=>{const [m,dd]=d.d.split('/').map(Number);return m===n.getUTCMonth()+1&&dd===n.getUTCDate()&&(!CITY.year||CITY.year===n.getUTCFullYear());});
+  const inTrip=di>=0;if(!inTrip)di=curDay;if(di!==curDay)build(di);
+  const TL=path.tl;playing=false;startHL();hlSeg=-1;stayHold=0;tNow=Math.min(TL.T1,Math.max(TL.T0,mins));
+  const f=x=>String(Math.floor(x/60)%24).padStart(2,'0')+':'+String(Math.round(x)%60).padStart(2,'0');
+  const msg=!inTrip?`不在旅行期間，跳到這天 ${hm}`:mins<TL.T0?`現在 ${hm}，還沒出門（${f(TL.T0)} 開始）`:mins>TL.T1?`現在 ${hm}，今天行程已結束`:`現在 ${hm}`;
+  setTimeout(()=>showChip(msg),120);});
 const scrub=document.getElementById('scrub');
 scrub.addEventListener('pointerdown',()=>{scrubbing=true;});
 ['pointerup','pointercancel','change','blur'].forEach(ev=>scrub.addEventListener(ev,()=>{scrubbing=false;}));
-scrub.addEventListener('input',()=>{startHL();if(path)tPos=Math.min(path.total*.9999,scrub.value/1000*path.total);});
+scrub.addEventListener('input',()=>{startHL();if(path){const TL=path.tl;const u=scrub.value/1000*TL.U,e=TL.ev.find(e=>e.u1>e.u0&&u<=e.u1);tNow=e?e.t0+(u-e.u0)/(e.u1-e.u0)*(e.t1-e.t0):TL.T1;stayHold=0;}});
 document.getElementById('fclear').addEventListener('click',overview);
 document.getElementById('zin').addEventListener('click',()=>zoomBy(.7));
 document.getElementById('zout').addEventListener('click',()=>zoomBy(1.43));
@@ -1401,6 +1730,8 @@ sgTog.addEventListener('change',()=>{showSights=sgTog.checked;if(sightsGroup)sig
 const rlTog=document.getElementById('rlToggle'),rlLeg=document.getElementById('rlLegend');
 rlLeg.innerHTML=RAIL_MAP.map(L=>`<span><em style="background:${L.c}"></em>${esc(L.n)}</span>`).join('');
 rlTog.addEventListener('change',()=>{showRail=rlTog.checked;if(railGroup)railGroup.visible=showRail;rlLeg.hidden=!showRail;if(!showRail)rlLabels.forEach(l=>{l.el.style.display='none';});});
+const bdTog=document.getElementById('bdToggle');
+bdTog.addEventListener('change',()=>{showBld=bdTog.checked;bldObjs.forEach(o=>{o.visible=showBld;});});
 const prTog=document.getElementById('prToggle');
 prTog.addEventListener('change',()=>{showPiers=prTog.checked;if(pierGroup)pierGroup.visible=showPiers;if(!showPiers)prLabels.forEach(l=>{l.el.style.display='none';});});
 const stTog=document.getElementById('stToggle');stTog.checked=showStreets;
@@ -1480,11 +1811,14 @@ const roseEl=document.getElementById('rose');
 let skyMode='night';
 function bkkHour(){const n=new Date(Date.now()+CITY.utcOffset*3600e3);return n.getUTCHours()+n.getUTCMinutes()/60;}
 const SKY_H={day:12,night:22};
+function setSky(m){skyMode=m;lastSkyKey=-1;applySky();const b=document.getElementById('skyBtn');b.setAttribute('aria-pressed',String(m==='day'));b.textContent=m==='day'?'夜晚':'白天';b.title=m==='day'?'切換成夜晚配色':'切換成白天配色';}
 function applySky(){applyTime(skyMode in SKY_H?SKY_H[skyMode]:bkkHour());}
 function syncSeg(){document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.m===skyMode));}
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{skyMode=b.dataset.m;lastSkyKey=-1;applySky();syncSeg();try{localStorage.setItem('bkk3dSky',skyMode);}catch(e){}}));
 syncSeg();
 document.getElementById('compass').addEventListener('click',overview);
+document.getElementById('topBtn').addEventListener('click',()=>setTop(!topMode));
+document.getElementById('skyBtn').addEventListener('click',()=>setSky(skyMode==='day'?'night':'day'));
 syncPlay();
 
 /* ---------- loop ---------- */
@@ -1508,29 +1842,46 @@ function tick(now){
   if(focusTarget&&focusTarget.anim){controls.target.lerp(focusTarget.target,.2);camera.position.lerp(focusTarget.pos,.18);
     if(camera.position.distanceTo(focusTarget.pos)<.05){controls.target.copy(focusTarget.target);camera.position.copy(focusTarget.pos);focusTarget.anim=false;}}
   if(path&&path.total>0){
-    if(playing&&!scrubbing){startHL();tPos=(tPos+dt*path.speed)%path.total;}
-    if(!scrubbing)scrub.value=Math.round(tPos/path.total*1000);
-    {const pv=(tPos/path.total*100).toFixed(1)+'%';if(pv!==lastP){lastP=pv;scrub.style.setProperty('--p',pv);}}
+    const TL=path.tl,E=TL.ev,evAt=()=>{const k=E.findIndex(e=>tNow<e.t1||(!e.mv&&tNow<=e.t1));return k<0?E.length-1:k;};let ei=evAt(),e=E[ei];
+    if(playing&&!scrubbing){startHL();
+      if(e.mv){const r=path.ranges[e.li],ld=(path.cum[r[1]]-path.cum[r[0]])||1e-6;tNow+=Math.min(dt/1.2,Math.max(dt/7,dt*path.speed/ld))*(e.t1-e.t0);if(tNow>=e.t1)tNow=e.t1;}
+      else if(e.t1-e.t0<1){stayHold+=dt;if(stayHold>1.5){stayHold=0;tNow=ei===E.length-1?TL.T0:e.t1+1e-3;}}
+      else{tNow+=dt*(e.t1-e.t0)/2.2;if(ei===E.length-1&&tNow>=e.t1)tNow=TL.T0;}
+      const k=evAt();if(k!==ei){stayHold=0;ei=k;e=E[ei];}}
+    tNow=Math.min(TL.T1,Math.max(TL.T0,tNow));
+    if(e.mv){const r=path.ranges[e.li],c0=path.cum[r[0]],c1=path.cum[r[1]];tPos=c0+(c1-c0)*Math.min(.9999,Math.max(2e-4,(tNow-e.t0)/((e.t1-e.t0)||1)));}
+    else tPos=e.li<0?path.total:path.cum[path.ranges[e.li][0]];
+    const fr=(e.u0+(e.u1-e.u0)*Math.min(1,Math.max(0,(tNow-e.t0)/((e.t1-e.t0)||1))))/TL.U,hm=v=>{v=Math.round(v);return String(Math.floor(v/60)%24).padStart(2,'0')+':'+String(v%60).padStart(2,'0');};
+    if(!scrubbing)scrub.value=Math.round(fr*1000);
+    {const pv=(fr*100).toFixed(1)+'%';if(pv!==lastP){lastP=pv;scrub.parentNode.style.setProperty('--p',pv);scrub.setAttribute('aria-valuetext',hm(tNow));}}
     let i=1;while(i<path.cum.length-1&&path.cum[i]<tPos)i++;
     const a=path.pts[i-1],b=path.pts[i],seg=path.cum[i]-path.cum[i-1]||1;
     traveler.position.copy(a).lerp(b,(tPos-path.cum[i-1])/seg);
     {const dx=b.x-a.x,dz=b.z-a.z;if(dx*dx+dz*dz>1e-10)traveler.children[0].rotation.y=Math.atan2(-dx,-dz);}
-    {const H=traveler.children[0],U=H.userData,m=path.modes[i]||'WALK',kind=m==='WALK'?'walk':m==='GRAB'?'car':(m==='BOAT'||m==='CRUISE')?'boat':'rail',key=kind+m;
+    {const H=traveler.children[0],U=H.userData,m=e.mv?(path.modes[i]||'WALK'):'WALK',kind=m==='WALK'?'walk':m==='GRAB'?'car':(m==='BOAT'||m==='CRUISE')?'boat':'rail',key=kind+m;
      if(U.kind!==key){U.kind=key;U.walk.visible=kind==='walk';U.rail.visible=kind==='rail';U.car.visible=kind==='car';U.boat.visible=kind==='boat';
        if(kind==='rail'||kind==='boat'){const bm=U[kind].userData.body;bm.color.set(MODE[m].c);bm.emissive.set(MODE[m].c);}}
      if(kind==='boat'){U.boat.rotation.z=Math.sin(now/900)*.05;U.boat.position.y=Math.sin(now/700)*.06;}
-     if(kind==='walk'){const sw=Math.sin(now/170)*.6,L=U.walk.userData.limbs;L[0].rotation.x=sw;L[1].rotation.x=-sw;L[2].rotation.x=-sw*.8;L[3].rotation.x=sw*.8;}}
-    if(hl){let si=segInfo.findIndex(S=>i-1>=S.a&&i-1<S.b);if(si<0)si=segInfo.length-1;if(si!==hlSeg){hlSeg=si;applyHL(si);}}
-    let li=path.ranges.findIndex(r=>i-1>=r[0]&&i-1<r[1]);if(li<0)li=path.ranges.length-1;
-    if(li!==liveLeg){liveLeg=li;document.querySelectorAll('.legrow').forEach(x=>x.classList.toggle('live',+x.dataset.leg===li));
-      const all=legsOf(DAYS[curDay]),L=all[li];modeTxt=L?`第 ${li+1}/${all.length} 段　${L.segs.map(s=>MODE[s[0]].sh).filter((v,k,a)=>a.indexOf(v)===k).join(' → ')}　<span>約 ${L.min} 分</span>`:'';}
-    let stx=modeTxt||'--';
+     if(kind==='walk'){const sw=e.mv?Math.sin(now/170)*.6:0,L=U.walk.userData.limbs;L[0].rotation.x=sw;L[1].rotation.x=-sw;L[2].rotation.x=-sw*.8;L[3].rotation.x=sw*.8;}}
+    const dd=DAYS[curDay],durT=v=>{v=Math.round(v);return v<60?v+' 分':Math.floor(v/60)+(v%60?' 時 '+v%60+' 分':' 小時');};
+    if(hl){let si;if(e.mv){si=segInfo.findIndex(S=>i-1>=S.a&&i-1<S.b);if(si<0)si=segInfo.length-1;}else si=-2-ei;
+      if(si!==hlSeg){hlSeg=si;applyHL(si);if(!e.mv)showChip(e.home?'回到飯店':'停留：'+dd.stops[e.j][2]);}}
+    const lk=e.mv?e.li:-2-e.j;
+    if(lk!==liveLeg){liveLeg=lk;document.querySelectorAll('.legrow').forEach(x=>x.classList.toggle('live',e.mv&&+x.dataset.leg===e.li));
+      document.querySelectorAll('#list .stop').forEach(x=>x.classList.toggle('live',!e.mv&&+x.dataset.j===e.j));
+      if(stayLb.cov){stayLb.cov.hide=false;stayLb.cov=null;}
+      if(e.mv){stayLb.hide=true;const all=legsOf(dd),L=all[e.li];modeTxt=L?`第 ${e.li+1}/${all.length} 段　${L.segs.map(s=>MODE[s[0]].sh).filter((v,k,a)=>a.indexOf(v)===k).join(' → ')}　<span>約 ${L.min} 分</span>`:'';}
+      else{const sp=e.home?['HOTEL','','回到飯店','']:dd.stops[e.j],nb=e.home?'住':e.j+1,len=e.li<0?0:e.t1-e.t0,when=len>=1?`${hm(e.t0)}–${hm(e.t1)}・停留 ${durT(len)}`:hm(e.t0);
+        modeTxt=`${e.home?'':nb+'．'}${esc(sp[2])}　<span>${len>=1?'停留 '+durT(len):e.li<0?'抵達':'出發'}</span>`;
+        stayLb.el.innerHTML=`<div class="s1"><b>${nb}</b>${esc(sp[2])}</div><div class="s2">${when}</div>${sp[3]?`<div class="s3">${esc(sp[3])}</div>`:''}`;stayLb.mv=-1;
+        const sl=sp[0]==='HOTEL'?hotelLabel:stopLabels.find(l=>l.k===sp[0]);if(sl){stayLb.p.copy(sl.p);sl.hide=true;stayLb.cov=sl;stayLb.hide=false;}else stayLb.hide=true;}}
+    let stx=hm(tNow)+'　'+(modeTxt||'--');
     if(skyMode==='now'){applySky();const h=bkkHour();stx+=`　<span>曼谷 ${String(Math.floor(h)).padStart(2,'0')}:${String(Math.floor((h%1)*60)).padStart(2,'0')}</span>`;}
     if(stx!==lastStatus){lastStatus=stx;statusEl.innerHTML=stx;}
     {const k=(now/1400)%1;traveler.children[1].scale.setScalar(.6+k*1.1);traveler.children[1].material.opacity=.6*(1-k);}
   }
   controls.update();
-  {const cd=camera.position.distanceTo(controls.target);scene.fog.near=cd*2.5;scene.fog.far=cd*9+40;const sr=showStreets&&cd<rdDist;rdLabels.forEach(l=>{l.hide=!sr;});}
+  {const cd=camera.position.distanceTo(controls.target);{const nn=Math.max(.01,cd*.03);if(Math.abs(nn-camera.near)>camera.near*.05){camera.near=nn;camera.updateProjectionMatrix();}}scene.fog.near=cd*2.5;scene.fog.far=cd*9+40;const sr=showStreets&&cd<rdDist;rdLabels.forEach(l=>{l.hide=!sr;});}
   const W=stage.clientWidth,H=stage.clientHeight;
   renderer.setScissorTest(false);renderer.setViewport(0,0,W,H);renderer.render(scene,camera);
   if(false){
@@ -1544,7 +1895,7 @@ function tick(now){
     const nx=-fx,ny=-fz,t=Math.min((rw/2)/(Math.abs(nx)||1e-6),(rh/2)/(Math.abs(ny)||1e-6));radarN.style.transform=`translate(${(nx*t).toFixed(1)}px,${(-ny*t).toFixed(1)}px)`;
   }
   roseEl.setAttribute('transform','rotate('+(controls.getAzimuthalAngle()*180/Math.PI)+' 32 32)');
-  const occupied=[];place([hotelLabel],'hl',occupied);place(stopLabels,'lb',occupied);place(ttLabels,'tt',occupied);place(stLabels,'st',occupied);sgLabels.forEach(l=>{l.hide=!showSights&&!l.keep;});place(sgLabels,'st',occupied);if(showPiers)place(prLabels,'st',occupied);if(showRail)place(rlLabels,'st',occupied);place(rdLabels,'rd',occupied);
+  const occupied=[];if(stayLb){place([stayLb],'sp',occupied);const el=stayLb.el;if(el.style.display!=='none'){const hw=el.offsetWidth/2+8,x=parseFloat(el.style.left);el.style.left=Math.min(W-hw,Math.max(hw,x))+'px';}}place([hotelLabel],'hl',occupied);place(stopLabels,'lb',occupied);place(ttLabels,'tt',occupied);place(stLabels,'st',occupied);sgLabels.forEach(l=>{l.hide=!showSights&&!l.keep;});place(sgLabels,'st',occupied);if(showPiers)place(prLabels,'st',occupied);if(showRail)place(rlLabels,'st',occupied);place(rdLabels,'rd',occupied);
   if(hotelFx){const k=(now/1600)%1;hotelFx.ring.scale.setScalar(1+k*1.6);hotelFx.ring.material.opacity=.6*(1-k);}
   requestAnimationFrame(tick);
 }
