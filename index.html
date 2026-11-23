@@ -123,6 +123,7 @@ h1 small{font-family:var(--f-data);font-weight:600;font-size:12.5px;color:var(--
   display:flex;align-items:center;gap:14px;padding:4px 14px 4px 8px}
 .bar .pp{flex:0 0 auto;width:var(--tap);height:var(--tap);display:grid;place-items:center;border:0;border-radius:50%;background:var(--pin);color:var(--pin-ink);cursor:pointer;box-shadow:0 2px 10px rgba(242,194,48,.35);transition:transform .12s}
 .bar .pp:hover{transform:scale(1.06)}
+#legend,#rlLegend{display:none!important}
 .nowbtn{flex:0 0 auto;height:32px;padding:0 12px;border:1px solid var(--pin);border-radius:999px;background:transparent;color:var(--pin);font:700 13px/1 var(--f-body);letter-spacing:.04em;cursor:pointer;transition:background .15s,color .15s}
 .nowbtn:hover,.nowbtn:active{background:var(--pin);color:var(--pin-ink)}
 body.day .nowbtn{color:#8a5a00;border-color:#c79a12}body.day .nowbtn:hover{background:#c79a12;color:#fff}
@@ -758,7 +759,7 @@ body.day .chk:hover{background:rgba(20,30,45,.05)}
     <canvas id="gl" aria-label="當天移動路線的 3D 地圖"></canvas>
     <div class="vig" aria-hidden="true"></div>
     <div id="labels"></div>
-    <details class="legend glass" id="legendBox" open><summary>今天的交通方式</summary><div class="items" id="legend"></div><label class="tog"><input type="checkbox" id="stToggle"><span>顯示街道</span></label><label class="tog"><input type="checkbox" id="bdToggle" checked><span>顯示地標建築</span></label><label class="tog"><input type="checkbox" id="sgToggle"><span>顯示熱門景點</span></label><label class="tog"><input type="checkbox" id="rlToggle"><span>顯示鐵路路線圖</span></label><div class="items rlitems" id="rlLegend" hidden></div><label class="tog"><input type="checkbox" id="prToggle"><span>顯示河岸碼頭</span></label></details>
+    <details class="legend glass" id="legendBox" open><summary>地圖圖層</summary><div class="items" id="legend" hidden></div><label class="tog"><input type="checkbox" id="stToggle"><span>顯示街道</span></label><label class="tog"><input type="checkbox" id="bdToggle" checked><span>顯示地標建築</span></label><label class="tog"><input type="checkbox" id="sgToggle"><span>顯示熱門景點</span></label><label class="tog"><input type="checkbox" id="rlToggle"><span>顯示鐵路路線圖</span></label><div class="items rlitems" id="rlLegend" hidden style="display:none"></div><label class="tog"><input type="checkbox" id="prToggle"><span>顯示河岸碼頭</span></label></details>
     <div class="fchip glass" id="fchip" hidden><span id="fchipTxt"></span><button type="button" id="fclear">顯示全部</button></div>
     <div class="rail">
       <button class="compass glass" id="compass" type="button" title="回到當天全景（北方朝上）" aria-label="指南針，點一下回到當天全景並轉回北方朝上">
