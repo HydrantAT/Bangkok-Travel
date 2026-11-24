@@ -20,9 +20,9 @@
    itinerary timeline on the right, stacked under the map on phones. Single dark look by choice. */
 :root{
   /* night-transit palette: indigo night, saffron pin, teal for "home" */
-  --night:#070809; --deck:#0d0e10; --deck-2:#1a1c20; --deck-3:#2a2d33; --rule:#25282d; --rule-2:#3b4048;
-  --ink:#f5f5f2; --mute:#a0a5ad; --pin:#f2c230; --pin-ink:#141004; --hotel:#6fd66f;
-  --glass:rgba(6,7,9,.8);
+  --night:#121316; --deck:#18191d; --deck-2:#22242a; --deck-3:#30333a; --rule:#2a2d33; --rule-2:#3d4149;
+  --ink:#f4f5f7; --mute:#9a9fa8; --pin:#f2c230; --pin-ink:#141004; --hotel:#6fd66f;
+  --glass:rgba(30,32,37,.86);
   --f-disp:"Anton","Barlow Semi Condensed","Noto Sans TC",sans-serif;
   --f-body:"Noto Sans TC",-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
   --f-data:"Barlow Semi Condensed","Noto Sans TC",system-ui,sans-serif;
@@ -739,6 +739,14 @@ body.day .ch{background:#fff}body.day .ch b{color:var(--ink)}
 body.day .cev:hover,body.day .cev.on{box-shadow:0 0 0 2px #17212d}
 body.day .cnote{background:#f3f5f7}
 body.day .chk:hover{background:rgba(20,30,45,.05)}
+
+/* ---- Tesla-style preview ---- */
+.glass{border-radius:18px;border:1px solid rgba(255,255,255,.06)}
+.step,.days,.days button,.legend summary{border-radius:12px}
+.days button[aria-pressed="true"]{background:#3a3d44;color:#fff}
+body.day .days button[aria-pressed="true"]{background:#fff;color:#171a1f}
+.rd{font:500 11px/1 var(--f-body);letter-spacing:.04em;text-transform:none;color:#8b9099;text-shadow:0 0 3px #0d0e11,0 0 6px #0d0e11}
+.stage.lite .rd{color:#6b717a;text-shadow:0 0 3px #eceef0,0 0 6px #eceef0}
 </style>
 <style>html,body{margin:0;height:100%;background:#000}</style>
 </head>
@@ -1041,7 +1049,7 @@ const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
 renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
 renderer.setClearColor(0x0d1218,1);
 const scene=new THREE.Scene();
-scene.fog=new THREE.Fog(0x0d1218,40,140);
+scene.fog=new THREE.Fog(0x0d0e11,40,140);
 const camera=new THREE.PerspectiveCamera(45,1,.01,3000);
 const controls=new THREE.OrbitControls(camera,canvas);
 controls.enableDamping=true;controls.dampingFactor=.08;controls.mouseButtons={LEFT:THREE.MOUSE.ROTATE,MIDDLE:THREE.MOUSE.PAN,RIGHT:THREE.MOUSE.PAN};controls.minDistance=.3;controls.maxDistance=220;
@@ -1103,16 +1111,16 @@ function dashes(points,color,r,gapRatio,round){
 }
 /* ---------- time of day ---------- */
 const tmin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m;};
-const SKY=[ // hour, background, ground, road, river, ambient, sun, building glow, route glow
- {h:0,  bg:'#090b0d',gr:'#14171b',rd:'#59606a',rv:'#1d4a66',a:.45,s:.38,e:1.25,rt:.5},
- {h:5.5,bg:'#15181d',gr:'#181b20',rd:'#474d57',rv:'#24506e',a:.5,s:.45,e:1.1,rt:.4},
- {h:6.7,bg:'#e3a985',gr:'#b9aba3',rd:'#e9ddd4',rv:'#4f87ad',a:.75,s:.75,e:.55,rt:.2},
- {h:8.5,bg:'#dfe5ea',gr:'#dce2e8',rd:'#ffffff',rv:'#86bde3',a:.62,s:.42,e:.2,rt:.12},
- {h:16, bg:'#dfe5ea',gr:'#dce2e8',rd:'#ffffff',rv:'#86bde3',a:.62,s:.42,e:.2,rt:.12},
- {h:17.8,bg:'#dd9468',gr:'#b29e95',rd:'#e8d6ca',rv:'#4a7ea5',a:.75,s:.7,e:.7,rt:.2},
- {h:18.9,bg:'#3a2e4f',gr:'#22202e',rd:'#3a3550',rv:'#2a4a68',a:.55,s:.45,e:1.05,rt:.38},
- {h:20, bg:'#090b0d',gr:'#14171b',rd:'#59606a',rv:'#1d4a66',a:.45,s:.38,e:1.25,rt:.5},
- {h:24, bg:'#090b0d',gr:'#14171b',rd:'#59606a',rv:'#1d4a66',a:.45,s:.38,e:1.25,rt:.5}];
+const SKY=[ // hour, background, ground, road, river, ambient, sun, building glow, route glow  (Tesla-style palette)
+ {h:0,  bg:'#0d0e11',gr:'#111316',rd:'#3f434a',rv:'#1f3347',a:.5,s:.4,e:1.1,rt:.55},
+ {h:5.5,bg:'#101215',gr:'#14161a',rd:'#3f434a',rv:'#22374b',a:.52,s:.42,e:1.0,rt:.5},
+ {h:6.7,bg:'#8d939b',gr:'#9aa0a8',rd:'#d7dade',rv:'#6f94b8',a:.68,s:.6,e:.5,rt:.3},
+ {h:8.5,bg:'#e6e8eb',gr:'#eceef0',rd:'#ffffff',rv:'#a9cbe8',a:.64,s:.42,e:.2,rt:.2},
+ {h:16, bg:'#e6e8eb',gr:'#eceef0',rd:'#ffffff',rv:'#a9cbe8',a:.64,s:.42,e:.2,rt:.2},
+ {h:17.8,bg:'#8d939b',gr:'#9aa0a8',rd:'#d7dade',rv:'#6f94b8',a:.68,s:.6,e:.6,rt:.3},
+ {h:18.9,bg:'#1a1c21',gr:'#18191d',rd:'#3f434a',rv:'#22374b',a:.55,s:.45,e:1.0,rt:.45},
+ {h:20, bg:'#0d0e11',gr:'#111316',rd:'#3f434a',rv:'#1f3347',a:.5,s:.4,e:1.1,rt:.55},
+ {h:24, bg:'#0d0e11',gr:'#111316',rd:'#3f434a',rv:'#1f3347',a:.5,s:.4,e:1.1,rt:.55}];
 const flat=c=>new THREE.MeshBasicMaterial({color:c,side:THREE.DoubleSide,transparent:true,depthWrite:false});
 const roadMat=flat(0x59606a),roadEdgeMat=flat(0x0c0e10);roadMat.vertexColors=true;roadEdgeMat.vertexColors=true;
 const OSMR=OSM_ROADS.split(';').map(t=>{const n=t.split(',').map(Number),o=new Float32Array(n.length);let la=0,ln=0;for(let i=0;i<n.length;i+=2){la+=n[i];ln+=n[i+1];const q=XZ(13+la/1e5,100+ln/1e5);o[i]=q[0];o[i+1]=q[1];}return o;});
@@ -1129,7 +1137,7 @@ function applyTime(h){
   h=((h%24)+24)%24;const key=Math.round(h*12);if(key===lastSkyKey)return;lastSkyKey=key;
   let i=0;while(i<SKY.length-2&&SKY[i+1].h<=h)i++;const A=SKY[i],B=SKY[i+1];const t=(h-A.h)/((B.h-A.h)||1);
   const bg=mix(A.bg,B.bg,t);renderer.setClearColor(bg,1);scene.fog.color.copy(bg);
-  const grc=mix(A.gr,B.gr,t),rdc=mix(A.rd,B.rd,t);const lite0=bg.r*.3+bg.g*.59+bg.b*.11>.45;ground.material.color.copy(grc);roadMat.color.copy(rdc);roadEdgeMat.color.copy(grc.clone().lerp(cB.set(lite0?0x5b6672:0x000000),lite0?.55:.55));netMat.color.copy(lite0?grc.clone().lerp(cB.set(0x44505c),.38):grc.clone().lerp(rdc,.45));riverMat.color.copy(mix(A.rv,B.rv,t));
+  const grc=mix(A.gr,B.gr,t),rdc=mix(A.rd,B.rd,t);const lite0=bg.r*.3+bg.g*.59+bg.b*.11>.45;ground.material.color.copy(grc);roadMat.color.copy(rdc);roadEdgeMat.color.copy(lite0?grc.clone().lerp(cB.set(0x9aa2ac),.5):grc.clone().lerp(rdc,.35));netMat.color.copy(lite0?grc.clone().lerp(cB.set(0x44505c),.38):grc.clone().lerp(rdc,.45));riverMat.color.copy(mix(A.rv,B.rv,t));
   const lite=bg.r*.3+bg.g*.59+bg.b*.11>.45;casingCol.set(lite?0x1c2530:0x070b13);casingMats.forEach(m=>m.color.copy(casingCol));
   /* on the light map, near-white route colours (walking dots) switch to dark so they stay readable */
   routeMats.forEach(m=>{if(!m.userData.c0)m.userData.c0=m.color.clone();const c=m.userData.c0,dk=lite&&c.r*.3+c.g*.59+c.b*.11>.76;m.color.set(dk?0x2b3542:c);if(m.emissive)m.emissive.set(dk?0x2b3542:c);});
@@ -1435,7 +1443,7 @@ function build(di){bldObjs=[];
        {const A=al(x,z);col.push(1,1,1,A,1,1,1,A);}
        if(i<n-1)idx.push(k,k+1,k+2,k+2,k+1,k+3);k+=2;}}
      const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('color',new THREE.Float32BufferAttribute(col,4));g.setIndex(idx);const me=new THREE.Mesh(g,m);me.renderOrder=ro;me.frustumCulled=false;roadsGroup.add(me);};
-   mk(RW*1.25,.008,roadEdgeMat,-6);mk(RW*.8,.012,roadMat,-5);}
+   mk(RW*1.45,.008,roadEdgeMat,-6);mk(RW*1.05,.012,roadMat,-5);}
   ROADS.forEach(([name,pts,cl])=>{if(cl==='s')return;
     const m=pts[Math.floor(pts.length/2)];let [x,z]=XZ(m[0],m[1]),bd=.16;const x0=x,z0=z;
     for(const e of OSMR)for(let i=0;i<e.length;i+=2){const dd=(e[i]-x0)**2+(e[i+1]-z0)**2;if(dd<bd){bd=dd;x=e[i];z=e[i+1];}}
