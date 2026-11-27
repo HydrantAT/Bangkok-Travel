@@ -796,8 +796,9 @@ body.day .days button[aria-pressed="true"]{background:#fff;color:#171a1f}
         <dt>Esc</dt><dd>取消聚焦，顯示全部</dd>
       </dl>
       <dl class="touch-only">
-        <dt>單指拖曳</dt><dd>旋轉視角</dd>
-        <dt>雙指拖曳</dt><dd>平移地圖</dd>
+        <dt>單指拖曳</dt><dd>平移地圖</dd>
+        <dt>雙指拖曳</dt><dd>改變視角：左右拖轉方向、上下拖改俯仰</dd>
+        <dt>雙指轉動</dt><dd>旋轉方向</dd>
         <dt>雙指開合</dt><dd>縮放</dd>
       </dl>
       <dl style="margin-top:6px">
@@ -1056,6 +1057,29 @@ const camera=new THREE.PerspectiveCamera(45,1,.01,3000);
 const controls=new THREE.OrbitControls(camera,canvas);
 controls.enableDamping=true;controls.dampingFactor=.08;controls.mouseButtons={LEFT:THREE.MOUSE.ROTATE,MIDDLE:THREE.MOUSE.PAN,RIGHT:THREE.MOUSE.PAN};controls.minDistance=.3;controls.maxDistance=220;
 controls.addEventListener('start',()=>{if(focusTarget)focusTarget.anim=false;});controls.panSpeed=1.2;controls.maxPolarAngle=Math.PI*.49;controls.screenSpacePanning=false;
+/* phone gestures: one finger drags (pans) the map; dragging with two fingers turns the view like the left mouse button on a computer
+   (sideways = turn around, up/down = tilt), a twist also turns it, and a pinch zooms. In top-down mode two fingers pan instead.
+   Two-finger gestures are handled here, not by OrbitControls. */
+controls.touches.ONE=THREE.TOUCH.PAN;controls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
+{let g=null;const Y=new THREE.Vector3(0,1,0),ray=new THREE.Raycaster(),plane=new THREE.Plane(Y,0),nd=new THREE.Vector2(),sph=new THREE.Spherical();
+ const info=t=>({x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2,d:Math.hypot(t[1].clientX-t[0].clientX,t[1].clientY-t[0].clientY)||1,a:Math.atan2(t[1].clientY-t[0].clientY,t[1].clientX-t[0].clientX)});
+ const ground=(x,y)=>{const r=canvas.getBoundingClientRect();nd.set((x-r.left)/r.width*2-1,-(y-r.top)/r.height*2+1);ray.setFromCamera(nd,camera);return ray.ray.intersectPlane(plane,new THREE.Vector3());};
+ const start=e=>{if(e.touches.length===2){controls.enabled=false;const f=info(e.touches);g={...f,mode:null,mx:0,my:0,acc:0,turn:false};}
+   else if(g){g=null;controls.enabled=true;}};
+ canvas.addEventListener('touchstart',start,{passive:true});canvas.addEventListener('touchend',start,{passive:true});canvas.addEventListener('touchcancel',start,{passive:true});
+ canvas.addEventListener('touchmove',e=>{if(!g||e.touches.length!==2)return;const f=info(e.touches),t=controls.target;if(focusTarget)focusTarget.anim=false;
+   const dx=f.x-g.x,dy=f.y-g.y;let da=f.a-g.a;if(da>Math.PI)da-=2*Math.PI;else if(da<-Math.PI)da+=2*Math.PI;
+   /* zoom: pinch */
+   {const off=camera.position.clone().sub(t),L=THREE.MathUtils.clamp(off.length()*g.d/f.d,controls.minDistance,controls.maxDistance);camera.position.copy(t).add(off.setLength(L));}
+   /* rotate: a twist, past a small dead zone so a pinch or a drag does not turn the map by accident */
+   if(!topMode){if(!g.turn){g.acc+=da;if(Math.abs(g.acc)>.08){g.turn=true;da=g.acc;}else da=0;}if(da)camera.position.sub(t).applyAxisAngle(Y,da).add(t);}
+   /* drag: past a small dead zone, turn and tilt the view the way the left mouse button does (top-down mode pans instead) */
+   if(!g.mode){g.mx+=dx;g.my+=dy;if(Math.hypot(g.mx,g.my)>8)g.mode=topMode?'pan':'orbit';}
+   if(g.mode==='orbit'){const off=camera.position.clone().sub(t),h=canvas.clientHeight||1;sph.setFromVector3(off);
+     sph.theta-=dx/h*Math.PI*2;
+     sph.phi=THREE.MathUtils.clamp(sph.phi-dy/h*Math.PI*2,Math.max(.05,controls.minPolarAngle),controls.maxPolarAngle);off.setFromSpherical(sph);camera.position.copy(t).add(off);}
+   else if(g.mode==='pan'){const p0=ground(g.x,g.y),p1=ground(f.x,f.y);if(p0&&p1){const v=p0.sub(p1);t.add(v);camera.position.add(v);}}
+   camera.lookAt(t);controls.update();g.x=f.x;g.y=f.y;g.d=f.d;g.a=f.a;},{passive:true});}
 const amb=new THREE.AmbientLight(0xffffff,.55);scene.add(amb);
 const sun=new THREE.DirectionalLight(0xffffff,.7);sun.position.set(-20,40,20);scene.add(sun);
 
@@ -1653,7 +1677,7 @@ let topMode=false;
 function topPos(target,pos){const d=pos.distanceTo(target);return new THREE.Vector3(target.x,d,target.z+d*.0012);}
 function setTop(on){topMode=on;const t=controls.target.clone(),d=camera.position.distanceTo(t);
   controls.enableRotate=!on;controls.maxPolarAngle=on?.002:Math.PI*.49;controls.minAzimuthAngle=on?0:-Infinity;controls.maxAzimuthAngle=on?0:Infinity;
-  controls.mouseButtons.LEFT=on?THREE.MOUSE.PAN:THREE.MOUSE.ROTATE;controls.touches.ONE=on?THREE.TOUCH.PAN:THREE.TOUCH.ROTATE;
+  controls.mouseButtons.LEFT=on?THREE.MOUSE.PAN:THREE.MOUSE.ROTATE;controls.touches.ONE=THREE.TOUCH.PAN;
   const b=document.getElementById('topBtn');b.setAttribute('aria-pressed',String(on));
   flyTo(t,on?new THREE.Vector3(t.x,d,t.z+d*.0012):new THREE.Vector3(t.x,d*.7,t.z+d*.714));}
 function flyTo(target,pos){if(topMode)pos=topPos(target,pos);focusTarget={target,pos,anim:!matchMedia('(prefers-reduced-motion: reduce)').matches};
